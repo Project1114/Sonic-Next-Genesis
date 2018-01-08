@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="FloatingPlatform" Language="cs" Name="Floating Platform" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite3-4.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-33.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite1-34.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="4" />
+    <BitsProperty name="Property2" type="Enum2" startbit="4" length="3" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Does not Move" />
+      <EnumMember name="Moves side to side" />
+      <EnumMember name="Moves right when stood on, until it hits a wall" />
+      <EnumMember name="Moves right, until it hits a wall" />
+      <EnumMember name="Moves right when stood on, until it hits a wall, then drops" />
+      <EnumMember name="Moves right, until it hits a wall, then drops" />
+      <EnumMember name="Drops immediately" />
+      <EnumMember name="Appears when switch 2 is pressed" />
+      <EnumMember name="Moves up and down" />
+      <EnumMember name="Shifts right when stood on" />
+      <EnumMember name="Shifts right when stood on2" />
+      <EnumMember name="Invalid" />
+      <EnumMember name="Invalid2" />
+      <EnumMember name="Invalid3" />
+      <EnumMember name="Invalid4" />
+      <EnumMember name="Invalid5" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="1 Block" />
+      <EnumMember name="2 Blocks" />
+      <EnumMember name="Invalid" />
+      <EnumMember name="Invalid2" />
+      <EnumMember name="3 Blocks" />
+      <EnumMember name="Invalid3" />
+      <EnumMember name="Invalid4" />
+      <EnumMember name="Invalid5" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property2" value="1 Block" />
+      <Condition property="Property1" value="Does not Move" />
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="1 Block" />
+      <Condition property="Property1" value="Moves side to side" />
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-48" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="1 Block" />
+      <Condition property="Property1" value="Moves up and down" />
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image3" xflip="ReverseFlip">
+        <Offset X="-8" Y="-134" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Does not Move" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Moves side to side" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Moves right when stood on, until it hits a wall" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Moves right, until it hits a wall" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Moves right when stood on, until it hits a wall, then drops" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Moves right, until it hits a wall, then drops" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Drops immediately" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Appears when switch 2 is pressed" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Moves up and down" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-134" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Shifts right when stood on" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="2 Blocks" />
+      <Condition property="Property1" value="Shifts right when stood on2" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Does not Move" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Moves side to side" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-144" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Moves right when stood on, until it hits a wall" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Moves right, until it hits a wall" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Moves right when stood on, until it hits a wall, then drops" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Moves right, until it hits a wall, then drops" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Drops immediately" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Appears when switch 2 is pressed" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Moves up and down" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-134" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Shifts right when stood on" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="3 Blocks" />
+      <Condition property="Property1" value="Shifts right when stood on2" />
+      <ImageRef image="Image1">
+        <Offset X="-48" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="FireballMZ" Language="cs" Name="Fireball (MZ)" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite3-20.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite3-21.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="3" />
+    <BitsProperty name="Property2" type="Enum2" startbit="4" length="3" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Erupts slow lavaballs" />
+      <EnumMember name="Erupts medium slow lavaballs" />
+      <EnumMember name="Erupts medium fast lavaballs" />
+      <EnumMember name="Erupts fast lavaballs" />
+      <EnumMember name="Shoots upward fireballs" />
+      <EnumMember name="Shoots downward fireballs" />
+      <EnumMember name="Shoots rightward fireballs" />
+      <EnumMember name="Shoots leftward fireballs" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="30 frame cycle" />
+      <EnumMember name="60 frame cycle" />
+      <EnumMember name="90 frame cycle" />
+      <EnumMember name="120 frame cycle" />
+      <EnumMember name="150 frame cycle" />
+      <EnumMember name="180 frame cycle" />
+      <EnumMember name="Invalid" />
+      <EnumMember name="Invalid2" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="Erupts slow lavaballs" />
+      <ImageRef image="Image1">
+        <Offset X="-7" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Shoots downward fireballs" />
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-7" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Shoots rightward fireballs" />
+      <ImageRef image="Image2">
+        <Offset X="-16" Y="-7" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Shoots leftward fireballs" />
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-16" Y="-7" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

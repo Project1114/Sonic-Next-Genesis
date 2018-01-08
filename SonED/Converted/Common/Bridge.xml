@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="Bridge" Language="cs" Name="Bridge" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite2-0.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="5" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="1 segment (no effect)" />
+      <EnumMember name="1 segment" />
+      <EnumMember name="2 segments" />
+      <EnumMember name="3 segments" />
+      <EnumMember name="4 segments" />
+      <EnumMember name="5 segments" />
+      <EnumMember name="6 segments" />
+      <EnumMember name="7 segments" />
+      <EnumMember name="8 segments" />
+      <EnumMember name="9 segments" />
+      <EnumMember name="10 segments" />
+      <EnumMember name="11 segments" />
+      <EnumMember name="12 segments" />
+      <EnumMember name="13 segments" />
+      <EnumMember name="14 segments" />
+      <EnumMember name="15 segments" />
+      <EnumMember name="16 segments" />
+      <EnumMember name="17 segments" />
+      <EnumMember name="18 segments" />
+      <EnumMember name="19 segments" />
+      <EnumMember name="20 segments" />
+      <EnumMember name="21 segments" />
+      <EnumMember name="22 segments" />
+      <EnumMember name="23 segments" />
+      <EnumMember name="24 segments" />
+      <EnumMember name="25 segments" />
+      <EnumMember name="26 segments" />
+      <EnumMember name="27 segments" />
+      <EnumMember name="28 segments" />
+      <EnumMember name="29 segments" />
+      <EnumMember name="30 segments" />
+      <EnumMember name="31 segments" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="1 segment (no effect)" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 segment" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="9 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="10 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="11 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="12 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="13 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="14 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="15 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="16 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="17 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="18 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-152" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="19 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="20 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-168" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="21 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="22 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="23 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="24 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="25 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="26 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="27 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="28 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="29 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="30 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="31 segments" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

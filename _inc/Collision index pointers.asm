@@ -1,0 +1,27 @@
+; ---------------------------------------------------------------------------
+; Collision index pointers
+; ---------------------------------------------------------------------------
+	dc.l Col_WOZ_1
+	dc.l Col_WOZ_2
+	dc.l Col_TJZ_1
+	dc.l Col_TJZ_2
+	dc.l Col_DDZ_1
+	dc.l Col_DDZ_2
+	dc.l Col_KVZ_1
+	dc.l Col_KVZ_2
+	dc.l Col_CCZ_1
+	dc.l Col_CCZ_2
+	dc.l Col_ABZ_1
+	dc.l Col_ABZ_2
+	dc.l Col_WOZ_1
+	dc.l Col_WOZ_2
+	dc.l Col_SSZ_1
+	dc.l Col_SSZ_2
+	dc.l Col_WAZ_1
+	dc.l Col_WAZ_2
+	dc.l Col_FCZ_1
+	dc.l Col_FCZ_2
+	dc.l Col_RTZ_1
+	dc.l Col_RTZ_2
+	dc.l Col_SZ_1
+	dc.l Col_SZ_2

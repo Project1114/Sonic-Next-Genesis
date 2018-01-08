@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="Monitor" Language="cs" Name="Monitor" Image="Image1" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite1-10.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-9.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite1-7.png" />
+    <ImageFromBitmap id="Image4" filename="Sprites/s1objsprite1-5.png" />
+    <ImageFromBitmap id="Image5" filename="Sprites/s1objsprite1-3.png" />
+    <ImageFromBitmap id="Image6" filename="Sprites/s1objsprite1-4.png" />
+    <ImageFromBitmap id="Image7" filename="Sprites/s1objsprite1-2.png" />
+    <ImageFromBitmap id="Image8" filename="Sprites/s1objsprite1-6.png" />
+    <ImageFromBitmap id="Image9" filename="Sprites/s1objsprite1-8.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="4" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Blank" />
+      <EnumMember name="Eggman" />
+      <EnumMember name="1up" />
+      <EnumMember name="Super Sneakers" />
+      <EnumMember name="Shield" />
+      <EnumMember name="Invincibility" />
+      <EnumMember name="Super Ring" />
+      <EnumMember name="Lightning shield" />
+      <EnumMember name="Bubble Shield" />
+      <EnumMember name="'S' monitor" />
+      <EnumMember name="Invalid" />
+      <EnumMember name="Invalid2" />
+      <EnumMember name="Invalid3" />
+      <EnumMember name="Invalid4" />
+      <EnumMember name="Invalid5" />
+      <EnumMember name="Invalid6" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="Blank" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Eggman" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1up" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Super Sneakers" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image4">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Shield" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image5">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Invincibility" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image6">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Super Ring" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image7">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Lightning shield" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image8">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Bubble Shield" />
+      <ImageRef image="Image1">
+        <Offset X="-15" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image9">
+        <Offset X="-8" Y="-10" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

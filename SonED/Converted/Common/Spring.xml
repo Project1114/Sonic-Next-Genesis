@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="Spring" Language="cs" Name="Spring" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite1-13.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-15.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite1-14.png" />
+    <ImageFromBitmap id="Image4" filename="Sprites/s1objsprite1-16.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="1" />
+    <BitsProperty name="Property2" type="Enum2" startbit="1" length="1" />
+    <BitsProperty name="Property3" type="Enum3" startbit="2" length="2" />
+    <BitsProperty name="Property4" type="Enum4" startbit="4" length="3" />
+    <BitsProperty name="Property5" type="Enum5" startbit="7" length="1" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="unknown" />
+      <EnumMember name="unknown2" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="red" />
+      <EnumMember name="yellow" />
+    </Enum>
+    <Enum name="Enum3">
+      <EnumMember name="unknown" />
+      <EnumMember name="unknown2" />
+      <EnumMember name="unknown3" />
+      <EnumMember name="unknown4" />
+    </Enum>
+    <Enum name="Enum4">
+      <EnumMember name="up" />
+      <EnumMember name="horizontal" />
+      <EnumMember name="down" />
+      <EnumMember name="invalid" />
+      <EnumMember name="invalid2" />
+      <EnumMember name="invalid3" />
+      <EnumMember name="invalid4" />
+      <EnumMember name="invalid5" />
+    </Enum>
+    <Enum name="Enum5">
+      <EnumMember name="unknown" />
+      <EnumMember name="unknown2" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property2" value="red" />
+      <Condition property="Property4" value="up" />
+      <ImageRef image="Image1">
+        <Offset X="-14" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="yellow" />
+      <Condition property="Property4" value="up" />
+      <ImageRef image="Image2">
+        <Offset X="-14" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="red" />
+      <Condition property="Property4" value="horizontal" />
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-14" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="yellow" />
+      <Condition property="Property4" value="horizontal" />
+      <ImageRef image="Image4">
+        <Offset X="-8" Y="-14" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="red" />
+      <Condition property="Property4" value="down" />
+      <ImageRef image="Image1">
+        <Offset X="-14" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="yellow" />
+      <Condition property="Property4" value="down" />
+      <ImageRef image="Image2">
+        <Offset X="-14" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

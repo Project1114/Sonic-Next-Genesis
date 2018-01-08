@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="GreenGlassPiston" Language="cs" Name="Green Glass Piston" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite3-13.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite3-14.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite1-34.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="4" />
+    <BitsProperty name="Property2" type="Enum2" startbit="4" length="4" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Tall piston does nothing" />
+      <EnumMember name="Tall piston moves down and up (62 pixel range)" />
+      <EnumMember name="Tall piston moves up and down (62 pixel range)" />
+      <EnumMember name="Short piston lowers when jumped on" />
+      <EnumMember name="Short piston lowers when switch in bitfield 1 is pressed" />
+      <EnumMember name="invalid" />
+      <EnumMember name="invalid2" />
+      <EnumMember name="invalid3" />
+      <EnumMember name="Short piston does nothing" />
+      <EnumMember name="Short piston moves up and down (31 pixel range)" />
+      <EnumMember name="Short piston moves down and up (31 pixel range)" />
+      <EnumMember name="Short piston moves down and up (62 pixel range)" />
+      <EnumMember name="(Same as type B)" />
+      <EnumMember name="invalid4" />
+      <EnumMember name="invalid5" />
+      <EnumMember name="invalid6" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="Wait for switch 0" />
+      <EnumMember name="Wait for switch 1" />
+      <EnumMember name="Wait for switch 2" />
+      <EnumMember name="Wait for switch 3" />
+      <EnumMember name="Wait for switch 4" />
+      <EnumMember name="Wait for switch 5" />
+      <EnumMember name="Wait for switch 6" />
+      <EnumMember name="Wait for switch 7" />
+      <EnumMember name="Wait for switch 8" />
+      <EnumMember name="Wait for switch 9" />
+      <EnumMember name="Wait for switch 10" />
+      <EnumMember name="Wait for switch 11" />
+      <EnumMember name="Wait for switch 12" />
+      <EnumMember name="Wait for switch 13" />
+      <EnumMember name="Wait for switch 14" />
+      <EnumMember name="Wait for switch 15" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="Tall piston does nothing" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-72" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-64" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-32" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="32" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="64" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Tall piston moves down and up (62 pixel range)" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-136" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-128" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-96" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-64" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-32" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Tall piston moves up and down (62 pixel range)" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-72" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-64" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-32" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="32" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-136" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Short piston lowers when jumped on" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-200" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-192" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-160" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-128" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="-96" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="-88" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="-72" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="-56" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="-40" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Short piston lowers when switch in bitfield 1 is pressed" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-200" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-192" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-160" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-128" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="-96" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Short piston does nothing" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-56" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="48" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Short piston moves up and down (31 pixel range)" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-89" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-81" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-49" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-17" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="15" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-120" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Short piston moves down and up (31 pixel range)" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-119" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-111" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-79" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-47" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="9" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Short piston moves down and up (31 pixel range)" />
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-119" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-111" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-79" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-32" Y="-47" />
+      </ImageRef>
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="-15" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-8" Y="9" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

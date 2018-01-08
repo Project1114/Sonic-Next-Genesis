@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="EndLevelSign" Language="cs" Name="End-Level Sign" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite1-11.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-12.png" />
+  </Images>
+  <Display>
+    <DisplayOption>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-14" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-2" Y="18" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

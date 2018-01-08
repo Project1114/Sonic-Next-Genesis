@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="PushableBlockMZLZ" Language="cs" Name="Pushable Block (MZ/LZ)" Image="Image1" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite3-4.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="1" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Single Block" />
+      <EnumMember name="Four Blocks" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="Single Block" />
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Four Blocks" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="32" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

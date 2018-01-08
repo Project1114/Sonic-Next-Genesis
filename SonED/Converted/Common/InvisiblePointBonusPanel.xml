@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="InvisiblePointBonusPanel" Language="cs" Name="Invisible Point Bonus Panel" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite1-25.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-26.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite1-27.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="2" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Blank" />
+      <EnumMember name="10000 Points" />
+      <EnumMember name="1000 Points" />
+      <EnumMember name="100 Points" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="10000 Points" />
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-12" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1000 Points" />
+      <ImageRef image="Image2">
+        <Offset X="-16" Y="-12" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="100 Points" />
+      <ImageRef image="Image3">
+        <Offset X="-16" Y="-12" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

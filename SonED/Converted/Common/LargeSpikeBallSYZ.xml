@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="LargeSpikeBallSYZ" Language="cs" Name="Large Spike Ball (SYZ)" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite4-0.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-33.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite1-34.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="2" />
+    <BitsProperty name="Property2" type="Enum2" startbit="4" length="4" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Do Nothing" />
+      <EnumMember name="Move Left-Right in 96 pixel range" />
+      <EnumMember name="Move Up-Down in 96 pixel range" />
+      <EnumMember name="Rotate in an 80 pixel radius circle" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="Don't rotate" />
+      <EnumMember name="Rotate 11.25 degrees per frame" />
+      <EnumMember name="Rotate 22.5 degrees per frame" />
+      <EnumMember name="Rotate 33.75 degrees per frame" />
+      <EnumMember name="Rotate 45 degrees per frame" />
+      <EnumMember name="Rotate 56.25 degrees per frame" />
+      <EnumMember name="Rotate 67.5 degrees per frame" />
+      <EnumMember name="Rotate 78.75 degrees per frame" />
+      <EnumMember name="Rotate 90 degrees per frame" />
+      <EnumMember name="Rotate -78.75 degrees per frame" />
+      <EnumMember name="Rotate -67.5 degrees per frame" />
+      <EnumMember name="Rotate -56.25 degrees per frame" />
+      <EnumMember name="Rotate -45 degrees per frame" />
+      <EnumMember name="Rotate -33.75 degrees per frame" />
+      <EnumMember name="Rotate -22.5 degrees per frame" />
+      <EnumMember name="Rotate -11.25 degrees per frame" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="Do Nothing" />
+      <Condition property="Property2" value="Don't rotate" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Don't rotate" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 11.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 22.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 33.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 45 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 56.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 67.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 78.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 90 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -78.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -67.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -56.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -45 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -33.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -22.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Left-Right in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -11.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image2" xflip="ReverseFlip">
+        <Offset X="-96" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Don't rotate" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 11.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 22.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 33.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 45 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 56.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 67.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 78.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate 90 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -78.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -67.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -56.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -45 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -33.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -22.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Move Up-Down in 96 pixel range" />
+      <Condition property="Property2" value="Rotate -11.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Don't rotate" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 11.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 22.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 33.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 45 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 56.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 67.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 78.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate 90 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate -78.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate -67.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate -56.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate -45 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate -33.75 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate -22.5 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Rotate in an 80 pixel radius circle" />
+      <Condition property="Property2" value="Rotate -11.25 degrees per frame" />
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-104" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

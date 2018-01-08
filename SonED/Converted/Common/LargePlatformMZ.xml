@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="LargePlatformMZ" Language="cs" Name="Large Platform (MZ)" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite3-0.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-34.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite3-1.png" />
+    <ImageFromBitmap id="Image4" filename="Sprites/s1objsprite3-2.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="3" />
+    <BitsProperty name="Property2" type="Enum2" startbit="4" length="2" />
+    <BitsProperty name="Property3" type="Enum3" startbit="3" length="1" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Does not move" />
+      <EnumMember name="Moves up and down" />
+      <EnumMember name="Moves up and down2" />
+      <EnumMember name="Moves up and down3" />
+      <EnumMember name="Moves up and down4" />
+      <EnumMember name="Sinks and burns" />
+      <EnumMember name="Invalid" />
+      <EnumMember name="Invalid2" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="Wide" />
+      <EnumMember name="Slanted" />
+      <EnumMember name="Narrow" />
+      <EnumMember name="Invalid" />
+    </Enum>
+    <Enum name="Enum3">
+      <EnumMember name="Normal" />
+      <EnumMember name="Reverse" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property2" value="Wide" />
+      <Condition property="Property1" value="Does not move" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-48" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Wide" />
+      <Condition property="Property1" value="Moves up and down" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-80" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Wide" />
+      <Condition property="Property1" value="Moves up and down2" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Wide" />
+      <Condition property="Property1" value="Moves up and down3" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-112" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Wide" />
+      <Condition property="Property1" value="Moves up and down4" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-144" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Wide" />
+      <Condition property="Property1" value="Sinks and burns" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-48" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Slanted" />
+      <Condition property="Property1" value="Does not move" />
+      <ImageRef image="Image3">
+        <Offset X="-64" Y="-64" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Slanted" />
+      <Condition property="Property1" value="Moves up and down" />
+      <ImageRef image="Image3">
+        <Offset X="-64" Y="-64" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Slanted" />
+      <Condition property="Property1" value="Moves up and down2" />
+      <ImageRef image="Image3">
+        <Offset X="-64" Y="-64" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-114" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Slanted" />
+      <Condition property="Property1" value="Moves up and down3" />
+      <ImageRef image="Image3">
+        <Offset X="-64" Y="-64" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-130" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Slanted" />
+      <Condition property="Property1" value="Moves up and down4" />
+      <ImageRef image="Image3">
+        <Offset X="-64" Y="-64" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-162" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Slanted" />
+      <Condition property="Property1" value="Sinks and burns" />
+      <ImageRef image="Image3">
+        <Offset X="-64" Y="-64" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Narrow" />
+      <Condition property="Property1" value="Does not move" />
+      <ImageRef image="Image4">
+        <Offset X="-32" Y="-48" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Narrow" />
+      <Condition property="Property1" value="Moves up and down" />
+      <ImageRef image="Image4">
+        <Offset X="-32" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-80" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Narrow" />
+      <Condition property="Property1" value="Moves up and down2" />
+      <ImageRef image="Image4">
+        <Offset X="-32" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-96" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Narrow" />
+      <Condition property="Property1" value="Moves up and down3" />
+      <ImageRef image="Image4">
+        <Offset X="-32" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-114" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Narrow" />
+      <Condition property="Property1" value="Moves up and down4" />
+      <ImageRef image="Image4">
+        <Offset X="-32" Y="-48" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-146" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property2" value="Narrow" />
+      <Condition property="Property1" value="Sinks and burns" />
+      <ImageRef image="Image4">
+        <Offset X="-32" Y="-48" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

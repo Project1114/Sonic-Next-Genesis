@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="LavaFallMakerLavaGeyserMZ" Language="cs" Name="Lava Fall Maker/Lava Geyser (MZ)" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite3-23.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite3-24.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite3-25.png" />
+    <ImageFromBitmap id="Image4" filename="Sprites/s1objsprite3-22.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="1" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Geyser (spawned by floating block)" />
+      <EnumMember name="Lava Fall Maker" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="Geyser (spawned by floating block)" />
+      <ImageRef image="Image1" yflip="ReverseFlip">
+        <Offset X="-32" Y="-172" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-55" Y="-36" />
+      </ImageRef>
+      <ImageRef image="Image3" yflip="ReverseFlip">
+        <Offset X="-32" Y="-140" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="Lava Fall Maker" />
+      <ImageRef image="Image4">
+        <Offset X="-32" Y="-456" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-32" Y="-424" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-32" Y="-296" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-32" Y="-168" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-32" Y="-40" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

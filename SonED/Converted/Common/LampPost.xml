@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="LampPost" Language="cs" Name="LampPost" Image="Image1" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite1-21.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-22.png" />
+    <ImageFromBitmap id="Image3" filename="Sprites/s1objsprite1-23.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="3" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Red LampPost" />
+      <EnumMember name="LampPost Number 1" />
+      <EnumMember name="LampPost Number 2" />
+      <EnumMember name="LampPost Number 3" />
+      <EnumMember name="LampPost Number 4" />
+      <EnumMember name="LampPost Number 5" />
+      <EnumMember name="LampPost Number 6" />
+      <EnumMember name="LampPost Number 7" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="Red LampPost" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="LampPost Number 1" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="LampPost Number 2" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="LampPost Number 3" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="LampPost Number 4" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="LampPost Number 5" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="LampPost Number 6" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="LampPost Number 7" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-28" />
+      </ImageRef>
+      <ImageRef image="Image3">
+        <Offset X="-8" Y="-44" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="RotatingLogSpikes" Language="cs" Name="Rotating Log Spikes" Image="Image1" RememberState="false" DefaultSubtype="10" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite2-20.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="5" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="1 spike (no effect)" />
+      <EnumMember name="1 spike" />
+      <EnumMember name="2 spikes" />
+      <EnumMember name="3 spikes" />
+      <EnumMember name="4 spikes" />
+      <EnumMember name="5 spikes" />
+      <EnumMember name="6 spikes" />
+      <EnumMember name="7 spikes" />
+      <EnumMember name="8 spikes" />
+      <EnumMember name="9 spikes" />
+      <EnumMember name="10 spikes" />
+      <EnumMember name="11 spikes" />
+      <EnumMember name="12 spikes" />
+      <EnumMember name="13 spikes" />
+      <EnumMember name="14 spikes" />
+      <EnumMember name="15 spikes" />
+      <EnumMember name="16 spikes" />
+      <EnumMember name="17 spikes" />
+      <EnumMember name="18 spikes" />
+      <EnumMember name="19 spikes" />
+      <EnumMember name="20 spikes" />
+      <EnumMember name="21 spikes" />
+      <EnumMember name="22 spikes" />
+      <EnumMember name="23 spikes" />
+      <EnumMember name="24 spikes" />
+      <EnumMember name="25 spikes" />
+      <EnumMember name="26 spikes" />
+      <EnumMember name="27 spikes" />
+      <EnumMember name="28 spikes" />
+      <EnumMember name="29 spikes" />
+      <EnumMember name="30 spikes" />
+      <EnumMember name="31 spikes" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="1 spike (no effect)" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 spike" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="9 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="10 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="11 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="12 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="13 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="14 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="15 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="16 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="17 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="18 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-152" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="19 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="20 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-168" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="21 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="22 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="23 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="24 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="25 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="26 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="27 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="28 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="29 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="30 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="31 spikes" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>
