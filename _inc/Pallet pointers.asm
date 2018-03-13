@@ -118,3 +118,6 @@
 	dc.l Pal_WOZWater	;26
 	dc.w $FB20
 	dc.w $17
+	dc.l Pal_Knuckles	;27
+	dc.w $FB00
+	dc.w 7

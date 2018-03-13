@@ -24,7 +24,8 @@
 	dc.w PLC_RTZ2-ArtLoadCues, PLC_SZ-ArtLoadCues
 	dc.w PLC_SZ2-ArtLoadCues, PLC_WAZAnimals-ArtLoadCues
 	dc.w PLC_FCZAnimals-ArtLoadCues, PLC_RTZAnimals-ArtLoadCues
-	dc.w PLC_SZAnimals-ArtLoadCues
+	dc.w PLC_SZAnimals-ArtLoadCues, PLC_TornadoSign-ArtLoadCues
+	dc.w PLC_Tornado-ArtLoadCues
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - standard block 1
 ; ---------------------------------------------------------------------------
@@ -216,9 +217,11 @@ PLC_ABZ2:	dc.w 4
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - Special Stage
 ; ---------------------------------------------------------------------------
-PLC_SSZ:		dc.w 0
+PLC_SSZ:		dc.w 1
 		dc.l Nem_TJZPole		; pole that breaks
 		dc.w $7BC0
+		dc.l Nem_Tornado
+		dc.w $8000
 
 PLC_SSZ2:	dc.w 0
 		dc.l Nem_Spikes		; spikes
@@ -527,3 +530,17 @@ PLC_FZBoss:	dc.w 4
 		dc.w $8E00
 		dc.l Nem_Exhaust	; exhaust flame
 		dc.w $A540
+
+; ---------------------------------------------------------------------------
+; Pattern load cues - plane sign
+; ---------------------------------------------------------------------------
+PLC_TornadoSign:	dc.w 0
+		dc.l Nem_TornadoSign
+		dc.w $D000
+
+; ---------------------------------------------------------------------------
+; Pattern load cues - tornado
+; ---------------------------------------------------------------------------
+PLC_Tornado:	dc.w 0
+		dc.l Nem_Tornado
+		dc.w $B480

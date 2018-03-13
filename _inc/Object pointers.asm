@@ -39,3 +39,4 @@
 	dc.l Obj8D, Obj8E, Obj8F, Obj90
 	dc.l Obj91, Obj92, Obj93, Obj94
 	dc.l Obj95, Obj96, Obj97, Obj98
+	dc.l Obj99, Obj9A

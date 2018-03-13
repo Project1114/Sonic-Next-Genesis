@@ -234,7 +234,7 @@ GameModeArray:
 ; ===========================================================================
 		bra.w	Options	; Options Screen ($24)
 ; ===========================================================================
-		bra.w	SegaScreen	; Null ($28)
+		bra.w	Level	; Special Stage ($28)
 ; ===========================================================================
 		bra.w	Options	; Level Select ($2C)
 ; ===========================================================================
@@ -2870,6 +2870,7 @@ Pal_FCZ:	incbin	pallet\fcz.bin
 Pal_RTZ:	incbin	pallet\rtz.bin
 Pal_SZ:	incbin	pallet\sz.bin
 Pal_Eggman:	incbin	pallet\eggman.bin
+Pal_Knuckles:	incbin	pallet\knuckles.bin
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	delay the program by ($FFFFF62A) frames
@@ -3072,6 +3073,13 @@ Angle_Data:	incbin	misc\angles.bin
 ; ---------------------------------------------------------------------------
 
 SegaScreen:			; XREF: GameModeArray
+		lea	($FFFFFB80).w,a1
+		moveq	#0,d0
+		move.w	#$1F,d1
+
+SS_Clr:
+		move.l	d0,(a1)+
+		dbf	d1,SS_Clr ; fill pallet with 0	(black)
 		move.b	#$E1,d0
 		bsr.w	PlaySound			; fade out music
 		bsr.w	ClearPLC
@@ -3418,25 +3426,8 @@ loc_9060:
 		move.b	($FFFFF605).w,d0
 		or.b	($FFFFF607).w,d0
 		andi.b	#-$80,d0
-		bne.s	loc_909A
-		bra.w	loc_9060
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_909A:
-		move.b	($FFFFFF82).w,d0
-		bne.s	loc_90B6
-		bra.w	PlayLevel
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_90B6:
-		subq.b	#1,d0
 		bne.s	loc_90D8
-		moveq	#1,d0
-		move.w	d0,($FFFFFFD8).w
-		move.w	d0,($FFFFFF8A).w
-		move.b	#$1C,($FFFFF600).w
-		move.b	#0,($FFFFFF88).w
-		rts	
+		bra.w	loc_9060
 ; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
 
 loc_90D8:
@@ -3527,7 +3518,7 @@ locret_91782:
 ; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
 word_917A:	dc.w  $4FF		; 0
 		dc.w $FFEC		; 1
-		dc.w  $4FF		; 2
+		dc.w  $3FF		; 2
 		dc.w $FFEE		; 3
 		dc.w $FFFF		; 4
 		dc.w $FF84		; 5
@@ -3616,18 +3607,6 @@ loc_9268:
 		tst.b	($FFFFFF82).w
 		beq.s	loc_9286
 		lea	(off_92EA).l,a4
-		tst.w	(Current_Character).w
-		beq.s	loc_9286
-		lea	(off_92EC).l,a4
-		cmpi.w	#1,(Current_Character).w
-		beq.s	loc_9286
-		lea	(off_92EE).l,a4
-		cmpi.w	#2,(Current_Character).w
-		beq.s	loc_9286
-		lea	(off_92F0).l,a4
-		cmpi.w	#3,(Current_Character).w
-		beq.s	loc_9286
-		lea	(off_92F4).l,a4
 
 loc_9286:
 		cmpi.b	#2,($FFFFFF82).w
@@ -3711,34 +3690,9 @@ off_92DE:
 	dc.l TextOptScr_Knuckles
 off_92EA:
 	dc.l TextOptScr_None
-	dc.l TextOptScr_Shadow
-	dc.l TextOptScr_Silver
-	dc.l TextOptScr_Tails
-	dc.l TextOptScr_Knuckles
-off_92EC:
-	dc.l TextOptScr_Sonic
-	dc.l TextOptScr_None
-	dc.l TextOptScr_Silver
-	dc.l TextOptScr_Tails
-	dc.l TextOptScr_Knuckles
-off_92EE:
-	dc.l TextOptScr_Sonic
-	dc.l TextOptScr_Shadow
-	dc.l TextOptScr_None
-	dc.l TextOptScr_Tails
-	dc.l TextOptScr_Knuckles
-off_92F0:
-	dc.l TextOptScr_Sonic
-	dc.l TextOptScr_Shadow
-	dc.l TextOptScr_Silver
-	dc.l TextOptScr_None
-	dc.l TextOptScr_Knuckles
-off_92F4:
-	dc.l TextOptScr_Sonic
-	dc.l TextOptScr_Shadow
-	dc.l TextOptScr_Silver
-	dc.l TextOptScr_Tails
-	dc.l TextOptScr_None
+	dc.l TextOptScr_1
+	dc.l TextOptScr_2
+	dc.l TextOptScr_3
 off_92F2:
 	dc.l TextOptScr_0
 ; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
@@ -3750,6 +3704,9 @@ TextOptScr_Silver:		dc.b  $E, 0, 0, 0, 0, 0, $30,$26,$29,$33,$22,$2F, 0, 0, 0, 0
 TextOptScr_Tails:		dc.b  $E, 0, 0, 0, 0, 0, $31,$1E,$26,$29,$30,0, 0, 0, 0, 0
 TextOptScr_Knuckles:	dc.b  $E, 0, 0, 0, 0, $28,$2B,$32,$20,$28,$29,$22,$30, 0, 0, 0
 TextOptScr_None:		dc.b  $E, 0, 0, 0, 0, 0, $2B,$2C,$2B,$22, 0, 0, 0, 0, 0, 0
+TextOptScr_1:		dc.b  $E, 0, 0, 0, 0, 0, 0, 0, $11, 0, 0, 0, 0, 0, 0, 0
+TextOptScr_2:		dc.b  $E, 0, 0, 0, 0, 0, 0, 0, $12, 0, 0, 0, 0, 0, 0, 0
+TextOptScr_3:		dc.b  $E, 0, 0, 0, 0, 0, 0, 0, $13, 0, 0, 0, 0, 0, 0, 0
 TextOptScr_PartnerSelect:		dc.b $10,$1A, 0, 0, 0, 0,$2D,$1E,$2F,$31,$2B,$22,$2F, 0, 0, 0
 			dc.b   0,$1A		; 16
 TextOptScr_SoundTest:	dc.b $10,$1A,  0,  0,$30,$2C,$32,$2B,$21,  0, 0,$31,$22,$30,$31, 0; 0
@@ -4708,131 +4665,47 @@ loc_3946:
 		beq.s	Level_LoadCharacter
 		cmpi.b	#$1C,($FFFFF600).w
 		move.b	#$21,($FFFFB040).w ; load HUD object
+		bra.s	Level_LoadCharacter
+
+CharacterTable: ; Object, Partner Object, Palette, Water Palette
+		dc.b 1, 0, 3, $F ; Sonic
+		dc.b 1, $95, 3, $F ; Sonic and Tails
+		dc.b 1, $99, 3, $F ; Sonic and Knuckles
+		dc.b 1, 2, $1A, $1C ; Sonic and Silver
+		dc.b $8E, 0, $17, $1D ; Shadow
+		dc.b $8E, 0, $17, $1D ; Shadow and Rouge
+		dc.b $8E, 0, $17, $1D ; Shadow and E-123 Omega
+		dc.b $8E, 2, $17, $1D ; Shadow and Silver
+		dc.b 2, 0, $16, $1E ; Silver
+		dc.b 2, 0, $16, $1E ; Silver and Blaze
+		dc.b 2, 0, $16, $1E ; Silver and Amy
+		dc.b 0, 0, 0, 0 ; Null
+		dc.b $95, 0, 3, $F ; Tails
+		dc.b $95, 1, 3, $F ; Tails and Sonic
+		dc.b $95, $99, $27, $F ; Tails and Knuckles
+		dc.b 0, 0, 0, 0 ; Null
+		dc.b $99, 0, $27, $F ; Knuckles
+		dc.b $99, 1, $27, $F ; Knuckles and Sonic
+		dc.b $99, $95, $27, $F ; Knuckles and Tails
+		dc.b 0, 0, 0, 0 ; Null
 
 Level_LoadCharacter:
-		moveq	#0,d0
-		cmpi.w	#1,(Current_Character).w
-		beq.s	Level_Shadow
-		cmpi.w	#2,(Current_Character).w
-		beq.s	Level_Silver
-		cmpi.w	#4,(Current_Character).w
-		beq.s	Level_Knuckles
-		moveq	#3,d0
-		moveq	#$F,d1
-		tst.w	(Current_Partner).w
-		beq.s	Level_Sonic
-		moveq	#$1A,d0
-		moveq	#$1C,d1
-		cmpi.w	#1,(Current_Partner).w
-		beq.s	Level_Sonic
-		moveq	#$20,d0
-		moveq	#$F,d1
-
-Level_Sonic:
-		move.b	#1,($FFFFB000).w ; load	Sonic object
-		tst.w	(Current_Character).w
-		beq.s	Level_ChkPartner
-		move.b	#$95,($FFFFB000).w ; load	Sonic object
-		bra.s	Level_ChkPartner
-
-Level_Silver:
-		moveq	#$16,d0
-		moveq	#$1E,d1
-		cmpi.w	#2,(Current_Partner).w
-		beq.s	Level_Silver2
-		moveq	#$20,d0
-		moveq	#$1E,d1
-		tst.w	(Current_Partner).w
-		beq.s	Level_Silver2
-		moveq	#$21,d0
-		moveq	#$1E,d1
-
-Level_Silver2:
-		move.b	#2,($FFFFB000).w ; load	Silver object
-		bra.s	Level_ChkPartner
-
-Level_Shadow:
-		moveq	#$17,d0
-		moveq	#$1D,d1
-		cmpi.w	#1,(Current_Partner).w
-		beq.s	Level_Shadow2
-		moveq	#$1A,d0
-		moveq	#$1C,d1
-		tst.w	(Current_Partner).w
-		beq.s	Level_Shadow2
-		moveq	#$21,d0
-		moveq	#$1D,d1
-
-Level_Shadow2:
-		move.b	#$8E,($FFFFB000).w ; load	Shadow object
-		bra.s	Level_ChkPartner
-
-Level_Knuckles:
-		moveq	#$16,d0
-		moveq	#$1E,d1
-		cmpi.w	#2,(Current_Partner).w
-		beq.s	Level_Knuckles2
-		moveq	#$20,d0
-		moveq	#$1E,d1
-		tst.w	(Current_Partner).w
-		beq.s	Level_Knuckles2
-		moveq	#$21,d0
-		moveq	#$1E,d1
-
-Level_Knuckles2:
-		move.b	#$97,($FFFFB000).w ; load	Silver object
-
-Level_ChkPartner:
-		tst.b	($FFFFFE10).w
-		bne.s	Level_ChkPartner3
-		move.b	d0,d1
-
-Level_ChkPartner3:
-		bsr.w	PalLoad2	; load Sonic's pallet line
-		tst.b	($FFFFFE10).w
-		beq.s	Level_ChkPartner2
-		tst.b	(Water_flag).w
-		beq.s	Level_ChkUW
-
-Level_ChkPartner2:
-		move.b	d1,d0
-		bsr.w	PalLoad3_Water	; load Sonic's pallet line
-
-Level_ChkUW:
-		move.w	(Current_Character),d0
-		move.w	(Current_Partner),d1
-		cmp.w	d0,d1
-		beq.s	Level_ChkDebug
-		tst.w	(Current_Partner).w
-		beq.s	Level_SonicP
-		cmpi.w	#1,(Current_Partner).w
-		beq.s	Level_ShadowP
-		cmpi.w	#2,(Current_Partner).w
-		beq.s	Level_SilverP
-		cmpi.w	#3,(Current_Partner).w
-		beq.s	Level_TailsP
-		cmpi.w	#4,(Current_Partner).w
-		beq.s	Level_KnucklesP
-		bra.s	Level_ChkDebug
-
-Level_SonicP:
-		move.b	#1,($FFFFB380).w ; load	Sonic object
-		bra.s	Level_ChkDebug
-
-Level_SilverP:
-		move.b	#2,($FFFFB380).w ; load	Silver object
-		bra.s	Level_ChkDebug
-
-Level_ShadowP:
-		move.b	#$8E,($FFFFB380).w ; load	Shadow object
-		bra.s	Level_ChkDebug
-
-Level_TailsP:
-		move.b	#$95,($FFFFB380).w ; load	Shadow object
-		bra.s	Level_ChkDebug
-
-Level_KnucklesP:
-		move.b	#$97,($FFFFB380).w ; load	Shadow object
+		move.w	(Current_Character).w,d0
+		move.w	(Current_Partner).w,d1
+		lsl.b	#2,d0
+		add.b	d1,d0
+		lsl.b	#2,d0
+		lea	CharacterTable(pc,d0.w),a0
+		move.b	(a0)+,($FFFFB000).w
+		move.b	(a0)+,($FFFFB380).w
+		move.b	(a0)+,d0
+		bsr.w	PalLoad2
+		move.b	(a0)+,d0
+		bsr.w	PalLoad3_Water
+		cmpi.b	#7,($FFFFFE10).w
+		bne.s	Level_ChkDebug
+		move.b	#1,($FFFFF7CA).w 
+		move.b	#$97,($FFFFB400).w
 
 Level_ChkDebug:
 		bset	#7,($FFFFB3A2).w
@@ -5488,8 +5361,8 @@ WallRun_Move:
 		bne.s	locret2_3EF2
 		move.b	$22(a1),d0
 		btst	#1,d0
-		beq.s	WallRun_Move2
-		btst	#2,d0
+	;	beq.s	WallRun_Move2
+	;	btst	#2,d0
 		bne.w	loc2_3F06
 
 WallRun_Move2:
@@ -5551,13 +5424,13 @@ loc2_3F0A:
 loc2_3F08:
 		clr.b	($FFFFF7C7).w
 		bset	#2,$22(a1)
-		move.b #$C,$1C(a1)  ; use falling animation
+		move.b	#$C,$1C(a1)  ; use falling animation
 		rts
 ; End of function WallRunning
 
 ; ===========================================================================
 WallRun_Data:
-	dc.w $280, $3A0, $680,	$4D0
+	dc.w 0, 0, 0,	0
 	dc.w $1F8, $100, $580,	$200
 	dc.w $1F8, $100, $580,	$200
 		even
@@ -7583,892 +7456,212 @@ Obj8D_Done:
 Map_obj8D:
 	include "_maps\obj8D.asm"
 
-LoadSubObject:
-	moveq	#0,d0
-	move.b	$28(a0),d0
-; loc_365FA:
-LoadSubObject_Part2:
-	move.w	SubObjData_Index(pc,d0.w),d0
-	lea	SubObjData_Index(pc,d0.w),a1
-; loc_36602:
-LoadSubObject_Part3:
-	move.l	(a1)+,4(a0)
-	move.w	(a1)+,2(a0)
-	move.b	(a1)+,d0
-	or.b	d0,1(a0)
-	move.b	(a1)+,$18(a1)
-	move.b	$18(a1),d0
-	lsr.w 	#1,d0
-	andi.w 	#$280,d0
-	move.w	d0,$18(a0)
-	move.b	(a1)+,$14(a0)
-	move.b	(a1),$20(a0)
-	addq.b	#2,$24(a0)
-	rts
+; ===========================================================================
+; ----------------------------------------------------------------------------
+; Object 97 - The Tornado to the Special Stage
+; ----------------------------------------------------------------------------
 
-SubObjData_Index:
-		dc.w off_3AFC8-SubObjData_Index
+Obj97:
+		moveq	#0,d0
+		move.b	$24(a0),d0
+		move.w	Obj97_Index(pc,d0.w),d1
+		jsr	Obj97_Index(pc,d1.w)
+		jmp	DisplaySprite
+; ===========================================================================
+Obj97_Index:	dc.w Obj97_Main-Obj97_Index
+		dc.w Obj97_Move-Obj97_Index
+		dc.w Obj97_Move2-Obj97_Index
+		dc.w Obj97_Special-Obj97_Index
+		dc.w Obj97_Special-Obj97_Index
+; ===========================================================================
+
+Obj97_Main:
+		addq.b	#2,$24(a0)
+		move.l	#Map_Tornado,4(a0)
+		move.w	#$5A4,2(a0)
+		move.b	#4,1(a0)
+		move.b	#$60,$14(a0)
+		move.w	#$180,$18(a0)
+		moveq	#$30,d0
+		jsr	LoadPLC2		; load standard	patterns
+		cmpi.b	#7,($FFFFFE10).w
+		bne.s	Obj97_Move
+		move.w	#$200,$10(a0)
+		addq.b	#4,$24(a0)
+		move.w	#$400,2(a0)
+
+Obj97_Special:
+		move.w	#0,$12(a0)
+		btst	#0,($FFFFF602).w
+		beq.s	Obj97_Special2
+		move.w	#-$200,$12(a0)
+
+
+Obj97_Special2:
+		btst	#1,($FFFFF602).w
+		beq.s	Obj97_Special3
+		move.w	#$200,$12(a0)
+
+Obj97_Special3:
+		cmpi.b	#8,$24(a0)
+		beq.s	Obj97_Move2
+
+Obj97_Move:
+		jsr	SpeedToPos
+		moveq	#0,d1
+		move.b	#$14,d1
+		jmp	(PlatformObject).l
+; ===========================================================================
+
+Obj97_Move2:
+		moveq	#0,d1
+		move.b	#$14,d1
+		jsr	(ExitPlatform).l
+		move.w	8(a0),-(sp)
+		jsr	SpeedToPos
+		move.w	(sp)+,d2
+		jmp	(MvSonicOnPtfm2).l
+
+; ---------------------------------------------------------------------------
+; Sprite mappings - The Tornado
+; ---------------------------------------------------------------------------
+Map_Tornado:
+	include "_maps\tornado.asm"
 
 ; ===========================================================================
 ; ----------------------------------------------------------------------------
-; Object 97 - The Tornado (Tails' plane)
+; Object 9A - The Tornado's Sign
 ; ----------------------------------------------------------------------------
-; Sprite_3A790:
-Obj97:				; DATA XREF: ROM:0001600Co
+
+Obj9A:
 		moveq	#0,d0
 		move.b	$24(a0),d0
-		move.w	off_3A79E(pc,d0.w),d1
-		jmp	off_3A79E(pc,d1.w)
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-off_3A79E:	dc.w loc_3A7AE-off_3A79E; 0 ; DATA XREF: h+2382Ao h+2382Co ...
-		dc.w loc_3A7DE-off_3A79E; 1
-		dc.w loc_3A7DE-off_3A79E; 2
-		dc.w loc_3A7DE-off_3A79E; 3
-		dc.w loc_3AC6A-off_3A79E; 4
-		dc.w loc_3AD0C-off_3A79E; 5
-		dc.w loc_3AD2A-off_3A79E; 6
-		dc.w loc_3AD42-off_3A79E; 7
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+		move.w	Obj9A_Index(pc,d0.w),d1
+		jmp	Obj9A_Index(pc,d1.w)
+; ===========================================================================
+Obj9A_Index:	dc.w Obj9A_Main-Obj9A_Index
+		dc.w Obj9A_Stop-Obj9A_Index
+		dc.w Obj9A_GetOn-Obj9A_Index
+		dc.w Obj9A_Wait-Obj9A_Index
+		dc.w Obj9A_Jump-Obj9A_Index
+		dc.w Obj9A_Leave-Obj9A_Index
+		dc.w Obj9A_Display-Obj9A_Index
+; ===========================================================================
 
-loc_3A7AE:				; DATA XREF: h+2382Ao
-		jsr	LoadSubObject
-		moveq	#0,d0
-	;	move.b	$28(a0),d0
-	;	subi.b	#$4E,d0	; 'N'
-		move.b	2,$24(a0)
-	;	cmpi.w	#2,($FFFFFF70).w
-	;	bne.s	loc_3A7DA
-	;	cmpi.b	#8,d0
-	;	bcc.s	loc_3A7DA
-	;	move.b	#4,$1A(a0)
-	;	move.b	#1,$1C(a0)
+Obj9A_Main:
+		addq.b	#2,$24(a0)
+		move.l	#Map_obj9A,4(a0)
+		move.w	#$2680,2(a0)
+		move.b	#4,1(a0)
+		move.b	#8,$14(a0)
+		move.w	#$280,$18(a0)
+		moveq	#$2F,d0
+		jsr	LoadPLC		; load standard	patterns
 
-loc_3A7DA:				; CODE XREF: h+23852j h+23858j
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3A7DE:				; DATA XREF: h+2382Ao
-		bsr.w	loc_3AF58
-		tst.w	($FFFFFE08).w
-		bne.w	loc_3A880
+Obj9A_Stop:
 		lea	($FFFFB000).w,a1
-		move.w	2(a1),d0
-		andi.w	#-$8000,d0
-		move.w	2(a0),d1
-		andi.w	#$7FFF,d1
-		or.w	d0,d1
-		move.w	d1,2(a0)
-		move.w	8(a0),-(sp)
-		bsr.w	loc_3ADAA
-		move.b	$22(a0),$2E(a0)
-		move.w	#$1B,d1
-		move.w	#8,d2
-		move.w	#9,d3
-		move.w	(sp)+,d4
-		jsr	SolidObject
-		bsr.w	loc_3AE3A
-		move.b	$2E(a0),d0
-		move.b	$22(a0),d1
-		andi.b	#8,d0
-		andi.b	#8,d1
-		eor.b	d0,d1
-		move.b	d1,$2E(a0)
-		lea	($FFFFB000).w,a1
+		move.w	8(a0),d0
 		move.w	8(a1),d1
+		sub.w	d0,d1
+		cmpi.w	#$10,d1
+		bge.w	Obj9A_Display
+		cmpi.w	#-$10,d1
+		ble.w	Obj9A_Display
+		tst.w	$10(a1)
+		bne.w	Obj9A_Display
+		tst.w	$12(a1)
+		bne.w	Obj9A_Display
+		move.w	#$20,$10(a1)
+		move.b	#1,($FFFFF7CC).w
+		move.b	#1,($FFFFF674).w
+		addq.b	#2,$24(a0)
+		move.w	#$C0,$30(a0)
+		bset	#0,($FFFFF602).w
 		move.w	($FFFFF700).w,d0
-		move.w	d0,($FFFFF728).w
-		move.w	d0,d2
-		addi.w	#$11,d2
-		cmp.w	d2,d1
-		bhi.s	loc_3A85E
-		addq.w	#1,d1
-		move.w	d1,8(a1)
+		move.w	d0,($FFFFF72A).w
+		cmpi.b	#$95,($FFFFB380).w
+		bne.s	Obj9A_GetOn
+		bset	#2,($FFFFF670).w
 
-loc_3A85E:				; CODE XREF: h+238E2j
-		cmpi.w	#$1400,d0
-		bcs.s	loc_3A878
-		cmpi.w	#$1568,d1
-		bcc.s	loc_3A88E
-		st	($FFFFF7CC).w
-		move.w	#$808,($FFFFF602).w
-		bra.w	loc_3A87C
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3A878:				; CODE XREF: h+238EEj
-		subi.w	#$40,d0	; '@'
-
-loc_3A87C:				; CODE XREF: h+23900j
-		move.w	d0,($FFFFEECA).w
-
-loc_3A880:				; CODE XREF: h+23872j h+23924j
-		lea	(off_3AFDC).l,a1
-		bsr.w	AnimateSprite
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3A88E:				; CODE XREF: h+238F4j
-		bsr.w	loc_3AC46
-		move.w	#$000,($FFFFFE10).w
-		bra.s	loc_3A880
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3A954:				; DATA XREF: h+2382Ao
-		bsr.w	loc_3AF58
-		moveq	#0,d0
-		move.b	$25(a0),d0
-		move.w	off_3A970(pc,d0.w),d1
-		jsr	off_3A970(pc,d1.w)
-		lea	(off_3AFDC).l,a1
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-off_3A970:	dc.w loc_3A982-off_3A970; 0 ; DATA XREF: h+239FCo h+239FEo ...
-		dc.w loc_3AA0E-off_3A970; 1
-		dc.w loc_3AA4C-off_3A970; 2
-		dc.w loc_3AA74-off_3A970; 3
-		dc.w loc_3AAA8-off_3A970; 4
-		dc.w loc_3AAFE-off_3A970; 5
-		dc.w loc_3AB68-off_3A970; 6
-		dc.w loc_3AB7C-off_3A970; 7
-		dc.w loc_3ABDE-off_3A970; 8
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3A982:				; DATA XREF: h+239FCo
-		lea	($FFFFB000).w,a1
-		cmpi.w	#$5EC,$C(a1)
-		bcs.s	locret_3A99E
-		clr.w	($FFFFF602).w
-		addq.w	#1,$2E(a0)
-		cmpi.w	#$40,$2E(a0) ; '@'
-		bcc.s	loc_3A9A0
-
-locret_3A99E:				; CODE XREF: h+23A18j
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3A9A0:				; CODE XREF: h+23A28j
-		addq.b	#2,$25(a0)
-		move.w	#$2E58,8(a0)
-		move.w	#$66C,$C(a0)
-		lea	($FFFFB000).w,a1
-		bsr.w	loc_3AC56
-		lea	(word_3AFBC).l,a2
-		jsr	LoadChildObject
-		move.w	#$3118,8(a1)
-		move.w	#$3F0,$C(a1)
-		lea	(word_3AFB8).l,a2
-		jsr	LoadChildObject
-		move.w	#$3070,8(a1)
-		move.w	#$3B0,$C(a1)
-		lea	(word_3AFB8).l,a2
-		jsr	LoadChildObject
-		move.w	#$3070,8(a1)
-		move.w	#$430,$C(a1)
-		lea	(word_3AFC0).l,a2
-		jsr	LoadChildObject
-		clr.w	8(a1)
-		clr.w	$C(a1)
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AA0E:				; DATA XREF: h+239FCo
-		lea	($FFFFB000).w,a1
-		cmpi.w	#$2E30,8(a1)
-		bcc.s	loc_3AA22
-		move.w	#$808,($FFFFF602).w
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AA22:				; CODE XREF: h+23AA4j
-		addq.b	#2,$25(a0)
-		clr.w	($FFFFF602).w
-		clr.w	$10(a1)
-		clr.w	$12(a1)
-		clr.w	$14(a1)
-		move.w	#$600,($FFFFF760).w
-		move.w	#$C,($FFFFF762).w
-		move.w	#$80,($FFFFF764).w ; '€'
-		bra.w	loc_3AC56
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AA4C:				; DATA XREF: h+239FCo
-		cmpi.w	#$380,($FFFFEEE2).w
-		bcc.s	loc_3AA5C
-		clr.w	($FFFFF602).w
-		bra.w	loc_3AC56
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AA5C:				; CODE XREF: h+23ADEj
-		addq.b	#2,$25(a0)
-		move.w	#$100,$10(a0)
-		move.w	#-$100,$12(a0)
-		clr.w	$2A(a0)
-		bra.w	loc_3AC56
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AA74:				; DATA XREF: h+239FCo
-		bsr.w	loc_3AC56
-		addq.w	#1,$2A(a0)
-		cmpi.w	#$30,$2A(a0) ; '0'
-		bne.s	loc_3AAA0
-		addq.b	#2,$25(a0)
-		move.w	#$4040,($FFFFF602).w
-		move.w	#$38,$2E(a0) ; '8'
-
-loc_3AAA0:				; CODE XREF: h+23B0Ej h+23974j
-		bsr.w	loc_3AD8C
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AAA8:				; DATA XREF: h+239FCo
-		clr.w	($FFFFF602).w
-		addq.w	#1,$2A(a0)
-		subq.w	#1,$2E(a0)
-		bmi.s	loc_3AABC
-		move.w	#$4848,($FFFFF602).w
-
-loc_3AABC:				; CODE XREF: h+23B40j
-		bsr.w	loc_3AD8C
-		btst	#3,$22(a0)
-		beq.s	loc_3AAFA
-		addq.b	#2,$25(a0)
-		move.w	#$20,$2E(a0) ; ' '
-		lea	($FFFF80D2).w,a1
-		move.l	#$501F0025,(a1)+
-		lea	($FFFF81D2).w,a1
-		move.l	#$25001F50,(a1)+
-		lea	($FFFF8BD6).w,a1
-		move.l	#$501F0025,(a1)+
-		lea	($FFFF8CD6).w,a1
-		move.l	#$25001F50,(a1)+
-
-loc_3AAFA:				; CODE XREF: h+23B52j
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AAFE:				; DATA XREF: h+239FCo
-		addq.w	#1,$2A(a0)
-		cmpi.w	#$100,$2A(a0)
-		bcs.s	loc_3AB18
-		addq.b	#2,$25(a0)
-		movea.w	$3A(a0),a1
-		move.b	#2,$25(a1)
-
-loc_3AB18:				; CODE XREF: h+23B94j
-		clr.w	($FFFFF602).w
-		lea	($FFFFB000).w,a1
-		move.w	8(a0),8(a1)
-		clr.w	$10(a1)
-		clr.w	$12(a1)
-		clr.w	$14(a1)
-		bclr	#1,$22(a1)
-		bclr	#2,$22(a1)
-		move.l	#$1000505,$1A(a1)
-		move.w	#$100,$1E(a1)
-		move.b	#$13,$16(a1)
-		cmpi.w	#2,($FFFFFF70).w
-		bne.s	loc_3AB60
-		move.b	#$F,$16(a1)
-
-loc_3AB60:				; CODE XREF: h+23BE4j
-		bsr.w	loc_3AD8C
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AB68:				; DATA XREF: h+239FCo
-		clr.w	($FFFFF602).w
-		bsr.w	loc_3AC56
-		cmpi.w	#$437,$2A(a0)
-		bcs.s	loc_3AB8A
-		addq.b	#2,$25(a0)
-
-loc_3AB7C:				; DATA XREF: h+239FCo
-		cmpi.w	#$447,$2A(a0)
-		bcc.s	loc_3AB8A
-		move.w	#$4040,($FFFFF602).w
-
-loc_3AB8A:				; CODE XREF: h+23C02j h+23C0Ej
-		cmpi.w	#$460,$2A(a0)
-		bcs.s	loc_3ABDE
-		move.b	#6,($FFFFEEDF).w
-		addq.b	#2,$25(a0)
-		lea	(word_3AFB8).l,a2
-		jsr	LoadChildObject
-		move.w	#$3090,8(a1)
-		move.w	#$3D0,$C(a1)
-		lea	(word_3AFB8).l,a2
-		jsr	LoadChildObject
-		move.w	#$30C0,8(a1)
-		move.w	#$3F0,$C(a1)
-		lea	(word_3AFB8).l,a2
-		jsr	LoadChildObject
-		move.w	#$3090,8(a1)
-		move.w	#$410,$C(a1)
-
-loc_3ABDE:				; CODE XREF: h+23C1Cj
-					; DATA XREF: h+239FCo
-		cmpi.w	#$9C0,$2A(a0)
-		bcc.s	loc_3AC40
-		move.w	$2A(a0),d0
-		addq.w	#1,d0
-		move.w	d0,$2A(a0)
-		move.w	$34(a0),d1
-		move.w	word_3AC16(pc,d1.w),d2
-		cmp.w	d2,d0
-		bcs.s	loc_3AC0E
-		addq.w	#2,d1
-		move.w	d1,$34(a0)
-		lea	byte_3AC2A(pc,d1.w),a1
-		move.b	(a1)+,$10(a0)
-		move.b	(a1)+,$12(a0)
-
-loc_3AC0E:				; CODE XREF: h+23C86j
-		bsr.w	loc_3AD8C
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-word_3AC16:	dc.w  $1E0		; 0
-		dc.w  $260		; 1
-		dc.w  $2A0		; 2
-		dc.w  $2C0		; 3
-		dc.w  $300		; 4
-		dc.w  $3A0		; 5
-		dc.w  $3F0		; 6
-		dc.w  $460		; 7
-		dc.w  $4A0		; 8
-		dc.w  $580		; 9
-byte_3AC2A:	dc.b $FF		; 0
-		dc.b $FF		; 1
-		dc.b   1		; 2
-		dc.b   0		; 3
-		dc.b   0		; 4
-		dc.b   1		; 5
-		dc.b   1		; 6
-		dc.b $FF		; 7
-		dc.b   1		; 8
-		dc.b   1		; 9
-		dc.b   1		; 10
-		dc.b $FF		; 11
-		dc.b $FF		; 12
-		dc.b   1		; 13
-		dc.b $FF		; 14
-		dc.b $FF		; 15
-		dc.b $FF		; 16
-		dc.b   1		; 17
-		dc.b $FE		; 18
-		dc.b   0		; 19
-		dc.b   0		; 20
-		dc.b   0		; 21
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AC40:				; CODE XREF: h+23C70j
-		move.w	#$E00,($FFFFFE10).w
-
-loc_3AC46:				; CODE XREF: h+2391Ap
-		move.w	#1,($FFFFFE02).w
-		clr.b	($FFFFFE30).w
-		clr.b	($FFFFFEE0).w
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AC56:				; CODE XREF: h+23A40p h+23AD4j ...
-		lea	($FFFFB000).w,a1
-		move.l	#$1000505,$1A(a1)
-		move.w	#$100,$1E(a1)
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AC6A:				; DATA XREF: h+2382Ao
-		moveq	#0,d0
-		move.b	$25(a0),d0
-		move.w	off_3AC78(pc,d0.w),d1
-		jmp	off_3AC78(pc,d1.w)
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-off_3AC78:	dc.w loc_3AC7E-off_3AC78; 0 ; DATA XREF: h+23D04o h+23D06o ...
-		dc.w loc_3AC84-off_3AC78; 1
-		dc.w loc_3ACF2-off_3AC78; 2
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AC7E:				; DATA XREF: h+23D04o
-		move.b	#-$39,$20(a0)
-
-loc_3AC84:				; DATA XREF: h+23D04o
-		tst.b	$21(a0)
-		beq.s	locret_3ACF0
-		addq.b	#2,$25(a0)
-		clr.b	$20(a0)
-		move.w	#$78,($FFFFEED8).w ; 'x'
-		movea.w	$2C(a0),a1
-		bset	#6,$22(a1)
-		lea	($FFFFB000).w,a1
-		clr.w	$10(a1)
-		clr.w	$12(a1)
+Obj9A_GetOn:
+		subi.w	#1,$30(a0)
+		bpl.w	Obj9A_Display
+		addq.b	#2,$24(a0)
+		move.w	#$60,$30(a0)
+		jsr	SingleObjLoad
+		bne.s	Obj9A_Wait
+		move.b	#$97,0(a1)
+		move.l	a1,$34(a0)
 		move.w	8(a0),d0
-		subi.w	#$10,d0
+		subi.w	#$100,d0
 		move.w	d0,8(a1)
-		cmpi.w	#2,($FFFFFF70).w
-		bne.s	loc_3ACC8
-		subi.w	#$10,$C(a1)
+		move.w	$C(a0),d0
+		subi.w	#$70,d0
+		move.w	d0,$C(a1)
+		move.w	#$200,$10(a1)
+		move.w	#$1A0,$12(a1)
 
-loc_3ACC8:				; CODE XREF: h+23D4Cj
-		bset	#0,$22(a1)
-		bclr	#1,$22(a1)
-		bclr	#2,$22(a1)
-		move.b	#$11,$1C(a1)
-		move.b	#1,($FFFFB02A).w
-		move.b	#1,($FFFFF7C9).w
-		clr.w	($FFFFF602).w
+Obj9A_Wait:
+		move.l	$34(a0),a1
+		tst.w	$12(a1)
+		bmi.s	Obj9A_Wait2
+		subi.w	#4,$12(a1)
 
-locret_3ACF0:				; CODE XREF: h+23D14j
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Obj9A_Wait2:
+		subi.w	#1,$30(a0)
+		bpl.s	Obj9A_Display
+		addq.b	#2,$24(a0)
+		move.w	#1,$30(a0)
+		bclr	#0,($FFFFF602).w
+		bclr	#2,($FFFFF670).w
+		bset	#5,($FFFFF602).w
+		bset	#5,($FFFFF670).w
+		bset	#5,($FFFFF603).w
+		bset	#5,($FFFFF671).w
 
-loc_3ACF2:				; DATA XREF: h+23D04o
-		lea	($FFFFB000).w,a1
-		clr.w	$10(a1)
-		clr.w	$12(a1)
+Obj9A_Jump:
+		subi.w	#1,$30(a0)
+		bpl.s	Obj9A_Display
+		bclr	#5,($FFFFF603).w
+		bclr	#5,($FFFFF671).w
+		addq.b	#2,$24(a0)
+		move.w	#$C0,$30(a0)
+
+Obj9A_Leave:
+		move.l	$34(a0),a1
+		subi.w	#$E,$12(a1)
+		subi.w	#1,$30(a0)
+		bpl.s	Obj9A_Display
+		move.w	#1,($FFFFFE02).w ; restart level
+		move.w	#$700,($FFFFFE10).w
+
+Obj9A_Display:
 		move.w	8(a0),d0
-		subi.w	#$10,d0
-		move.w	d0,8(a1)
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+		andi.w	#$FF80,d0
+		move.w	($FFFFF700).w,d1
+		subi.w	#$80,d1
+		andi.w	#$FF80,d1
+		sub.w	d1,d0
+		cmpi.w	#$280,d0
+		bls.s	Obj9A_Display2
+		move.w	$1E(a0),d0	; get address in respawn table
+		beq.s	Obj9A_Delete	; if it's zero, object was placed in debug mode
+		movea.w	d0,a2	; load address into a2
+		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 
-loc_3AD0C:				; DATA XREF: h+2382Ao
-		moveq	#0,d0
-		move.b	$25(a0),d0
-		move.w	off_3AD1A(pc,d0.w),d1
-		jmp	off_3AD1A(pc,d1.w)
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-off_3AD1A:	dc.w loc_3AD1C-off_3AD1A ; DATA	XREF: h+23DA6o
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Obj9A_Delete:				; XREF: Obj4B_Index
+		moveq	#1,d0
+		jsr	LoadPLC		; load standard	patterns
+		jmp	DeleteObject	
 
-loc_3AD1C:				; DATA XREF: h+23DA6o
-		bchg	#2,$22(a0)
-		bne.s	locret_37A48
-		jmp	DisplaySprite
+Obj9A_Display2:
+		jmp	DisplaySprite		
 
-locret_37A48:				; CODE XREF: h+20A32j h+20A3Aj ...
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AD2A:				; DATA XREF: h+2382Ao
-		moveq	#0,d0
-		move.b	$25(a0),d0
-		move.w	off_3AD38(pc,d0.w),d1
-		jmp	off_3AD38(pc,d1.w)
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-off_3AD38:	dc.w loc_3AD3A-off_3AD38 ; DATA	XREF: h+23DC4o
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AD3A:				; DATA XREF: h+23DC4o
-		jsr	SpeedToPos
-		jmp	MarkObjGone
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AD42:				; DATA XREF: h+2382Ao
-		moveq	#0,d0
-		move.b	$25(a0),d0
-		move.w	off_3AD50(pc,d0.w),d1
-		jmp	off_3AD50(pc,d1.w)
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-off_3AD50:	dc.w loc_3AD54-off_3AD50; 0 ; DATA XREF: h+23DDCo h+23DDEo
-		dc.w loc_3AD5C-off_3AD50; 1
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AD54:				; DATA XREF: h+23DDCo
-		bsr.w	loc_3AD6E
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AD5C:				; DATA XREF: h+23DDCo
-		bsr.w	loc_3AD6E
-		lea	(off_3AFEC).l,a1
-		bsr.w	AnimateSprite
-		jmp	DisplaySprite
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AD6E:				; CODE XREF: h+23DE0p h+23DE8p
-		movea.w	$2C(a0),a1
-		move.w	8(a1),d0
-		subi.w	#$C,d0
-		move.w	d0,8(a0)
-		move.w	$C(a1),d0
-		addi.w	#$28,d0	; '('
-		move.w	d0,$C(a0)
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AD8C:				; CODE XREF: h+239BCp h+2397Cp ...
-		move.w	8(a0),-(sp)
-		jsr	SpeedToPos
-		bsr.w	loc_36776
-		move.w	#$1B,d1
-		move.w	#8,d2
-		move.w	#9,d3
-		move.w	(sp)+,d4
-		jmp	SolidObject
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3ADAA:				; CODE XREF: h+23894p
-		lea	($FFFFB000).w,a1
-		btst	#3,$22(a1)
-		beq.s	loc_3ADC6
-		bsr.w	loc_3ADF6
-		bsr.w	loc_3AF0C
-		jsr	SpeedToPos
-		bra.w	loc_36776
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3ADC6:				; CODE XREF: h+23E40j
-		tst.b	$2E(a0)
-		beq.s	loc_3ADD4
-		jsr	Obj_GetOrientationToPlayer
-		move.w	d2,$38(a0)
-
-loc_3ADD4:				; CODE XREF: h+23E56j
-		move.w	#1,d0
-		move.w	$38(a0),d3
-		beq.s	loc_3ADE8
-		bmi.s	loc_3ADE2
-		neg.w	d0
-
-loc_3ADE2:				; CODE XREF: h+23E6Aj
-		add.w	d0,d3
-		move.w	d3,$38(a0)
-
-loc_3ADE8:				; CODE XREF: h+23E68j
-		move.w	8(a1),d1
-		add.w	d3,d1
-		move.w	d1,8(a0)
-		bra.w	loc_36776
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3ADF6:				; CODE XREF: h+23E42p
-		tst.b	$2F(a0)
-		bne.s	loc_3AE16
-		tst.b	$2E(a0)
-		beq.s	locret_3AE38
-		st	$2F(a0)
-		clr.b	$30(a0)
-		move.w	#$200,$12(a0)
-		move.b	#$14,$31(a0)
-
-loc_3AE16:				; CODE XREF: h+23E86j
-		subq.b	#1,$31(a0)
-		bpl.s	loc_3AE26
-		clr.b	$2F(a0)
-		clr.w	$12(a0)
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AE26:				; CODE XREF: h+23EA6j
-		move.w	$12(a0),d0
-		cmpi.w	#-$100,d0
-		ble.s	loc_3AE34
-		addi.w	#-$20,d0
-
-loc_3AE34:				; CODE XREF: h+23EBAj
-		move.w	d0,$12(a0)
-
-locret_3AE38:				; CODE XREF: h+23E8Cj
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AE3A:				; CODE XREF: h+238B0p
-		lea	($FFFFB000).w,a1
-		btst	#3,$22(a1)
-		beq.s	loc_3AEA0
-		tst.b	$2F(a0)
-		bne.s	loc_3AE72
-		clr.w	$12(a0)
-		move.w	($FFFFF605).w,d2
-		move.w	#$80,d3	; '€'
-		andi.w	#$300,d2
-		beq.s	loc_3AE72
-		andi.w	#$200,d2
-		bne.s	loc_3AE66
-		neg.w	d3
-
-loc_3AE66:				; CODE XREF: h+23EEEj
-		move.w	d3,$12(a0)
-		bsr.w	loc_3AF0C
-		jsr	SpeedToPos
-
-loc_3AE72:				; CODE XREF: h+23ED6j h+23EE8j
-		jsr	Obj_GetOrientationToPlayer
-		moveq	#$10,d3
-		add.w	d3,d2
-		cmpi.w	#$20,d2	; ' '
-		bcs.s	locret_3AE9E
-		move.w	$14(a1),d2
-		bpl.s	loc_3AE88
-		neg.w	d2
-
-loc_3AE88:				; CODE XREF: h+23F10j
-		cmpi.w	#$900,d2
-		bcc.s	locret_3AE9E
-		tst.w	d0
-		beq.s	loc_3AE94
-		neg.w	d3
-
-loc_3AE94:				; CODE XREF: h+23F1Cj
-		move.w	8(a1),d1
-		add.w	d3,d1
-		move.w	d1,8(a0)
-
-locret_3AE9E:				; CODE XREF: h+23F0Aj h+23F18j ...
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AEA0:				; CODE XREF: h+23ED0j
-		tst.b	$30(a0)
-		bne.s	loc_3AEC0
-		tst.b	$2E(a0)
-		beq.s	locret_3AE9E
-		st	$30(a0)
-		clr.b	$2F(a0)
-		move.w	#$200,$12(a0)
-		move.b	#$2B,$31(a0) ; '+'
-
-loc_3AEC0:				; CODE XREF: h+23F30j
-		subq.b	#1,$31(a0)
-		bpl.s	loc_3AED0
-		clr.b	$30(a0)
-		clr.w	$12(a0)
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AED0:				; CODE XREF: h+23F50j
-		move.w	$12(a0),d0
-		cmpi.w	#-$100,d0
-		ble.s	loc_3AEDE
-		addi.w	#-$20,d0
-
-loc_3AEDE:				; CODE XREF: h+23F64j
-		move.w	d0,$12(a0)
-		bsr.w	loc_3AF0C
-		jsr	SpeedToPos
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AEEC:				; CODE XREF: h+23984j
-		jsr	Obj_GetOrientationToPlayer
-		moveq	#$10,d3
-		add.w	d3,d2
-		cmpi.w	#$20,d2	; ' '
-		bcs.s	locret_3AF0A
-		tst.w	d0
-		beq.s	loc_3AF00
-		neg.w	d3
-
-loc_3AF00:				; CODE XREF: h+23F88j
-		move.w	8(a0),d1
-		sub.w	d3,d1
-		move.w	d1,8(a1)
-
-locret_3AF0A:				; CODE XREF: h+23F84j
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AF0C:				; CODE XREF: h+23E46p h+23EF6p ...
-		move.w	($FFFFF704).w,d0
-		move.w	$C(a0),d1
-		move.w	$12(a0),d2
-		beq.s	locret_3AF32
-		bpl.s	loc_3AF26
-		addi.w	#$34,d0	; '4'
-		cmp.w	d0,d1
-		bcs.s	loc_3AF2E
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AF26:				; CODE XREF: h+23FA6j
-		addi.w	#$A8,d0	; '¨'
-		cmp.w	d0,d1
-		bcs.s	locret_3AF32
-
-loc_3AF2E:				; CODE XREF: h+23FAEj
-		clr.w	$12(a0)
-
-locret_3AF32:				; CODE XREF: h+23FA4j h+23FB8j
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AF34:				; CODE XREF: h+239CEj
-		jsr	SingleObjLoad2
-		bne.s	locret_3AF56
-		move.b	#-$3C,0(a1)
-		move.b	#-$70,$28(a1)
-		move.w	a0,$2C(a1)
-		move.w	8(a0),8(a1)
-		move.w	$C(a0),$C(a1)
-
-locret_3AF56:				; CODE XREF: h+23FC4j
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AF58:				; CODE XREF: sub_BF7Aj	h+2386Ap ...
-		subq.b	#1,$37(a0)
-		bmi.s	loc_3AF60
-		rts	
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AF60:				; CODE XREF: h+23FE8j
-		move.b	#8,$37(a0)
-		moveq	#0,d0
-		move.b	$36(a0),d0
-		moveq	#$18,d1
-		cmpi.w	#2,($FFFFFF70).w
-		bne.s	loc_3AF78
-		moveq	#4,d1
-
-loc_3AF78:				; CODE XREF: h+24000j
-		addq.b	#1,d0
-		cmp.w	d1,d0
-		bcs.s	loc_3AF80
-		moveq	#0,d0
-
-loc_3AF80:				; CODE XREF: h+24008j
-		move.b	d0,$36(a0)
-		cmpi.w	#2,($FFFFFF70).w
-		bne.s	loc_3AF94
-		move.b	byte_3AF9C(pc,d0.w),d0
-		jmp	LoadSonicDynPLC_Part2
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-
-loc_3AF94:				; CODE XREF: h+24016j
-		move.b	byte_3AFA0(pc,d0.w),d0
-		jmp	LoadTailsDynPLC_Part2
-; ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
-byte_3AF9C:	dc.b $2D		; 0
-		dc.b $2E		; 1
-		dc.b $2F		; 2
-		dc.b $30		; 3
-byte_3AFA0:	dc.b $10		; 0
-		dc.b $10		; 1
-		dc.b $10		; 2
-		dc.b $10		; 3
-		dc.b   1		; 4
-		dc.b   2		; 5
-		dc.b   3		; 6
-		dc.b   2		; 7
-		dc.b   1		; 8
-		dc.b   1		; 9
-		dc.b $10		; 10
-		dc.b $10		; 11
-		dc.b $10		; 12
-		dc.b $10		; 13
-		dc.b   1		; 14
-		dc.b   2		; 15
-		dc.b   3		; 16
-		dc.b   2		; 17
-		dc.b   1		; 18
-		dc.b   1		; 19
-		dc.b   4		; 20
-		dc.b   4		; 21
-		dc.b   1		; 22
-		dc.b   1		; 23
-word_3AFB8:	dc.w   $3E		; 0
-		dc.w $9758		; 1
-word_3AFBC:	dc.w   $3C		; 0
-		dc.w $9756		; 1
-word_3AFC0:	dc.w   $3A		; 0
-		dc.w $975C		; 1
-		dc.w   $3E		; 0
-		dc.w $975A		; 1
-off_3AFC8:	dc.l MapUnc_3AFF2	; 0
-		dc.w $8500
-		dc.w $404
-		dc.w $6000
-off_3AFD2:	dc.l MapUnc_39792
-		dc.w $561
-		dc.w $403
-		dc.w $4000
-off_3AFDC:	dc.w byte_3AFE0-off_3AFDC; 0
-		dc.w byte_3AFE6-off_3AFDC; 1
-byte_3AFE0:	dc.b   0,  0,  1,  2,  3,$FF; 0
-byte_3AFE6:	dc.b   0,  4,  5,  6,  7,$FF; 0
-off_3AFEC:	dc.w byte_3AFEE-off_3AFEC
-byte_3AFEE:	dc.b   0,  1,  2,$FF	; 0
-; -----------------------------------------------------------------------------
-; Unknown sprite mappings
-; -----------------------------------------------------------------------------
-MapUnc_3AFF2:
-		dc.w byte_3AFFE-byte_3AFEE; 0
-		dc.w byte_3B050-byte_3AFEE; 1
-		dc.w byte_3B0A2-byte_3AFEE; 2
-		dc.w byte_3B0F4-byte_3AFEE; 3
-		dc.w byte_3B146-byte_3AFEE; 4
-		dc.w byte_3B198-byte_3AFEE; 5
-byte_3AFFE:	dc.b   1,$FC,  2,$4E,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$A0,  1,$50,$FF,$D0,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$3F,  0,$1F,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-byte_3B050:	dc.b   0,$21,$FF,$F4,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$A0,  1,$50,$FF,$D0,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$46,  0,$23,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-byte_3B0A2:	dc.b   0,$21,$FF,$F4,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-					; DATA XREF: h+2407Eo
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$A0,  1,$50,$FF,$D0,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$49,  0,$24,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-byte_3B0F4:	dc.b   0,$21,$FF,$F4,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-					; DATA XREF: h+2407Eo
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$A0,  1,$50,$FF,$D0,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$4C,  0,$26,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-byte_3B146:	dc.b   0,$21,$FF,$F4,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-					; DATA XREF: h+2407Eo
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$80,  1,$40,$FF,$CE,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$3F,  0,$1F,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-byte_3B198:	dc.b   0,$21,$FF,$F4,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-					; DATA XREF: h+2407Eo
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$80,  1,$40,$FF,$CE,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$46,  0,$23,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-		dc.b   0,$21,$FF,$F4,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$80,  1,$40,$FF,$CE,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$49,  0,$24,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-		dc.b   0,$21,$FF,$F4,  0, $A,$F0, $B,  0,  0,  0,  0,$FF,$A0,$10,  8; 0
-		dc.b   0, $C,  0,  6,$FF,$A0,  3, $A,  0, $F,  0,  7,$FF,$B8,$F8,  9; 16
-		dc.b   2,$80,  1,$40,$FF,$CE,  8, $E,  0,$1E,  0, $F,$FF,$D0,$F8, $D; 32
-		dc.b   0,$2A,  0,$15,$FF,$E8,$F8,  0,  0,$32,  0,$19,  0,  8,  8, $E; 48
-		dc.b   0,$33,  0,$19,$FF,$F0,  8,  2,  0,$4C,  0,$26,  0,$10,$20,  5; 64
-		dc.b   0,$42		; 80
-		dc.b   0,$21,$FF,$F4	; 0
-; -----------------------------------------------------------------------------
-; Unknown sprite mappings
-; -----------------------------------------------------------------------------
-MapUnc_39792:				; DATA XREF: h+2405Eo h+2431Eo ...
-		dc.w word_39798-MapUnc_39792; 0
-		dc.w word_397AA-MapUnc_39792; 1
-		dc.w word_397C4-MapUnc_39792; 2
-word_39798:	dc.w 2			; DATA XREF: h+2431Eo
-		dc.w $F809,$2000,$2000,$FFE4; 0
-		dc.w $F80D,$2006,$2003,$FFFC; 4
-word_397AA:	dc.w 3			; DATA XREF: h+2431Eo
-		dc.w $F809,$2000,$2000,$FFE4; 0
-		dc.w $F80D,$2006,$2003,$FFFC; 4
-		dc.w $F80D,$400E,$4007,$FFC4; 8
-word_397C4:	dc.w 3			; DATA XREF: h+2431Eo
-		dc.w $F809,$2000,$2000,$FFE4; 0
-		dc.w $F80D,$2006,$2003,$FFFC; 4
-		dc.w $F805,$4016,$400B,$FFD4; 8
+; ---------------------------------------------------------------------------
+; Sprite mappings - The Tornado's Sign
+; ---------------------------------------------------------------------------
+Map_obj9A:
+	include "_maps\obj9A.asm"
 
 ; ----------------------------------------------------------------------------
 ; Sprite
@@ -8807,10 +8000,13 @@ LevSz_SonicPos:
 		move.w	(a1)+,d1
 		move.w	d1,($FFFFB008).w ; set Sonic's position on x-axis
 		move.w	d1,($FFFFB388).w ; set Sonic's position on x-axis
+		move.w	d1,($FFFFB408).w ; set Sonic's position on x-axis
 		moveq	#0,d0
 		move.w	(a1),d0
 		move.w	d0,($FFFFB00C).w ; set Sonic's position on y-axis
 		move.w	d0,($FFFFB38C).w ; set Sonic's position on y-axis
+		addi.w	#$20,d0
+		move.w	d0,($FFFFB40C).w ; set Sonic's position on x-axis
 		bra.s	LevSz_SonicPos3
 
 LevSz_SonicPos2:
@@ -9759,95 +8955,378 @@ _linear = $0400
 ; ===========================================================================
 
 Deform_Title:
-		moveq	#0,d4					; set no X movement redraw
-		move.w	($FFFFF70C).w,($FFFFF618).w		; save as VSRAM BG scroll position
+		lea	ParallaxScriptTitleBG,a1
+		lea	ParallaxScriptTitleFG,a3
+		jmp	ExecuteParallaxScriptTitle
 
-		move.w	($FFFFF700).w,d0			; load X position
-		move.w	#0,($FFFFA800).w			; set speed 1
+; ---------------------------------------------------------------
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#4,d0					; divide by 4
-		move.w	d0,($FFFFA802).w			; set speed 2
+ParallaxScriptTitleBG:
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#1,d0					; divide by 4
-		move.w	d0,($FFFFA804).w			; set speed 2
+_normal = $0000
+_linear = $0200
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#1,d0					; divide by 4
-		move.w	d0,($FFFFA806).w			; set speed 2
+	;	Mode	    	Speed coef.    	Number of lines
+	dc.w	_normal,    	$0000,		$38			; Sun
+	dc.w	_normal,    	$0010,		$30			; Clouds
+	dc.w	_normal,    	$0040,		8			; Grass
+	dc.w	_linear|$05,    $0040,		$50			; Water
+	dc.w	_normal,   		$0000,		$20			; Blank
+	dc.w	-1
 
-		move.w	($FFFFF700).w,d0			; load X position
-		move.w	#0,($FFFFA808).w			; set speed 2
+ParallaxScriptTitleFG:
 
-		lea	DTitleB(pc),a0			; load scroll data to use
-		bsr.w	DeformScroll2				; continue
+_normal = $0000
+_linear = $0200
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#3,d0					; divide by 4
-		move.w	d0,($FFFFA80A).w			; set speed 1
+	;	Mode	    	Speed coef.    	Number of lines
+	dc.w	_normal,    	$0018,		$48			; Clouds
+	dc.w	_normal,    	$0030,		$28			; Mountains
+	dc.w	_normal,    	$0060,		$10			; Islands 1
+	dc.w	_normal,   		$0080,		$10			; Islands 2
+	dc.w	_normal, 		$008C,		8			; Islands 3
+	dc.w	_normal, 		$009C,		8			; Islands 4
+	dc.w	_normal, 		$00D8,		$40			; Bushes
+	dc.w	-1
+; End of function Deform_Title
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#2,d0					; divide by 4
-		move.w	d0,d1				; divide by 4
-		asr.w	#1,d1
-		add.w	d1,d0
-		move.w	d0,($FFFFA80C).w			; set speed 2
+; ---------------------------------------------------------------
+; Main routine that runs the script
+; ---------------------------------------------------------------
+; INPUT:
+;	a1	Script
+; ---------------------------------------------------------------
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#1,d0					; divide by 4
-		move.w	d0,($FFFFA80E).w			; set speed 2
+ExecuteParallaxScriptTitle:
+	lea	($FFFFE000).w,a0
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#1,d0					; divide by 4
-		move.w	d0,($FFFFA810).w			; set speed 2
+	move.w	($FFFFF700).w,d0			; d0 = BG Position
+	moveq	#0,d7
+	
+@ProcessBlock:
+	move.b	(a1)+,d7			; load scrolling mode for the current block in script
+	bmi.s	@Return				; if end of list reached, branch
+	move.w	@ParallaxRoutines(pc,d7),d6
+	move.b	(a1)+,d7			; load scrolling mode parameter
+	jmp	@ParallaxRoutines(pc,d6)
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#1,d0					; divide by 4
-		move.w	d0,($FFFFA812).w			; set speed 2
+@Return:
+	lea	($FFFFE000).w,a0
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		asr.w	#1,d0					; divide by 4
-		move.w	d0,($FFFFA814).w			; set speed 2
+	move.w	($FFFFF700).w,d0			; d0 = BG Position
+	moveq	#0,d7
+	
+@ProcessBlock2:
+	move.b	(a3)+,d7			; load scrolling mode for the current block in script
+	bmi.s	@Return2				; if end of list reached, branch
+	move.w	@ParallaxRoutines2(pc,d7),d6
+	move.b	(a3)+,d7			; load scrolling mode parameter
+	jmp	@ParallaxRoutines2(pc,d6)
 
-		move.w	($FFFFF700).w,d0			; load X position
-		neg.w	d0					; reverse direction
-		move.w	d0,($FFFFA816).w			; set speed 2
+@Return2:
+	rts
 
-		lea	DTitleF(pc),a0			; load scroll data to use
-		bra.w	DeformScroll3				; continue
+; ---------------------------------------------------------------
+@ParallaxRoutines:
+	dc.w	@Parallax_Normal-@ParallaxRoutines
+	dc.w	@Parallax_Linear-@ParallaxRoutines
+
+@ParallaxRoutines2:
+	dc.w	@Parallax_Normal2-@ParallaxRoutines2
+	dc.w	@Parallax_Linear2-@ParallaxRoutines2
+
+; ---------------------------------------------------------------
+; Scrolling routine: Static solid block
+; ---------------------------------------------------------------
+; Input:
+;	d7	.w	$00PP, where PP is parameter
+;
+; Notice:
+;	Don't pollute the high byte of d7!
+;
+; ---------------------------------------------------------------
+
+@Parallax_Normal:
+	; Calculate positions
+	move.l	d0,d1				; d1 = X (16.16)
+	mulu.w	(a1)+,d1			; d1 = X*Coef (24.8)
+	lsl.l	#8,d1				; d1 = X*Coef (16.16)
+	swap	d1
+	neg.w	d1				; d1 = $00BB, where BB is -X*Coef
+
+	; Execute code according to number of lines set
+	move.w	(a1)+,d6			; d6 = N, where N is Number of lines
+	move.w	d6,d5				; d5 = N    
+	lsr.w	#5,d5				; d5 = N/32
+	andi.w	#31,d6				; d6 = N%32
+	neg.w	d6				; d6 = -N%32
+	add.w	#32,d6				; d6 = 32-N%32
+	add.w	d6,d6
+	add.w	d6,d6
+	jmp	@0(pc,d6)
+
+	; Main functional block (2 bytes per loop)
+@0	rept	32
+	addq.w	#2,a0
+	move.w	d1,(a0)+
+	endr
+	dbf	d5,@0
+
+	jmp	@ProcessBlock			; process next bloku!
+
+; ---------------------------------------------------------------
+; Scrolling routine: Linear Parallax / Psedo-surface
+; ---------------------------------------------------------------
+; Input:
+;	d7	.w	$00PP, where PP is parameter
+;
+; Notice:
+;	Don't pollute the high byte of d7!
+;
+; ---------------------------------------------------------------
+
+@Parallax_Linear:
+
+	; Calculate positions
+	move.l	d0,d1				; d1 = X (16.16)
+	mulu.w	(a1)+,d1			; d1 = X*Coef (24.8)
+	lsl.l	#8,d1				; d1 = X*Coef (16.16)
+	neg.l	d1				; d1 = Initial position
+	move.l	d1,d2
+	asr.l	d7,d2				; d2 = Linear factor
+
+	; Execute code according to number of lines set
+	move.w	(a1)+,d6			; d6 = N, where N is Number of lines
+	move.w	d6,d5				; d5 = N    
+	lsr.w	#4,d5				; d5 = N/16
+	andi.w	#15,d6				; d6 = N%16
+	neg.w	d6				; d6 = -N%16
+	add.w	#16,d6				; d6 = 16-N%16
+	move.w	d6,d4
+	add.w	d6,d6
+	add.w	d6,d6
+	add.w	d4,d6
+	add.w	d6,d6
+	jmp	@1(pc,d6)
+
+	; Main functional block (10 bytes per loop)
+@1	rept	16
+	swap	d1
+	addq.l	#2,a0
+	move.w	d1,(a0)+
+	swap	d1
+	add.l	d2,d1
+	endr
+	dbf	d5,@1
+
+	jmp	@ProcessBlock			; process next bloku!
+
+; ---------------------------------------------------------------
+; Scrolling routine: Static solid block
+; ---------------------------------------------------------------
+; Input:
+;	d7	.w	$00PP, where PP is parameter
+;
+; Notice:
+;	Don't pollute the high byte of d7!
+;
+; ---------------------------------------------------------------
+
+@Parallax_Normal2:
+	; Calculate positions
+	move.l	d0,d1				; d1 = X (16.16)
+	mulu.w	(a3)+,d1			; d1 = X*Coef (24.8)
+	lsl.l	#8,d1				; d1 = X*Coef (16.16)
+	swap	d1
+	neg.w	d1				; d1 = $00BB, where BB is -X*Coef
+
+	; Execute code according to number of lines set
+	move.w	(a3)+,d6			; d6 = N, where N is Number of lines
+	move.w	d6,d5				; d5 = N    
+	lsr.w	#5,d5				; d5 = N/32
+	andi.w	#31,d6				; d6 = N%32
+	neg.w	d6				; d6 = -N%32
+	add.w	#32,d6				; d6 = 32-N%32
+	add.w	d6,d6
+	add.w	d6,d6
+	jmp	@2(pc,d6)
+
+	; Main functional block (2 bytes per loop)
+@2	rept	32
+	move.w	d1,(a0)+
+	addq.l	#2,a0
+	endr
+	dbf	d5,@2
+
+	jmp	@ProcessBlock2			; process next bloku!
+
+; ---------------------------------------------------------------
+; Scrolling routine: Linear Parallax / Psedo-surface
+; ---------------------------------------------------------------
+; Input:
+;	d7	.w	$00PP, where PP is parameter
+;
+; Notice:
+;	Don't pollute the high byte of d7!
+;
+; ---------------------------------------------------------------
+
+@Parallax_Linear2:
+
+	; Calculate positions
+	move.l	d0,d1				; d1 = X (16.16)
+	mulu.w	(a3)+,d1			; d1 = X*Coef (24.8)
+	lsl.l	#8,d1				; d1 = X*Coef (16.16)
+	neg.l	d1				; d1 = Initial position
+	move.l	d1,d2
+	asr.l	d7,d2				; d2 = Linear factor
+
+	; Execute code according to number of lines set
+	move.w	(a3)+,d6			; d6 = N, where N is Number of lines
+	move.w	d6,d5				; d5 = N    
+	lsr.w	#4,d5				; d5 = N/16
+	andi.w	#15,d6				; d6 = N%16
+	neg.w	d6				; d6 = -N%16
+	add.w	#16,d6				; d6 = 16-N%16
+	move.w	d6,d4
+	add.w	d6,d6
+	add.w	d6,d6
+	add.w	d4,d6
+	add.w	d6,d6
+	jmp	@3(pc,d6)
+
+	; Main functional block (10 bytes per loop)
+@3	rept	16
+	swap	d1
+	move.w	d1,(a0)+
+	addq.l	#2,a0
+	swap	d1
+	add.l	d2,d1
+	endr
+	dbf	d5,@3
+
+	jmp	@ProcessBlock2			; process next bloku!
+
+	;	moveq	#0,d4					; set no X movement redraw
+	;	move.w	($FFFFF70C).w,($FFFFF618).w		; save as VSRAM BG scroll position
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	move.w	#0,($FFFFA800).w			; set speed 1
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#4,d0					; divide by 4
+	;	move.w	d0,($FFFFA802).w			; set speed 2
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#1,d0					; divide by 4
+	;	move.w	d0,($FFFFA804).w			; set speed 2
+
+	;	lea	($FFFFE1C0).w,a0			; load H-scroll buffer
+	;	move.l	($FFFFF700).w,d1	; d1 = X (16.16)
+	;	swap	d1				; d1 = X (Int)
+	;	mulu.w	#1,d1			; d1 = X*Coef (24.8)
+	;	lsl.l	#8,d1				; d1 = X*Coef (16.16)
+	;	neg.l	d1				; d1 = Initial position
+	;	move.l	d1,d2
+	;	asr.l	#1,d2				; d2 = Linear factor
+
+	;	move.w	($FFFFF700).w,d3
+	;	neg.w	d3
+	;	swap	d3
+
+	; Execute code according to number of lines set
+	;	move.w	#$50,d6			; d6 = N, where N is Number of lines
+	;	move.w	d6,d5				; d5 = N    
+	;	lsr.w	#4,d5				; d5 = N/16
+	;	andi.w	#15,d6				; d6 = N%16
+	;	neg.w	d6				; d6 = -N%16
+	;	add.w	#16,d6				; d6 = 16-N%16
+	;	move.w	d6,d4
+	;	add.w	d6,d6
+	;	add.w	d6,d6
+	;	add.w	d4,d6
+	;	add.w	d6,d6
+	;	jmp	@1(pc,d6)
+
+	; Main functional block (10 bytes per loop)
+;@1		rept	16
+	;	swap	d1
+	;	move.w	d1,d3
+	;	move.l	d3,(a0)+
+	;	swap	d1
+	;	add.l	d2,d1
+	;	endr
+	;	dbf	d5,@1
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	move.w	#0,($FFFFA808).w			; set speed 2
+
+	;	lea	DTitleB(pc),a0			; load scroll data to use
+	;	bsr.w	DeformScroll2				; continue
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#3,d0					; divide by 4
+	;	move.w	d0,($FFFFA80A).w			; set speed 1
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#2,d0					; divide by 4
+	;	move.w	d0,d1				; divide by 4
+	;	asr.w	#1,d1
+	;	add.w	d1,d0
+	;	move.w	d0,($FFFFA80C).w			; set speed 2
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#1,d0					; divide by 4
+	;	move.w	d0,($FFFFA80E).w			; set speed 2
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#1,d0					; divide by 4
+	;	move.w	d0,($FFFFA810).w			; set speed 2
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#1,d0					; divide by 4
+	;	move.w	d0,($FFFFA812).w			; set speed 2
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	asr.w	#1,d0					; divide by 4
+	;	move.w	d0,($FFFFA814).w			; set speed 2
+
+	;	move.w	($FFFFF700).w,d0			; load X position
+	;	neg.w	d0					; reverse direction
+	;	move.w	d0,($FFFFA816).w			; set speed 2
+
+	;	lea	DTitleF(pc),a0			; load scroll data to use
+	;	bra.w	DeformScroll3				; continue
 
 ; ---------------------------------------------------------------------------
 ; Scroll data
 ; ---------------------------------------------------------------------------
 
-DTitleB:	dc.w	$A800,  $38				; Sun
-		dc.w	$A802,  $20				; Clouds
-		dc.w	$A804,  $18				; Grass
-		dc.w	$A806,  $50				; Water
-		dc.w	$A808,  $20				; Blank
-		dc.w	$0000
+DTitleB:;	dc.w	$A800,  $38				; Sun
+	;	dc.w	$A802,  $20				; Clouds
+	;	dc.w	$A804,  $18				; Grass
+	;	dc.w	$A806,  $50				; Water
+	;	dc.w	$A808,  $20				; Blank
+	;	dc.w	$0000
 
-DTitleF:	dc.w	$A80A,  $48				; Clouds
-		dc.w	$A80C,  $28				; Mountains
-		dc.w	$A80E,  $10				; Islands 1
-		dc.w	$A810,  $10				; Islands 2
-		dc.w	$A812,  8				; Islands 3
-		dc.w	$A814,  8				; Islands 4
-		dc.w	$A816,  $40				; Bushes
-		dc.w	$0000
+DTitleF:;	dc.w	$A80A,  $48				; Clouds
+	;	dc.w	$A80C,  $28				; Mountains
+	;	dc.w	$A80E,  $10				; Islands 1
+	;	dc.w	$A810,  $10				; Islands 2
+	;	dc.w	$A812,  8				; Islands 3
+	;	dc.w	$A814,  8				; Islands 4
+	;	dc.w	$A816,  $40				; Bushes
+	;	dc.w	$0000
 
-;		lea	ParallaxScriptTitle,a1
-;		jmp	ExecuteParallaxScript
+
 
 ; ---------------------------------------------------------------
 
@@ -13326,7 +12805,7 @@ Obj11_ChkDel:				; XREF: Obj11_Display; Obj11_Action2
 		cmpi.w	#$280,d0
 		bls.s	Obj11_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj11_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj11_DelAll	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj11_DelAll
@@ -13661,7 +13140,7 @@ Obj15_ChkDel:				; XREF: Obj15_Action; Obj15_Action2
 		cmpi.w	#$280,d0
 		bls.s	Obj15_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj15_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj15_DelAll	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj15_DelAll
@@ -13813,7 +13292,7 @@ Obj17_ChkDel:				; XREF: Obj17_Action
 		cmpi.w	#$280,d0
 		bls.s	Obj17_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj17_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj17_DelAll	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj17_DelAll
@@ -14226,7 +13705,7 @@ Obj18_ChkDel:				; XREF: Obj18_Action; Obj18_Action2
 		cmpi.w	#$280,d0
 		bls.s	Obj18_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj18_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj18_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj18_Delete
@@ -14713,15 +14192,12 @@ Obj1C_ChkDel:				; XREF: Obj1C_Index
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj1C_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj1C_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		jmp		DeleteObject
-
-Obj1C_Done:
-		bra.w	DisplaySprite
+		bra.w	DeleteObject
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Variables for	object $1C are stored in an array
@@ -14790,7 +14266,7 @@ Obj1D_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj1D_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj1D_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj1D_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj1D_Delete
@@ -16826,7 +16302,6 @@ loc_172B0:
 
 loc_172B1:
 	move.w	d5,($FFFFF712).w
-	move.w	#0,($FFFFF716).w	; no idea what this is
 	rts
 	
 ; ===========================================================================
@@ -17351,7 +16826,6 @@ Obj26_Main:				; XREF: Obj26_Index
 		move.b	#$F,$14(a0)
 		move.w  $1E(a0),d0    ; get address in respawn table
     	movea.w d0,a2   ; load address into a2
-    	bclr    #7,(a2) ; clear respawn entry, so object can be loaded again
 		btst	#0,(a2)	; has monitor been broken?
 		beq.s	Obj26_NotBroken	; if not, branch
 		move.b	#8,$24(a0)	; run "Obj26_Display" routine
@@ -17412,7 +16886,7 @@ Obj26_Display:				; XREF: Obj26_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj26_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj26_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -18583,7 +18057,7 @@ loc_B0C6:
 		cmpi.w	#$280,d0
 		bls.s	Obj2F_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj2F_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -18745,15 +18219,11 @@ Obj30:					; XREF: Obj_Index
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj30_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj30_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj30_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		bra.s	Obj30_Delete
-
-Obj30_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 
 Obj30_Delete:
@@ -19410,7 +18880,7 @@ Obj45_ChkDel:				; XREF: Obj45_Solid
 		cmpi.w	#$280,d0
 		bls.s	Obj45_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj45_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -19557,7 +19027,7 @@ Obj32_Display:
 		cmpi.w	#$280,d0
 		bls.s	Obj32_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj32_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj32_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj32_Delete
@@ -19741,7 +19211,7 @@ loc_BFC6:
 		cmpi.w	#$280,d0
 		bls.s	Obj33_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj33_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -19758,14 +19228,7 @@ loc_BFE6:
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj33_Done2
-		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj33_Done2	; if it's zero, object was placed in debug mode
-		movea.w	d0,a2	; load address into a2
-		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		bra.w	DeleteObject
-
-Obj33_Done2:
+		bhi.s	loc_C016
 		move.w	$34(a0),8(a0)
 		move.w	$36(a0),$C(a0)
 		move.b	#4,$24(a0)
@@ -21052,7 +20515,7 @@ Obj3B_Solid:				; XREF: Obj3B_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj3B_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj3B_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -21213,7 +20676,7 @@ Obj49_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj49_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj49_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -21509,11 +20972,11 @@ Obj_Index:
 
 
 ObjectFall:
-		move.b	0(a0),d0
+		move.b	(a0),d0
 		move.b	($FFFFB000).w,d1
 		cmp.b 	d0,d1 ; is Sonic object?
 		bne.s   ObjectFall_NotSonic	 ; if is, branch
-		cmpi.b 	#0,$1A(a0) ; is running/walking animation?
+		cmpi.b 	#0,$1C(a0) ; is running/walking animation?
 		bne.s   ObjectFall_NotSonic  ; if not, dont make rolling ani (to prevent from being in rolling ani when died, jumped from spring, etc.)
 		move.b #$C,$1C(a0)  ; use falling animation
 		bset #2,$22(a0)			  ; set in air flag, to enable in air moves
@@ -22077,10 +21540,6 @@ OPL6:    move.l    a0,($FFFFF774).w    ; remember current object from the left
 ObjPosLoad_Main:
         ; get coarse camera position
 
-        move.w    ($FFFFF700).w,d1
-        subi.w    #$80,d1
-        andi.w    #$FF80,d1
-        move.w    d1,($FFFFFFEA).w
         tst.w    ($FFFFF72E).w    ; does this level y-wrap?
         bpl.s    ObjMan_Main_NoYWrap    ; if not, branch
         lea    (ChkLoadObj_YWrap).l,a6    ; set object loading routine
@@ -22256,7 +21715,7 @@ OPL15:    ; check, if current object needs to be loaded
         move.w    d1,d2
         and.w    d5,d1    ; get object's y position
         move.w    d1,$C(a1)
-        rol.w    #2,d2
+        rol.w    #3,d2
         andi.w    #3,d2    ; get object's render flags and status
         move.b    d2,1(a1)
         move.b    d2,$22(a1)
@@ -22319,7 +21778,7 @@ LoadObj_YWrap:
         bset    #7,(a3)    ; mark object as loaded
         move.w    d7,8(a1)
         move.w    d1,$C(a1)
-        rol.w    #2,d2    ; adjust bits
+        rol.w    #3,d2    ; adjust bits
         andi.w    #3,d2    ; get render flags and status
         move.b    d2,1(a1)
         move.b    d2,$22(a1)
@@ -22356,7 +21815,7 @@ LoadObj:
         bset    #7,(a3)    ; mark object as loaded
         move.w    d7,8(a1)
         move.w    d1,$C(a1)
-        rol.w    #2,d2    ; adjust bits
+        rol.w    #3,d2    ; adjust bits
         andi.w    #3,d2    ; get render flags and status
         move.b    d2,1(a1)
         move.b    d2,$22(a1)
@@ -22397,7 +21856,7 @@ locret_DAA0:
 
 SingleObjLoad2:
 		movea.l	a0,a1
-		move.w	#-$1000,d0
+		move.w	#$D000,d0
 		sub.w	a0,d0
 		lsr.w	#6,d0
 		subq.w	#1,d0
@@ -23486,7 +22945,7 @@ Obj44_Display:				; XREF: Obj44_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj44_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj44_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -23622,13 +23081,13 @@ Obj14_ChkDel:				; XREF: Obj13
 		cmpi.w	#$280,d0
 		bls.s	Obj14_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj14_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
 
 Obj14_Done:
-		rts	
+		rts
 ; ===========================================================================
 Obj14_TypeIndex:dc.w Obj14_Type00-Obj14_TypeIndex, Obj14_Type00-Obj14_TypeIndex
 		dc.w Obj14_Type00-Obj14_TypeIndex, Obj14_Type00-Obj14_TypeIndex
@@ -23788,15 +23247,12 @@ Obj6D_ChkDel:
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj6D_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj6D_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj6D_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 Ani_obj6D:
 	include "_anim\obj6D.asm"
@@ -23869,7 +23325,7 @@ Obj46_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj46_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj46_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -23985,7 +23441,7 @@ Obj12_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj12_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj12_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -24068,14 +23524,7 @@ Obj47_Display:
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj47_Done
-		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj47_Done	; if it's zero, object was placed in debug mode
-		movea.w	d0,a2	; load address into a2
-		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		bra.s	Obj47_ChkHit
-
-Obj47_Done:
+		bhi.w	Obj47_ChkHit
 		bra.w	DisplaySprite
 ; ===========================================================================
 
@@ -24118,7 +23567,7 @@ Obj0D:					; XREF: Obj_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj0D_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj0D_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -24485,7 +23934,7 @@ Obj4D_ChkDel:				; XREF: Obj4C
 		cmpi.w	#$280,d0
 		bls.s	Obj4D_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj4D_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -24670,12 +24119,7 @@ Obj4E_ChkDel:
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj4E_Done
-		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj4E_Done	; if it's zero, object was placed in debug mode
-		movea.w	d0,a2	; load address into a2
-		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		bra.w	DeleteObject
+		bhi.s	Obj4E_ChkGone
 
 Obj4E_Done:
 		rts	
@@ -25889,15 +25333,12 @@ Obj52_ChkDel:				; XREF: Obj52_Platform
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj52_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj52_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj52_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 
 Obj52_Move:				; XREF: Obj52_Platform; Obj52_StandOn
@@ -26006,7 +25447,7 @@ Obj52_07_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj52_Done2
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj52_Done2	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -26359,15 +25800,12 @@ Obj56_ChkDel:
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj56_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj56_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj56_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 Obj56_TypeIndex:dc.w Obj56_Type00-Obj56_TypeIndex, Obj56_Type01-Obj56_TypeIndex
 		dc.w Obj56_Type02-Obj56_TypeIndex, Obj56_Type03-Obj56_TypeIndex
@@ -26859,15 +26297,11 @@ Obj57_ChkDel:				; XREF: Obj57_Move
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj57_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj57_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj57_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		bra.s	Obj57_Delete
-
-Obj57_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 
 Obj57_Delete:				; XREF: Obj57_ChkDel
@@ -26952,15 +26386,12 @@ Obj58_Move:				; XREF: Obj58_Index
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj58_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj58_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj58_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 Obj58_TypeIndex:dc.w Obj58_Type00-Obj58_TypeIndex
 		dc.w Obj58_Type01-Obj58_TypeIndex
@@ -27047,15 +26478,12 @@ Obj59:					; XREF: Obj_Index
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj59_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj59_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj59_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 Obj59_Index:	dc.w Obj59_Main-Obj59_Index
 		dc.w Obj59_Platform-Obj59_Index
@@ -27296,7 +26724,7 @@ Obj59_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj59_Done2
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj59_Done2	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -27327,15 +26755,12 @@ Obj5A:					; XREF: Obj_Index
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj5A_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj5A_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj5A_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 Obj5A_Index:	dc.w Obj5A_Main-Obj5A_Index
 		dc.w Obj5A_Platform-Obj5A_Index
@@ -27456,15 +26881,12 @@ Obj5B:					; XREF: Obj_Index
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj5B_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj5B_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj5B_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 Obj5B_Index:	dc.w Obj5B_Main-Obj5B_Index
 		dc.w Obj5B_Move-Obj5B_Index
@@ -27987,10 +27409,10 @@ Obj71_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj71_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj71_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj71_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		bra.w	Obj71_Delete
+		bra.s	Obj71_Delete
 
 Obj71_Done:
 		tst.w	($FFFFFE08).w	; are you using	debug mode?
@@ -28117,7 +27539,7 @@ Obj5D_ChkDel:				; XREF: Obj5D_Animate
 		cmpi.w	#$280,d0
 		bls.s	Obj5D_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj5D_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -29034,15 +28456,12 @@ Obj61_ChkDel:
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj61_Done
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj61_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
-
-Obj61_Done:
-		bra.w	DisplaySprite
 ; ===========================================================================
 Obj61_TypeIndex:dc.w Obj61_Type00-Obj61_TypeIndex, Obj61_Type01-Obj61_TypeIndex
 		dc.w Obj61_Type02-Obj61_TypeIndex, Obj61_Type01-Obj61_TypeIndex
@@ -29293,6 +28712,7 @@ Map_obj62:
 ; ---------------------------------------------------------------------------
 
 Obj63:					; XREF: Obj_Index
+		rts
 		moveq	#0,d0
 		move.b	$24(a0),d0
 		move.w	Obj63_Index(pc,d0.w),d1
@@ -29304,22 +28724,18 @@ Obj63:					; XREF: Obj_Index
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bls.s	Obj63_Display
+		bls.w	DisplaySprite
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj63_Display	; if it's zero, object was placed in debug mode
+		beq.s	loc_1236A	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
-		bra.s	loc_1236A
-
-Obj63_Display:				; XREF: loc_1236A
-		bra.w	DisplaySprite
 ; ===========================================================================
 
 loc_1236A:				; XREF: Obj63
 		cmpi.b	#2,($FFFFFE11).w
 		bne.s	loc_12378
 		cmpi.w	#-$80,d0
-		bcc.s	Obj63_Display
+		bcc.w	DisplaySprite
 
 loc_12378:
 		move.b	$2F(a0),d0
@@ -29402,7 +28818,7 @@ loc_12460:				; XREF: Obj63_Main
 		bne.w	DeleteObject
 		add.w	d0,d0
 		andi.w	#$1E,d0
-		lea	(ObjPos_TJZxpf_Index).l,a2
+		;lea	(ObjPos_TJZxpf_Index).l,a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d1
 		movea.l	a0,a1
@@ -29667,7 +29083,7 @@ Obj64_Wobble:				; XREF: Obj64_ChkWater
 		btst	#6,($FFFFFE2C).w	; does Sonic have a bubble shield?
 		bne.s	locret_2FC7C	; if so, branch
 
-		bsr.w	ResumeMusic	; cancel countdown music
+		jsr	ResumeMusic	; cancel countdown music
 		move.w	#$38,d0
 		jsr	(PlaySound_Special).l ;	play collecting	bubble sound
 		lea	($FFFFB000).w,a1
@@ -29811,7 +29227,7 @@ Obj64_ChkDel:				; XREF: Obj64_BblMaker
 		cmpi.w	#$280,d0
 		bls.s	Obj64_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj64_Done	; if it's zero, object was placed in debug mode
+		beq.w	DeleteObject	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.w	DeleteObject
@@ -30158,8 +29574,8 @@ Obj01_Control:				; XREF: Obj01_Index
 ; ===========================================================================
 
 loc_12C58:
-		tst.b	($FFFFF7CC).w	; are controls locked?
-		bne.s	loc_12C62	; if yes, branch
+		tst.b	($FFFFF674).w	; are controls locked?
+		bne.s	loc_12C64	; if yes, branch
 		move.w	($FFFFF606).w,($FFFFF670).w ; enable joypad control
 
 loc_12C62:
@@ -30280,7 +29696,7 @@ Obj01_ExitChk:
 
 ; loc_1BAD4:
 CPU_Control: ; a0=Tails
-	move.b	($FFFFF606).w,d0	; did the real player 2 hit something?
+	move.b	($FFFFF670).w,d0	; did the real player 2 hit something?
 	andi.b	#$7F,d0
 	beq.s	CPU1			; if not, branch
 	move.w	#600,($FFFFF672).w ; give player 2 control for 10 seconds (minimum)
@@ -30827,7 +30243,7 @@ Obj01_MdNormal:				; XREF: Obj01_Modes
 		bsr.w	Sonic_Roll
 		bsr.w	Sonic_LevelBound
 		jsr	SpeedToPos
-		bsr.w	Sonic_AnglePos
+		jsr	Sonic_AnglePos
 		bsr.w	Sonic_SlopeRepel
 		rts	
 ; ===========================================================================
@@ -30854,7 +30270,7 @@ Obj01_MdRoll:				; XREF: Obj01_Modes
 		bsr.w	Sonic_RollSpeed
 		bsr.w	Sonic_LevelBound
 		jsr	SpeedToPos
-		bsr.w	Sonic_AnglePos
+		jsr	Sonic_AnglePos
 		bsr.w	Sonic_SlopeRepel
 		rts	
 ; ===========================================================================
@@ -30999,7 +30415,7 @@ Sonic_BalanceBackward:
 
 Sonic_LookUp:
 		btst	#7,$22(a0)
-		bne.s	Obj01_ResetScr
+		bne.s	Sonic_LookUp2
 		btst	#0,($FFFFF602).w ; is up being pressed?
 		bra.s	Sonic_LookUp3
 
@@ -31009,6 +30425,8 @@ Sonic_LookUp2:
 Sonic_LookUp3:
 		beq.s	Sonic_Duck	; if not, branch
 		move.b	#7,$1C(a0)	; use "looking up" animation
+		btst	#7,$22(a0)
+		bne.w	loc_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmp.b	#$78,($FFFFC903).w
 		bcs.s	Obj01_ResetScr_Part2
@@ -31031,6 +30449,8 @@ Sonic_Duck2:
 Sonic_Duck3:
 		beq.s	Obj01_ResetScr	; if not, branch
 		move.b	#8,$1C(a0)	; use "ducking"	animation
+		btst	#7,$22(a0)
+		bne.s	loc_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmpi.b	#$78,($FFFFC903).w
 		bcs.s	Obj01_ResetScr_Part2
@@ -31043,11 +30463,11 @@ Sonic_Duck3:
 ; ===========================================================================
  
 Obj01_ResetScr:
+		btst	#7,$22(a0)
+		bne.s	loc_12FC4
 		move.b	#0,($FFFFC903).w
  
 Obj01_ResetScr_Part2:
-		btst	#7,$22(a0)
-		bne.s	loc_12FC4
 		cmpi.w	#$60,($FFFFF73E).w ; is	screen in its default position?
 		beq.s	loc_12FC2	; if yes, branch
 		bcc.s	loc_12FBE
@@ -31130,7 +30550,7 @@ loc_13024:
 		move.b	$26(a0),d0
 		add.b	d1,d0
 		move.w	d0,-(sp)
-		bsr.w	Sonic_WalkSpeed
+		jsr	Sonic_WalkSpeed
 		move.w	(sp)+,d0
 		tst.w	d1
 		bpl.s	locret_1307C
@@ -31566,6 +30986,8 @@ Boundary_Bottom_locret:
 ; ===========================================================================
 
 Boundary_Sides:
+		tst.w	($FFFFF7CC).w
+		bne.s	loc_13336
 		move.w	d0,8(a0)
 		move.w	#0,$A(a0)
 		move.w	#0,$10(a0)	; stop Sonic moving
@@ -31658,7 +31080,7 @@ Sonic_Jump3:
 		moveq	#0,d0
 		move.b	$26(a0),d0
 		addi.b	#$80,d0
-		bsr.w	sub_14D48
+		jsr	sub_14D48
 		cmpi.w	#6,d1
 		blt.w	locret_1348E
 		move.w	#$680,d2
@@ -32211,14 +31633,14 @@ Sonic_Floor:				; XREF: Obj01_MdJump; Obj01_MdJump2
 		beq.w	loc_136E2
 		cmpi.b	#-$40,d0
 		beq.w	loc_1373E
-		bsr.w	Sonic_HitWall
+		jsr	Sonic_HitWall
 		tst.w	d1
 		bpl.s	loc_135F0
 		sub.w	d1,8(a0)
 		move.w	#0,$10(a0)
 
 loc_135F0:
-		bsr.w	sub_14EB4
+		jsr	sub_14EB4
 		tst.w	d1
 		bpl.s	loc_13602
 		add.w	d1,8(a0)
@@ -32233,7 +31655,7 @@ loc_13602_0:
 		exg d0,d2           ; * D as base Ypos
         add.w   $C(a0),d2      ; * add ypos
         move.w  8(a0),d3      ; * get xpos
-        bsr.w   Sonic_HitFloor2     ; * check
+        jsr   Sonic_HitFloor2     ; * check
         tst.w   d1          ; * success?
         bmi.s   loc_13602_1          ; * yes, branch
         subi.w  #$10,(sp)       ; * set D to previous $10 pixels
@@ -32291,7 +31713,7 @@ locret_1367E:
 ; ===========================================================================
 
 loc_13680:
-		bsr.w	Sonic_HitWall
+		jsr	Sonic_HitWall
 		tst.w	d1
 		bpl.s	loc_1369A
 		sub.w	d1,8(a0)
@@ -32301,7 +31723,7 @@ loc_13680:
 ; ===========================================================================
 
 loc_1369A:
-		bsr.w	Sonic_DontRunOnWalls
+		jsr	Sonic_DontRunOnWalls
 		tst.w	d1
 		bpl.s	loc_136B4
 		sub.w	d1,$C(a0)
@@ -32316,7 +31738,7 @@ locret_136B2:
 loc_136B4:
 		tst.w	$12(a0)
 		bmi.s	locret_136E0
-		bsr.w	Sonic_HitFloor
+		jsr	Sonic_HitFloor
 		tst.w	d1
 		bpl.s	locret_136E0
 		add.w	d1,$C(a0)
@@ -32331,21 +31753,21 @@ locret_136E0:
 ; ===========================================================================
 
 loc_136E2:
-		bsr.w	Sonic_HitWall
+		jsr	Sonic_HitWall
 		tst.w	d1
 		bpl.s	loc_136F4
 		sub.w	d1,8(a0)
 		move.w	#0,$10(a0)
 
 loc_136F4:
-		bsr.w	sub_14EB4
+		jsr	sub_14EB4
 		tst.w	d1
 		bpl.s	loc_13706
 		add.w	d1,8(a0)
 		move.w	#0,$10(a0)
 
 loc_13706:
-		bsr.w	Sonic_DontRunOnWalls
+		jsr	Sonic_DontRunOnWalls
 		tst.w	d1
 		bpl.s	locret_1373C
 		sub.w	d1,$C(a0)
@@ -32370,7 +31792,7 @@ locret_1373C:
 ; ===========================================================================
 
 loc_1373E:
-		bsr.w	sub_14EB4
+		jsr	sub_14EB4
 		tst.w	d1
 		bpl.s	loc_13758
 		add.w	d1,8(a0)
@@ -32380,7 +31802,7 @@ loc_1373E:
 ; ===========================================================================
 
 loc_13758:
-		bsr.w	Sonic_DontRunOnWalls
+		jsr	Sonic_DontRunOnWalls
 		tst.w	d1
 		bpl.s	loc_13772
 		sub.w	d1,$C(a0)
@@ -32395,7 +31817,7 @@ locret_13770:
 loc_13772:
 		tst.w	$12(a0)
 		bmi.s	locret_1379E
-		bsr.w	Sonic_HitFloor
+		jsr	Sonic_HitFloor
 		tst.w	d1
 		bpl.s	locret_1379E
 		add.w	d1,$C(a0)
@@ -32631,6 +32053,40 @@ Silver_ROFEnd:
 		rts	
 
 ; End of function Silver_ResetOnFloor
+
+; ---------------------------------------------------------------------------
+; Subroutine to	reset Shadow's mode when he lands on the floor
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_ResetOnFloor:			; XREF: PlatformObject; et al
+		btst	#4,$22(a0)
+		beq.s	loc5_137AE
+		nop
+		nop
+		nop
+		nop
+		nop
+
+loc5_137AE:
+		bclr	#5,$22(a0)
+		bclr	#1,$22(a0)
+		bclr	#4,$22(a0)
+		btst	#2,$22(a0)
+		beq.s	loc5_137E4
+		bclr	#2,$22(a0)
+		move.b	#$13,$16(a0)
+		move.b	#9,$17(a0)
+		move.b	#0,$1C(a0)	; use running/walking animation
+		subq.w	#5,$C(a0)
+
+loc5_137E4:
+		move.b	#0,$3C(a0)
+		move.w	#0,($FFFFF7D0).w
+		rts	
+; End of function Knuckles_ResetOnFloor
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -32993,8 +32449,8 @@ Obj02_Control:				; XREF: Obj02_Index
 ; ===========================================================================
 
 loc2_12C58:
-		tst.b	($FFFFF7CC).w	; are controls locked?
-		bne.s	loc2_12C62	; if yes, branch
+		tst.b	($FFFFF674).w	; are controls locked?
+		bne.s	loc2_12C64	; if yes, branch
 		move.w	($FFFFF606).w,($FFFFF670).w ; enable joypad control
 
 loc2_12C62:
@@ -33337,9 +32793,9 @@ Silver_LookUp2:
 
 Silver_LookUp3:
 		beq.s	Silver_Duck	; if not, branch
-		cmpi.b	#9,$E ; is up being pressed?
-		beq.s	Silver_Duck	; if not, branch
 		move.b	#7,$1C(a0)	; use "looking up" animation
+		btst	#7,$22(a0)
+		bne.w	loc2_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmp.b	#$78,($FFFFC903).w
 		bcs.s	Obj02_ResetScr_Part2
@@ -33362,6 +32818,8 @@ Silver_Duck2:
 Silver_Duck3:
 		beq.s	Obj02_ResetScr	; if not, branch
 		move.b	#8,$1C(a0)	; use "ducking"	animation
+		btst	#7,$22(a0)
+		bne.s	loc2_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmpi.b	#$78,($FFFFC903).w
 		bcs.s	Obj02_ResetScr_Part2
@@ -33373,6 +32831,8 @@ Silver_Duck3:
 ; ===========================================================================
  
 Obj02_ResetScr:
+		btst	#7,$22(a0)
+		bne.s	loc2_12FC4
 		move.b	#0,($FFFFC903).w
  
 Obj02_ResetScr_Part2:
@@ -35365,8 +34825,8 @@ obj8E_Control:				; XREF: obj8E_Index
 ; ===========================================================================
 
 loc3_12C58:
-		tst.b	($FFFFF7CC).w	; are controls locked?
-		bne.s	loc3_12C62	; if yes, branch
+		tst.b	($FFFFF674).w	; are controls locked?
+		bne.s	loc3_12C64	; if yes, branch
 		move.w	($FFFFF606).w,($FFFFF670).w ; enable joypad control
 
 loc3_12C62:
@@ -35730,6 +35190,8 @@ Shadow_LookUp2:
 Shadow_LookUp3:
 		beq.s	Shadow_Duck	; if not, branch
 		move.b	#7,$1C(a0)	; use "looking up" animation
+		btst	#7,$22(a0)
+		bne.w	loc3_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmp.b	#$78,($FFFFC903).w
 		bcs.s	obj8E_ResetScr_Part2
@@ -35752,6 +35214,8 @@ Shadow_Duck2:
 Shadow_Duck3:
 		beq.s	obj8E_ResetScr	; if not, branch
 		move.b	#8,$1C(a0)	; use "ducking"	animation
+		btst	#7,$22(a0)
+		bne.s	loc3_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmpi.b	#$78,($FFFFC903).w
 		bcs.s	obj8E_ResetScr_Part2
@@ -35763,11 +35227,11 @@ Shadow_Duck3:
 ; ===========================================================================
  
 obj8E_ResetScr:
+		btst	#7,$22(a0)
+		bne.s	loc3_12FC4
 		move.b	#0,($FFFFC903).w
  
 obj8E_ResetScr_Part2:
-		btst	#7,$22(a0)
-		bne.s	loc3_12FC4
 		cmpi.w	#$60,($FFFFF73E).w ; is	screen in its default position?
 		beq.s	loc3_12FC2	; if yes, branch
 		bcc.s	loc3_12FBE
@@ -37843,8 +37307,8 @@ Obj95_Control:				; XREF: Obj95_Index
 ; ===========================================================================
 
 loc4_12C58:
-		tst.b	($FFFFF7CC).w	; are controls locked?
-		bne.s	loc4_12C62	; if yes, branch
+		tst.b	($FFFFF674).w	; are controls locked?
+		bne.s	loc4_12C64	; if yes, branch
 		move.b	#0,$2F(a0)
 		move.w	($FFFFF606).w,($FFFFF670).w ; enable joypad control
 
@@ -38211,6 +37675,8 @@ Tails_LookUp2:
 Tails_LookUp3:
 		beq.s	Tails_Duck	; if not, branch
 		move.b	#7,$1C(a0)	; use "looking up" animation
+		btst	#7,$22(a0)
+		bne.w	loc4_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmp.b	#$78,($FFFFC903).w
 		bcs.s	Obj95_ResetScr_Part2
@@ -38233,6 +37699,8 @@ Tails_Duck2:
 Tails_Duck3:
 		beq.s	Obj95_ResetScr	; if not, branch
 		move.b	#8,$1C(a0)	; use "ducking"	animation
+		btst	#7,$22(a0)
+		bne.s	loc4_12FC2
 		addq.b	#1,($FFFFC903).w
 		cmpi.b	#$78,($FFFFC903).w
 		bcs.s	Obj95_ResetScr_Part2
@@ -38244,11 +37712,11 @@ Tails_Duck3:
 ; ===========================================================================
  
 Obj95_ResetScr:
+		btst	#7,$22(a0)
+		bne.s	loc4_12FC4
 		move.b	#0,($FFFFC903).w
  
 Obj95_ResetScr_Part2:
-		btst	#7,$22(a0)
-		bne.s	loc4_12FC4
 		cmpi.w	#$60,($FFFFF73E).w ; is	screen in its default position?
 		beq.s	loc4_12FC2	; if yes, branch
 		bcc.s	loc4_12FBE
@@ -40624,6 +40092,2470 @@ Obj96Ani_Hanging:	dc.b   9,$1A,$1B,$1C,$1D,$FF
 	even
 Obj96Ani_Fly:		dc.b   3,$27,$28,$FF
 	even
+; ===========================================================================
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object 99 - Knuckles
+; ---------------------------------------------------------------------------
+
+Obj99:					; XREF: Obj_Index
+		tst.w	($FFFFFE08).w	; is debug mode	being used?
+		beq.s	Obj99_Normal	; if not, branch
+		jmp	DebugMode
+; ===========================================================================
+
+Obj99_Normal:
+		moveq	#0,d0
+		move.b	$24(a0),d0
+		move.w	Obj99_Index(pc,d0.w),d1
+		jmp	Obj99_Index(pc,d1.w)
+; ===========================================================================
+Obj99_Index:	dc.w Obj99_Main-Obj99_Index
+		dc.w Obj99_Control-Obj99_Index
+		dc.w Obj99_Hurt-Obj99_Index
+		dc.w Obj99_Death-Obj99_Index
+		dc.w Obj99_ResetLevel-Obj99_Index
+; ===========================================================================
+
+Obj99_Main:				; XREF: Obj99_Index
+		move.b	#$C,($FFFFFFD8).w	; MJ: set collision to 1st
+		move.b	#$D,($FFFFFFD9).w	; MJ: set collision to 1st
+		addq.b	#2,$24(a0)
+		move.b	#$13,$16(a0)
+		move.b	#9,$17(a0)
+		move.l	#Map_Knuckles,4(a0)
+		btst	#7,$22(a0)
+		bne.s	Obj99_Sec
+		move.w	#$780,2(a0)
+		bra.s	Obj99_Cont
+
+Obj99_Sec:
+		move.w	#$7A0,2(a0)
+
+Obj99_Cont:
+		move.w	#$100,$18(a0)
+		move.b	#$18,$14(a0)
+		move.b	#4,1(a0)
+		btst	#7,$22(a0)
+		bne.s	loc5_12C58
+		move.w	#$600,($FFFFF760).w ; Knuckles's top speed
+		move.w	#$C,($FFFFF762).w ; Knuckles's acceleration
+		move.w	#$80,($FFFFF764).w ; Knuckles's deceleration
+		move.b	#5,($FFFFB1C0).w
+
+Obj99_Control:				; XREF: Obj99_Index
+		btst	#7,$22(a0)
+		bne.s	loc5_12C58
+		tst.w	($FFFFFFFA).w	; is debug cheat enabled?
+		beq.s	loc5_12C5A	; if not, branch
+		btst	#4,($FFFFF605).w ; is button C pressed?
+		beq.s	loc5_12C5A	; if not, branch
+		move.w	#1,($FFFFFE08).w ; change Knuckles	into a ring/item
+		clr.b	($FFFFF7CC).w
+		rts	
+; ===========================================================================
+
+loc5_12C58:
+		tst.b	($FFFFF674).w	; are controls locked?
+		bne.s	loc5_12C64	; if yes, branch
+		move.w	($FFFFF606).w,($FFFFF670).w ; enable joypad control
+
+loc5_12C62:
+		bsr.w	CPU_Control
+		bra.s	loc5_12C64
+
+loc5_12C5A:
+		tst.b	($FFFFF7CC).w	; are controls locked?
+		bne.s	loc5_12C64	; if yes, branch
+		move.w	($FFFFF604).w,($FFFFF602).w ; enable joypad control
+
+loc5_12C64:
+		btst	#0,($FFFFF7C8).w ; are controls	locked?
+		bne.s	loc5_12C7E	; if yes, branch
+		moveq	#0,d0
+		move.b	$22(a0),d0
+		andi.w	#6,d0
+		move.w	Obj99_Modes(pc,d0.w),d1
+		jsr	Obj99_Modes(pc,d1.w)
+
+loc5_12C7E:
+		bsr.s	Knuckles_Display
+		bsr.w	Main_RecordPos
+		bsr.w	Knuckles_Water
+		btst	#7,$22(a0)
+		bne.s	loc5_12C7E2
+		cmpi.w	#-$600,$20(a0)	; is Sonic at running speed?
+		bgt.s	loc5_12C7E1
+		cmp.w	#-$40,($FFFFF75E).w
+		beq.s	loc5_12C7E2
+		sub.w	#2,($FFFFF75E).w
+		bra.s	loc5_12C7E2
+
+loc5_12C7E1:
+		cmpi.w	#$600,$20(a0)	; is Sonic at running speed?
+		blt.s	loc5_12C7E2
+		cmp.w	#$40,($FFFFF75E).w
+		beq.s	loc5_12C7E2
+		add.w	#2,($FFFFF75E).w
+
+loc5_12C7E2:
+		move.b	($FFFFF768).w,$36(a0)
+		move.b	($FFFFF76A).w,$37(a0)
+		tst.b	($FFFFF7C7).w
+		beq.s	loc5_12CA6
+		tst.b	$1C(a0)
+		bne.s	loc5_12CA6
+		move.b	$1D(a0),$1C(a0)
+
+loc5_12CA6:
+		bsr.w	Knuckles_Animate
+		tst.b	($FFFFF7C8).w
+		bmi.s	loc5_12CB6
+		jsr	TouchResponse
+
+loc5_12CB6:
+		bsr.w	LoadKnucklesDynPLC
+		rts
+; ===========================================================================
+Obj99_Modes:	dc.w Obj99_MdNormal-Obj99_Modes
+		dc.w Obj99_MdJump-Obj99_Modes
+		dc.w Obj99_MdRoll-Obj99_Modes
+		dc.w Obj99_MdJump2-Obj99_Modes
+
+Knuckles_Display:				; XREF: loc5_12C7E
+		move.w	$30(a0),d0
+		beq.s	Obj99_Display
+		subq.w	#1,$30(a0)
+		btst	#7,$22(a0)
+		bne.s	Obj99_Display
+		lsr.w	#3,d0
+		bcc.s	Obj99_ChkInvin
+
+Obj99_Display:
+		jsr	DisplaySprite
+
+Obj99_ChkInvin:
+		btst	#1,($FFFFFE2C).w	; does Knuckles have invincibility?
+		beq.w	Obj99_ChkShoes	; if not, branch	; change to beq.w
+		tst.w	$32(a0)		; check	time remaining for invinciblity
+		beq.w	Obj99_ChkShoes	; if no	time remains, branch	; change to beq.w
+		subq.w	#1,$32(a0)	; subtract 1 from time
+		bne.w	Obj99_ChkShoes	; change to bne.w
+		tst.b	($FFFFF7AA).w
+		bne.w	Obj99_RmvInvin	; change to bne.w
+		cmpi.w	#$C,($FFFFFE14).w
+		bcs.w	Obj99_RmvInvin	; change to bcs.w
+		moveq	#0,d0
+		move.b	($FFFFF75D).w,d0
+		jsr	(PlaySound).l	; play normal music
+
+Obj99_RmvInvin:
+		bclr	#1,($FFFFFE2C).w ; cancel invincibility
+
+Obj99_ChkShoes:
+		tst.b	($FFFFFE2E).w	; does Knuckles have speed	shoes?
+		beq.s	Obj99_ExitChk	; if not, branch
+		tst.w	$34(a0)		; check	time remaining
+		beq.s	Obj99_ExitChk
+		subq.w	#1,$34(a0)	; subtract 1 from time
+		bne.s	Obj99_ExitChk
+		move.w	#$600,($FFFFF760).w ; restore Knuckles"s speed
+		move.w	#$C,($FFFFF762).w ; restore Knuckles"s acceleration
+		move.w	#$80,($FFFFF764).w ; restore Knuckles"s deceleration
+		move.b	#0,($FFFFFE2E).w ; cancel speed	shoes
+		move.w	#$0,d0
+		jmp	(SetTempo).l	; run music at normal speed
+; ===========================================================================
+
+Obj99_ExitChk:
+		rts	
+
+; ---------------------------------------------------------------------------
+; Subroutine for Knuckles when he's underwater
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_Water:				; XREF: loc5_12C7E
+	;	cmpi.b	#1,($FFFFFE10).w ; is level TJZ?
+	;	beq.s	Obj99_InWater	; if yes, branch
+		tst.b	(Water_flag).w ; does level have water?
+		bne.s	Obj99_InWater ; if yes, branch
+
+locret5_12D80:
+		rts	
+; ===========================================================================
+Obj99_InWater:
+		move.w	($FFFFF646).w,d0
+		cmp.w	$C(a0),d0	; is Knuckles above the water?
+		bge.s	Obj99_OutWater	; if yes, branch
+		bset	#6,$22(a0)
+		bne.s	locret5_12D80
+		bsr.w	ResumeMusic
+
+Obj99_InWaterCont:
+		asr	$10(a0)
+		asr	$12(a0)
+		asr	$12(a0)
+		btst	#7,$22(a0)
+		bne.s	Obj99_InWaterCont2
+		move.b	#$A,($FFFFB340).w ; load bubbles object	from Knuckles's mouth
+		move.b	#$81,($FFFFB368).w
+		move.w	#$300,($FFFFF760).w ; change Knuckles's top speed
+		move.w	#6,($FFFFF762).w ; change Knuckles's acceleration
+		move.w	#$40,($FFFFF764).w ; change Knuckles's deceleration
+		move.w	#$100,($FFFFB1DC).w	; Set the Spin Dash dust animation to $100.
+
+Obj99_InWaterCont2:
+		move.w	#$100,($FFFFB1DC).w	; Set the Spin Dash dust animation to $100.
+		move.w	#$6C,d0
+		jmp	(PlaySound_Special).l ;	play splash sound
+; ===========================================================================
+
+Obj99_OutWater:
+		bclr	#6,$22(a0)
+		beq.s	locret5_12D80
+		asl	$12(a0)
+		btst	#7,$22(a0)
+		bne.s	Obj99_OutWater2
+		bsr.w	ResumeMusic
+		move.w	#$600,($FFFFF760).w ; restore Knuckles's speed
+		move.w	#$C,($FFFFF762).w ; restore Knuckles's acceleration
+		move.w	#$80,($FFFFF764).w ; restore Knuckles's deceleration
+		move.w	#$100,($FFFFB1DC).w	; Set the Spin Dash dust animation to $100.
+
+Obj99_OutWater2:
+		cmpi.w	#-$1000,$12(a0)
+		bgt.s	loc5_12E0E
+		move.w	#-$1000,$12(a0)	; set maximum speed on leaving water
+
+loc5_12E0E:
+		move.w	#$6C,d0
+		jmp	(PlaySound_Special).l ;	play splash sound
+; End of function Knuckles_Water
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Modes	for controlling	Knuckles
+; ---------------------------------------------------------------------------
+
+Obj99_MdNormal:				; XREF: Obj99_Modes
+		bsr.w	Knuckles_SpinDash
+		bsr.w	Knuckles_Jump
+		bsr.w	Knuckles_SlopeResist
+		bsr.w	Knuckles_Move
+		bsr.w	Knuckles_Roll
+		bsr.w	Knuckles_LevelBound
+		jsr	SpeedToPos
+		bsr.w	Knuckles_AnglePos
+		bsr.w	Knuckles_SlopeRepel
+		rts	
+; ===========================================================================
+
+Obj99_MdJump:				; XREF: Obj99_Modes
+		clr.b	$39(a0)
+		bsr.w	Knuckles_JumpHeight
+		bsr.w	Knuckles_ChgJumpDir
+		bsr.w	Knuckles_LevelBound
+		jsr	ObjectFall
+		btst	#6,$22(a0)
+		beq.s	loc5_12E5C
+		subi.w	#$28,$12(a0)
+
+loc5_12E5C:
+		bsr.w	Knuckles_JumpAngle
+		bsr.w	Knuckles_Floor
+		rts	
+; ===========================================================================
+
+Obj99_MdRoll:				; XREF: Obj99_Modes
+		bsr.w	Knuckles_Jump
+		bsr.w	Knuckles_RollRepel
+		bsr.w	Knuckles_RollSpeed
+		bsr.w	Knuckles_LevelBound
+		jsr	SpeedToPos
+		bsr.w	Knuckles_AnglePos
+		bsr.w	Knuckles_SlopeRepel
+		rts	
+; ===========================================================================
+
+Obj99_MdJump2:				; XREF: Obj99_Modes
+		clr.b	$39(a0)
+		bsr.w	Knuckles_JumpHeight
+		bsr.w	Knuckles_ChgJumpDir
+		bsr.w	Knuckles_LevelBound
+		jsr	ObjectFall
+		btst	#6,$22(a0)
+		beq.s	loc5_12EA6
+		subi.w	#$28,$12(a0)
+		btst	#7,$22(a0)
+		bne.s	loc5_12EA6
+		btst	#6,($FFFFFE2C).w
+		beq.s	loc5_12EA6
+		move.w	$10(a0),d0		; move Knuckles's X-velocity to d0 
+		tst.w	d0			; is his speed positive? (is he running to the right?)
+		bpl.s	Obj99_MdJump2_Abs	; if yes, branch
+		neg.w	d0			; otherwise negate it
+
+Obj99_MdJump2_Abs:
+		cmpi.w	#$40,d0		; if Knuckles speed less than $250?
+		blt.s	loc5_12EA6		; if yes, branch
+		move.w	$C(a0),d0		; move Knuckles's Y-position to d0
+		sub.w	($FFFFF646).w,d0	; sub the water height from it
+		cmpi.w	#$F,d0			; is Knuckles slightly in the water?
+		bgt.s	loc5_12EA6		; if not, branch
+		subi.w	#$90,$12(a0)		; jump out of water
+		move.b	#2,$1C(a0)		; jump out of water
+
+loc5_12EA6:
+		bsr.w	Knuckles_JumpAngle
+		bsr.w	Knuckles_Floor
+		rts	
+
+; ---------------------------------------------------------------------------
+; Subroutine to	make Knuckles walk/run
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_Move:				; XREF: Obj99_MdNormal
+		move.w	($FFFFF760).w,d6
+		move.w	($FFFFF762).w,d5
+		move.w	($FFFFF764).w,d4
+		tst.b	($FFFFF7CA).w
+		bne.w	loc5_12FEE
+		tst.w	$3E(a0)
+		bne.w	Obj99_ResetScr
+		btst	#7,$22(a0)
+		bne.s	Knuckles_Move2
+		btst	#2,($FFFFF602).w ; is left being pressed?
+		beq.s	Obj99_NotLeft	; if not, branch
+		bsr.w	Knuckles_MoveLeft
+
+Obj99_NotLeft:
+		btst	#3,($FFFFF602).w ; is right being pressed?
+		beq.s	Obj99_NotRight	; if not, branch
+		bsr.w	Knuckles_MoveRight
+		bra.s	Obj99_NotRight
+
+Knuckles_Move2:
+		btst	#2,($FFFFF670).w ; is left being pressed?
+		beq.s	Obj99_NotLeft2	; if not, branch
+		bsr.w	Knuckles_MoveLeft
+
+Obj99_NotLeft2:
+		btst	#3,($FFFFF670).w ; is right being pressed?
+		beq.s	Obj99_NotRight	; if not, branch
+		bsr.w	Knuckles_MoveRight
+
+Obj99_NotRight:
+		move.b	$26(a0),d0
+		addi.b	#$20,d0
+		andi.b	#$C0,d0		; is Knuckles on a	slope?
+		bne.w	Obj99_ResetScr	; if yes, branch
+		tst.w	$20(a0)		; is Knuckles moving?
+		bne.w	Obj99_ResetScr	; if yes, branch
+		bclr	#5,$22(a0)
+		move.b	#5,$1C(a0)	; use "standing" animation
+		btst	#3,$22(a0)
+		beq.s	Knuckles_Balance
+		moveq	#0,d0
+		move.b	$3D(a0),d0
+		lsl.w	#6,d0
+		lea	($FFFFB000).w,a1
+		lea	(a1,d0.w),a1
+		tst.b	$22(a1)
+		bmi.s	Knuckles_LookUp
+		moveq	#0,d1
+		move.b	$14(a1),d1
+		move.w	d1,d2
+		add.w	d2,d2
+		subq.w	#4,d2
+		add.w	8(a0),d1
+		sub.w	8(a1),d1
+		cmpi.w	#4,d1
+		blt.s	Knuckles_BalanceLeft
+		cmp.w	d2,d1
+		bge.s	Knuckles_BalanceRight
+		bra.s	Knuckles_LookUp
+
+Knuckles_Balance:
+		jsr	ObjHitFloor
+		cmpi.w	#$C,d1
+		blt.s	Knuckles_LookUp
+		cmpi.b	#3,$36(a0)	;Mercury Constants
+		beq.s	Knuckles_BalanceRight
+		cmpi.b	#3,$37(a0)	;Mercury Constants
+		bne.s	Knuckles_LookUp
+
+Knuckles_BalanceLeft:
+		btst	#0,$22(a0)	; is Knuckles facing left?	;Mercury Constants
+		beq.s	Knuckles_BalanceBackward	; if not, balance backward
+		move.b	#$E,$1C(a0) ; use forward balancing animation
+		bra.w	Obj99_ResetScr	; branch
+
+Knuckles_BalanceRight:
+		btst	#0,$22(a0)	; is Knuckles facing left?	;Mercury Constants
+		bne.s	Knuckles_BalanceBackward	; if so, balance backward
+		move.b	#$E,$1C(a0) ; use forward balancing animation
+		bra.w	Obj99_ResetScr	; branch
+
+Knuckles_BalanceBackward:
+		move.b	#$F,$1C(a0) ; use backward balancing animation
+		bra.w	Obj99_ResetScr
+; ===========================================================================
+
+Knuckles_LookUp:
+		btst	#7,$22(a0)
+		bne.s	Knuckles_LookUp2
+		btst	#0,($FFFFF602).w ; is up being pressed?
+		bra.s	Knuckles_LookUp3
+
+Knuckles_LookUp2:
+		btst	#0,($FFFFF670).w ; is up being pressed?
+
+Knuckles_LookUp3:
+		beq.s	Knuckles_Duck	; if not, branch
+		move.b	#7,$1C(a0)	; use "looking up" animation
+		btst	#7,$22(a0)
+		bne.w	loc5_12FC2
+		addq.b	#1,($FFFFC903).w
+		cmp.b	#$78,($FFFFC903).w
+		bcs.s	Obj99_ResetScr_Part2
+		move.b	#$78,($FFFFC903).w
+		cmpi.w	#$C8,($FFFFF73E).w
+		beq.s	loc5_12FC2
+		addq.w	#2,($FFFFF73E).w
+		bra.s	loc5_12FC2
+; ===========================================================================
+ 
+Knuckles_Duck:
+		btst	#7,$22(a0)
+		bne.s	Knuckles_Duck2
+		btst	#1,($FFFFF602).w ; is down being pressed?
+		bra.s	Knuckles_Duck3
+
+Knuckles_Duck2:
+		btst	#1,($FFFFF670).w ; is down being pressed?
+
+Knuckles_Duck3:
+		beq.s	Obj99_ResetScr	; if not, branch
+		move.b	#8,$1C(a0)	; use "ducking"	animation
+		btst	#7,$22(a0)
+		bne.s	loc5_12FC2
+		addq.b	#1,($FFFFC903).w
+		cmpi.b	#$78,($FFFFC903).w
+		bcs.s	Obj99_ResetScr_Part2
+		move.b	#$78,($FFFFC903).w
+		cmpi.w	#8,($FFFFF73E).w
+		beq.s	loc5_12FC2
+		subq.w	#2,($FFFFF73E).w
+		bra.s	loc5_12FC2
+; ===========================================================================
+ 
+Obj99_ResetScr:
+		btst	#7,$22(a0)
+		bne.s	loc5_12FC4
+		move.b	#0,($FFFFC903).w
+ 
+Obj99_ResetScr_Part2:
+		cmpi.w	#$60,($FFFFF73E).w ; is	screen in its default position?
+		beq.s	loc5_12FC2	; if yes, branch
+		bcc.s	loc5_12FBE
+		addq.w	#4,($FFFFF73E).w ; move	screen back to default
+ 
+loc5_12FBE:
+		subq.w	#2,($FFFFF73E).w ; move	screen back to default
+
+loc5_12FC2:
+		cmpi.w	#-$600,$20(a0)	; is Sonic at running speed?
+		bgt.s	loc5_12FC23
+		bra.s	loc5_12FC22
+
+loc5_12FC23:
+		cmpi.w	#$600,$20(a0)	; is Sonic at running speed?
+		bge.s	loc5_12FC22
+		tst.w	($FFFFF75E).w ; is	screen in its default position?
+		beq.s	loc5_12FC22	; if yes, branch
+		bge.s	loc5_12FBE2
+		addq.w	#4,($FFFFF75E).w ; move	screen back to default
+ 
+loc5_12FBE2:
+		subq.w	#2,($FFFFF75E).w ; move	screen back to default
+
+loc5_12FC22:
+		btst	#7,$22(a0)
+		bne.s	loc5_12FC4
+		move.b	($FFFFF602).w,d0
+		bra.s	loc5_12FC6
+
+loc5_12FC4:		
+		move.b	($FFFFF670).w,d0
+
+loc5_12FC6:
+		andi.b	#$C,d0		; is left/right	pressed?
+		bne.s	loc5_12FEE	; if yes, branch
+
+Obj99_ResetScrCont:
+		move.w	$20(a0),d0
+		beq.s	loc5_12FEE
+		bmi.s	loc5_12FE2
+		sub.w	d5,d0
+		bcc.s	loc5_12FDC
+		move.w	#0,d0
+
+loc5_12FDC:
+		move.w	d0,$20(a0)
+		bra.s	loc5_12FEE
+; ===========================================================================
+
+loc5_12FE2:
+		add.w	d5,d0
+		bcc.s	loc5_12FEA
+		move.w	#0,d0
+
+loc5_12FEA:
+		move.w	d0,$20(a0)
+
+loc5_12FEE:
+		move.b	$26(a0),d0
+		jsr	(CalcSine).l
+		muls.w	$20(a0),d1
+		asr.l	#8,d1
+		move.w	d1,$10(a0)
+		muls.w	$20(a0),d0
+		asr.l	#8,d0
+		move.w	d0,$12(a0)
+
+loc5_1300C:
+		move.b	$26(a0),d0
+		addi.b	#$40,d0
+		bmi.w	locret5_1307C
+		move.b	#$40,d1
+		tst.w	$20(a0)
+		beq.s	locret5_1307C
+		bmi.s	loc5_13024
+		neg.w	d1
+
+loc5_13024:
+		move.b	$26(a0),d0
+		add.b	d1,d0
+		move.w	d0,-(sp)
+		bsr.w	Knuckles_WalkSpeed
+		move.w	(sp)+,d0
+		tst.w	d1
+		bpl.s	locret5_1307C
+		asl.w	#8,d1
+		addi.b	#$20,d0
+		andi.b	#$C0,d0
+		beq.s	loc5_13078
+		cmpi.b	#$40,d0
+		beq.s	loc5_13066
+		cmpi.b	#$80,d0
+		beq.s	loc5_13060
+		add.w	d1,$10(a0)
+		bset	#5,$22(a0)
+		move.w	#0,$20(a0)
+		rts	
+; ===========================================================================
+
+loc5_13060:
+		sub.w	d1,$12(a0)
+		rts	
+; ===========================================================================
+
+loc5_13066:
+		sub.w	d1,$10(a0)
+		bset	#5,$22(a0)
+		move.w	#0,$20(a0)
+		rts	
+; ===========================================================================
+
+loc5_13078:
+		add.w	d1,$12(a0)
+
+locret5_1307C:
+		rts	
+; End of function Knuckles_Move
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_MoveLeft:		   ; XREF: Knuckles_Move
+		move.w	$20(a0),d0
+		beq.s	loc5_13086
+		bpl.s	loc5_130B2
+ 
+loc5_13086:
+		bset	#0,$22(a0)
+		bne.s	loc5_1309A
+		bclr	#5,$22(a0)
+		move.b	#1,$1D(a0)
+ 
+loc5_1309A:
+		sub.w	d5,d0
+		move.w	d6,d1
+		neg.w	d1
+		cmp.w	d1,d0
+		bgt.s	loc5_130A6
+		add.w	d5,d0
+		cmp.w	d1,d0
+		ble.s	loc5_130A6
+		move.w	d1,d0
+ 
+loc5_130A6:
+		move.w	d0,$20(a0)
+		move.b	#0,$1C(a0); use walking animation
+		rts
+; ===========================================================================
+
+loc5_130B2:				; XREF: Knuckles_MoveLeft
+		sub.w	d4,d0
+		bcc.s	loc5_130BA
+		move.w	#-$80,d0
+
+loc5_130BA:
+		move.w	d0,$20(a0)
+		move.b	$26(a0),d0
+		addi.b	#$20,d0
+		andi.b	#$C0,d0
+		bne.s	locret5_130E8
+		cmpi.w	#$400,d0
+		blt.s	locret5_130E8
+		move.b	#$D,$1C(a0)	; use "stopping" animation
+		bclr	#0,$22(a0)
+		move.w	#$36,d0
+		jsr	(PlaySound_Special).l ;	play stopping sound
+
+locret5_130E8:
+		rts	
+; End of function Knuckles_MoveLeft
+
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_MoveRight:	   ; XREF: Knuckles_Move
+		move.w	$20(a0),d0
+		bmi.s	loc5_13118
+		bclr	#0,$22(a0)
+		beq.s	loc5_13104
+		bclr	#5,$22(a0)
+		move.b	#1,$1D(a0)
+ 
+loc5_13104:
+		add.w	d5,d0
+		cmp.w	d6,d0
+		blt.s	loc5_1310C
+		sub.w	d5,d0
+		cmp.w	d6,d0
+		bge.s	loc5_1310C
+		move.w	d6,d0
+ 
+loc5_1310C:
+		move.w	d0,$20(a0)
+		move.b	#0,$1C(a0); use walking animation
+		rts
+; ===========================================================================
+
+loc5_13118:				; XREF: Knuckles_MoveRight
+		add.w	d4,d0
+		bcc.s	loc5_13120
+		move.w	#$80,d0
+
+loc5_13120:
+		move.w	d0,$20(a0)
+		move.b	$26(a0),d0
+		addi.b	#$20,d0
+		andi.b	#$C0,d0
+		bne.s	locret5_1314E
+		cmpi.w	#-$400,d0
+		bgt.s	locret5_1314E
+		move.b	#$D,$1C(a0)	; use "stopping" animation
+		bset	#0,$22(a0)
+		move.w	#$36,d0
+		jsr	(PlaySound_Special).l ;	play stopping sound
+
+locret5_1314E:
+		rts	
+; End of function Knuckles_MoveRight
+
+; ---------------------------------------------------------------------------
+; Subroutine to	change Knuckles's speed as he rolls
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_RollSpeed:			; XREF: Obj99_MdRoll
+		move.w	($FFFFF760).w,d6
+		asl.w	#1,d6
+		move.w	($FFFFF762).w,d5
+		asr.w	#1,d5
+		move.w	($FFFFF764).w,d4
+		asr.w	#2,d4
+		tst.b	($FFFFF7CA).w
+		bne.w	loc5_131CC
+		tst.w	$3E(a0)
+		bne.s	loc5_13188
+		btst	#2,($FFFFF602).w ; is left being pressed?
+		beq.s	loc5_1317C	; if not, branch
+		bsr.w	Knuckles_RollLeft
+
+loc5_1317C:
+		btst	#3,($FFFFF602).w ; is right being pressed?
+		beq.s	loc5_13188	; if not, branch
+		bsr.w	Knuckles_RollRight
+
+loc5_13188:
+		move.w	$20(a0),d0
+		beq.s	loc5_131AA
+		bmi.s	loc5_1319E
+		sub.w	d5,d0
+		bcc.s	loc5_13198
+		move.w	#0,d0
+
+loc5_13198:
+		move.w	d0,$20(a0)
+		bra.s	loc5_131AA
+; ===========================================================================
+
+loc5_1319E:				; XREF: Knuckles_RollSpeed
+		add.w	d5,d0
+		bcc.s	loc5_131A6
+		move.w	#0,d0
+
+loc5_131A6:
+		move.w	d0,$20(a0)
+
+loc5_131AA:
+		tst.w	$20(a0)		; is Knuckles moving?
+		bne.s	loc5_131CC	; if yes, branch
+		bclr	#2,$22(a0)
+		move.b	#$13,$16(a0)
+		move.b	#9,$17(a0)
+		move.b	#5,$1C(a0)	; use "standing" animation
+		subq.w	#5,$C(a0)
+
+loc5_131CC:
+		cmp.w	#$60,($FFFFF73E).w
+		beq.s	@cont2
+		bcc.s	@cont1
+		addq.w	#4,($FFFFF73E).w
+ 
+@cont1:
+		subq.w	#2,($FFFFF73E).w
+ 
+@cont2:
+		move.b	$26(a0),d0
+		jsr	(CalcSine).l
+		muls.w	$20(a0),d0
+		asr.l	#8,d0
+		move.w	d0,$12(a0)
+		muls.w	$20(a0),d1
+		asr.l	#8,d1
+		cmpi.w	#$1000,d1
+		ble.s	loc5_131F0
+		move.w	#$1000,d1
+
+loc5_131F0:
+		cmpi.w	#-$1000,d1
+		bge.s	loc5_131FA
+		move.w	#-$1000,d1
+
+loc5_131FA:
+		move.w	d1,$10(a0)
+		bra.w	loc5_1300C
+; End of function Knuckles_RollSpeed
+
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_RollLeft:				; XREF: Knuckles_RollSpeed
+		move.w	$20(a0),d0
+		beq.s	loc5_1320A
+		bpl.s	loc5_13218
+
+loc5_1320A:
+		bset	#0,$22(a0)
+		move.b	#2,$1C(a0)	; use "rolling"	animation
+		rts	
+; ===========================================================================
+
+loc5_13218:
+		sub.w	d4,d0
+		bcc.s	loc5_13220
+		move.w	#-$80,d0
+
+loc5_13220:
+		move.w	d0,$20(a0)
+		rts	
+; End of function Knuckles_RollLeft
+
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_RollRight:			; XREF: Knuckles_RollSpeed
+		move.w	$20(a0),d0
+		bmi.s	loc5_1323A
+		bclr	#0,$22(a0)
+		move.b	#2,$1C(a0)	; use "rolling"	animation
+		rts	
+; ===========================================================================
+
+loc5_1323A:
+		add.w	d4,d0
+		bcc.s	loc5_13242
+		move.w	#$80,d0
+
+loc5_13242:
+		move.w	d0,$20(a0)
+		rts	
+; End of function Knuckles_RollRight
+
+; ---------------------------------------------------------------------------
+; Subroutine to	change Knuckles's direction while jumping
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_ChgJumpDir:		; XREF: Obj99_MdJump; Obj99_MdJump2\
+		move.w	($FFFFF760).w,d6
+		move.w	($FFFFF762).w,d5
+		asl.w	#1,d5
+		btst	#4,$22(a0)	
+		bne.s	Obj99_ResetScr2	
+		move.w	$10(a0),d0	
+		btst	#7,$22(a0)
+		bne.s	Knuckles_ChgJumpDir2
+		btst	#2,($FFFFF602).w; is left being pressed?
+		bra.s	Knuckles_ChgJumpDir3
+
+Knuckles_ChgJumpDir2:		
+		btst	#2,($FFFFF670).w; is left being pressed?
+
+Knuckles_ChgJumpDir3:	
+		beq.s	loc5_13278; if not, branch	
+		bset	#0,$22(a0)	
+		sub.w	d5,d0	
+		move.w	d6,d1	
+		neg.w	d1	
+		cmp.w	d1,d0	
+		bgt.s	loc5_13278	
+		add.w	d5,d0		; +++ remove this frame's acceleration change
+		cmp.w	d1,d0		; +++ compare speed with top speed
+		ble.s	loc5_13278	; +++ if speed was already greater than the maximum, branch	
+		move.w	d1,d0
+ 
+loc5_13278:
+		btst	#7,$22(a0)
+		bne.s	loc5_1327A
+		btst	#3,($FFFFF602).w; is left being pressed?
+		bra.s	loc5_1327C
+
+loc5_1327A:		
+		btst	#3,($FFFFF670).w; is left being pressed?
+
+loc5_1327C:	
+		beq.s	Obj99_JumpMove; if not, branch	
+		bclr	#0,$22(a0)	
+		add.w	d5,d0	
+		cmp.w	d6,d0	
+		blt.s	Obj99_JumpMove
+		sub.w	d5,d0		; +++ remove this frame's acceleration change
+		cmp.w	d6,d0		; +++ compare speed with top speed
+		bge.s	Obj99_JumpMove	; +++ if speed was already greater than the maximum, branch
+		move.w	d6,d0
+
+Obj99_JumpMove:
+		move.w	d0,$10(a0)	; change Knuckles's horizontal speed
+
+Obj99_ResetScr2:
+		cmpi.w	#$60,($FFFFF73E).w ; is	the screen in its default position?
+		beq.s	loc5_132A4	; if yes, branch
+		bcc.s	loc5_132A0
+		addq.w	#4,($FFFFF73E).w
+
+loc5_132A0:
+		subq.w	#2,($FFFFF73E).w
+
+loc5_132A4:
+		cmpi.w	#-$400,$12(a0)	; is Knuckles moving faster than -$400 upwards?
+		bcs.s	locret5_132D2	; if yes, branch
+		move.w	$10(a0),d0
+		move.w	d0,d1
+		asr.w	#5,d1
+		beq.s	locret5_132D2
+		bmi.s	loc5_132C6
+		sub.w	d1,d0
+		bcc.s	loc5_132C0
+		move.w	#0,d0
+
+loc5_132C0:
+		move.w	d0,$10(a0)
+		rts	
+; ===========================================================================
+
+loc5_132C6:
+		sub.w	d1,d0
+		bcs.s	loc5_132CE
+		move.w	#0,d0
+
+loc5_132CE:
+		move.w	d0,$10(a0)
+
+locret5_132D2:
+		rts	
+; End of function Knuckles_ChgJumpDir
+
+; ---------------------------------------------------------------------------
+; Subroutine to	prevent	Knuckles leaving the boundaries of	a level
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_LevelBound:			; XREF: Obj99_MdNormal; et al
+		move.l	8(a0),d1
+		move.w	$10(a0),d0
+		ext.l	d0
+		asl.l	#8,d0
+		add.l	d0,d1
+		swap	d1
+		move.w	($FFFFF728).w,d0
+		addi.w	#$10,d0
+		cmp.w	d1,d0		; has Knuckles touched the	side boundary?
+		bhi.s	Boundary_Sides5	; if yes, branch
+		move.w	($FFFFF72A).w,d0
+		addi.w	#$128,d0
+		cmp.w	d1,d0		; has Knuckles touched the	side boundary?
+		bls.s	Boundary_Sides5	; if yes, branch
+
+loc5_13336:
+		move.w	($FFFFF72E).w,d0
+		addi.w	#$E0,d0
+		cmp.w	$C(a0),d0	; has Knuckles touched the	bottom boundary?
+		blt.s	Boundary_Bottom5	; if yes, branch
+		rts	
+; ===========================================================================
+
+Boundary_Bottom5:
+		move.w	($FFFFF726).w,d0
+		move.w	($FFFFF72E).w,d1
+		cmp.w	d0,d1			; screen still scrolling down?
+		blt.s	Boundary_Bottom5_locret	; if so, don't kill Knuckles
+		jmp 	KillSonic
+ 
+Boundary_Bottom5_locret:
+		rts
+; ===========================================================================
+
+Boundary_Sides5:
+		move.w	d0,8(a0)
+		move.w	#0,$A(a0)
+		move.w	#0,$10(a0)	; stop Knuckles moving
+		move.w	#0,$20(a0)
+		bra.s	loc5_13336
+; End of function Knuckles_LevelBound
+
+; ---------------------------------------------------------------------------
+; Subroutine allowing Knuckles to roll when he's moving
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_Roll:				; XREF: Obj99_MdNormal\
+		tst.b	($FFFFF7CA).w
+		bne.s	Obj99_NoRoll
+		move.w	$20(a0),d0
+		bpl.s	loc5_13392
+		neg.w	d0
+
+loc5_13392:
+		cmpi.w	#$80,d0		; is Knuckles moving at $80 speed or faster?
+		bcs.s	Obj99_NoRoll	; if not, branch
+		btst	#7,$22(a0)
+		bne.s	loc5_133922
+		move.b	($FFFFF602).w,d0	; is ABC pressed? (part 1)
+		andi.b	#$C,d0		; is left/right	being pressed?
+		bne.s	Obj99_NoRoll	; if yes, branch
+		btst	#1,($FFFFF602).w ; is down being pressed?
+		bra.s	loc5_133923
+
+loc5_133922:	
+		move.b	($FFFFF670).w,d0	; is ABC pressed? (part 1)
+		andi.b	#$C,d0		; is left/right	being pressed?
+		bne.s	Obj99_NoRoll	; if yes, branch
+		btst	#1,($FFFFF602).w ; is down being pressed?
+
+loc5_133923:	
+		bne.s	Obj99_ChkRoll	; if yes, branch
+
+Obj99_NoRoll:
+		rts	
+; ===========================================================================
+
+Obj99_ChkRoll:
+		btst	#2,$22(a0)	; is Knuckles already rolling?
+		beq.s	Obj99_DoRoll	; if not, branch
+		move.w	#0,($FFFFB030).w
+		rts	
+
+; ===========================================================================
+
+Obj99_DoRoll:
+		bset	#2,$22(a0)
+		move.b	#$E,$16(a0)
+		move.b	#7,$17(a0)
+		move.b	#2,$1C(a0)	; use "rolling"	animation
+		move.w	#1,($FFFFB030).w
+		addq.w	#5,$C(a0)
+		move.w	#$3C,d0
+		jsr	(PlaySound_Special).l ;	play rolling sound
+		tst.w	$20(a0)
+		bne.s	locret5_133E8
+		move.w	#$200,$20(a0)
+
+locret5_133E8:
+		rts	
+; End of function Knuckles_Roll
+
+; ---------------------------------------------------------------------------
+; Subroutine allowing Knuckles to jump
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_Jump:				; XREF: Obj99_MdNormal; Obj99_MdRoll
+		btst	#7,$22(a0)
+		bne.s	Knuckles_Jump2
+		move.b	($FFFFF603).w,d0
+		bra.s	Knuckles_Jump3
+
+Knuckles_Jump2:	
+		move.b	($FFFFF671).w,d0
+
+Knuckles_Jump3:	
+		andi.b	#$70,d0		; is A,	B or C pressed?
+		beq.w	locret5_1348E	; if not, branch
+		moveq	#0,d0
+		move.b	$26(a0),d0
+		addi.b	#$80,d0
+		bsr.w	sub_14D48
+		cmpi.w	#6,d1
+		blt.w	locret5_1348E
+		move.w	#$680,d2
+		btst	#6,$22(a0)
+		beq.s	loc5_1341C
+		move.w	#$380,d2
+
+loc5_1341C:
+		moveq	#0,d0
+		move.b	$26(a0),d0
+		subi.b	#$40,d0
+		jsr	(CalcSine).l
+		muls.w	d2,d1
+		asr.l	#8,d1
+		add.w	d1,$10(a0)	; make Knuckles jump
+		muls.w	d2,d0
+		asr.l	#8,d0
+		add.w	d0,$12(a0)	; make Knuckles jump
+		bset	#1,$22(a0)
+		bclr	#5,$22(a0)
+		addq.l	#4,sp
+		move.b	#1,$3C(a0)
+		clr.b	$38(a0)
+		move.w	#$60,d0
+		jsr	PlaySound ;	play jumping sound
+		move.b	#$13,$16(a0)
+		move.b	#9,$17(a0)
+		btst	#2,$22(a0)
+		bne.s	loc5_13490
+		move.b	#$E,$16(a0)
+		move.b	#7,$17(a0)
+		move.b	#2,$1C(a0)	; use "jumping"	animation
+		bset	#2,$22(a0)
+		addq.w	#5,$C(a0)
+
+locret5_1348E:
+		rts	
+; ===========================================================================
+
+loc5_13490:
+		bset	#4,$22(a0)
+		rts	
+; End of function Knuckles_Jump
+
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_JumpHeight:			; XREF: Obj99_MdJump; Obj99_MdJump2
+		tst.b	$3C(a0)
+		beq.s	loc5_134C4
+		move.w	#-$400,d1
+		btst	#6,$22(a0)
+		beq.s	loc5_134AE
+		move.w	#-$200,d1
+
+loc5_134AE:
+		cmp.w	$12(a0),d1
+		ble.s	locret5_134C2
+		btst	#7,$22(a0)
+		bne.s	Knuckles_JumpHeight2
+		move.b	($FFFFF602).w,d0	; is ABC pressed?
+		bra.s	Knuckles_JumpHeight3
+
+Knuckles_JumpHeight2:	
+		move.b	($FFFFF670).w,d0	; is ABC pressed?
+
+Knuckles_JumpHeight3:	
+		andi.b	#$70,d0		; is A,	B or C pressed?
+		bne.s	locret5_134C2	; if yes, branch
+		move.w	d1,$12(a0)
+
+locret5_134C2:
+		rts	
+; ===========================================================================
+
+loc5_134C4:
+		cmpi.w	#-$FC0,$12(a0)
+		bge.s	locret5_134D2
+		move.w	#-$FC0,$12(a0)
+
+locret5_134D2:
+		rts	
+; End of function Knuckles_JumpHeight
+
+; ---------------------------------------------------------------------------
+; Subroutine to make Knuckles perform a spindash
+; ---------------------------------------------------------------------------
+ 
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+ 
+ 
+Knuckles_SpinDash:
+		tst.b	$39(a0)
+		bne.s	loc5_1AC8E
+		cmpi.b	#8,$1C(a0)
+		bne.s	locret5_1AC8C
+		btst	#7,$22(a0)
+		bne.s	Knuckles_SpinDash2
+		move.b	($FFFFF603).w,d0	; is ABC pressed? (part 1)
+		bra.s	Knuckles_SpinDash3
+
+Knuckles_SpinDash2:	
+		move.b	($FFFFF671).w,d0	; is ABC pressed? (part 1)
+
+Knuckles_SpinDash3:
+		andi.b	#$70,d0
+		beq.w	locret5_1AC8C
+		move.b	#9,$1C(a0)
+		move.w	#$AB,d0
+		jsr	(PlaySound_Special).l
+		addq.l	#4,sp
+		move.b	#1,$39(a0)
+		move.w	#0,$3A(a0)
+		btst	#7,$22(a0)
+		bne.s	loc5_1AC84
+		move.b	#2,($FFFFB1DC).w	; Set the Spin Dash dust animation to $2.
+ 
+loc5_1AC84:
+		bsr.w	Knuckles_LevelBound
+		bsr.w	Knuckles_AnglePos
+ 
+locret5_1AC8C:
+		rts	
+; ---------------------------------------------------------------------------
+ 
+loc5_1AC8E:
+		btst	#7,$22(a0)
+		bne.s	loc5_1AC8E5
+		btst	#0,$22(a0)
+		bne.s	loc5_1AC8E4
+		cmp.w	#$40,($FFFFF75E).w
+		beq.s	loc5_1AC8E5
+		add.w	#2,($FFFFF75E).w
+		bra.s	loc5_1AC8E5
+
+loc5_1AC8E4:
+		cmp.w	#-$40,($FFFFF75E).w
+		beq.s	loc5_1AC8E5
+		sub.w	#2,($FFFFF75E).w
+
+loc5_1AC8E5:
+		move.b	#9,$1C(a0)
+		btst	#7,$22(a0)
+		bne.s	loc5_1AC8E2
+		move.b	($FFFFF602).w,d0	; is ABC pressed? (part 1)
+		bra.s	loc5_1AC8E3
+
+loc5_1AC8E2:	
+		move.b	($FFFFF670).w,d0	; is ABC pressed? (part 1)
+
+loc5_1AC8E3:
+		btst	#1,d0
+		bne.w	loc5_1AD30
+		move.b	#$E,$16(a0)
+		move.b	#7,$17(a0)
+		move.b	#2,$1C(a0)
+		addq.w	#5,$C(a0)
+		move.b	#0,$39(a0)
+		moveq	#0,d0
+		move.b	$3A(a0),d0
+		add.w	d0,d0
+		move.w	Dash_Speeds4(pc,d0.w),$20(a0)
+	;	move.b	$20(a0),d0
+	;	subi.b	#$8,d0
+	;	add.b	d0,d0
+	;	andi.b	#$1F,d0
+	;	neg.b	d0
+	;	addi.b	#$20,d0
+	;	move.b	d0,($FFFFFEB3).w
+		btst	#0,$22(a0)
+		beq.s	loc5_1ACF4
+		neg.w	$20(a0)
+ 
+loc5_1ACF4:
+		bset	#2,$22(a0)
+		btst	#7,$22(a0)
+		bne.s	loc5_1ACF42
+		move.b	#0,($FFFFB1DC).w	; clear Spin Dash dust animation.
+
+loc5_1ACF42:
+		move.w	#-$4A,d0
+		jsr	(PlaySound_Special).l
+		bra.s	loc5_1AD78
+; ===========================================================================
+Dash_Speeds4:	dc.w  $800		; 0
+		dc.w  $880		; 1
+		dc.w  $900		; 2
+		dc.w  $980		; 3
+		dc.w  $A00		; 4
+		dc.w  $A80		; 5
+		dc.w  $B00		; 6
+		dc.w  $B80		; 7
+		dc.w  $C00		; 8
+; ===========================================================================
+ 
+loc5_1AD30:				; If still charging the dash...
+		tst.w	$3A(a0)
+		beq.s	loc5_1AD48
+		move.w	$3A(a0),d0
+		lsr.w	#5,d0
+		sub.w	d0,$3A(a0)
+		bcc.s	loc5_1AD48
+		move.w	#0,$3A(a0)
+ 
+loc5_1AD48:
+		btst	#7,$22(a0)
+		bne.s	loc5_1AD482
+		move.b	($FFFFF603).w,d0	; is ABC pressed? (part 1)
+		bra.s	loc5_1AD483
+
+loc5_1AD482:	
+		move.b	($FFFFF671).w,d0	; is ABC pressed? (part 1)
+
+loc5_1AD483:
+		andi.b	#$70,d0	; 'p'
+		beq.w	loc5_1AD78
+		move.w	#$900,$1C(a0)
+		move.w	#$AB,d0	; 'à'
+		jsr	(PlaySound_Special).l
+		btst	#7,$22(a0)
+		bne.s	loc5_1AD484
+		move.b	#2,($FFFFB1DC).w	; Set the Spin Dash dust animation to $2.
+
+loc5_1AD484:
+		addi.w	#$200,$3A(a0)
+		cmpi.w	#$800,$3A(a0)
+		bcs.s	loc5_1AD78
+		move.w	#$800,$3A(a0)
+ 
+loc5_1AD78:
+		addq.l	#4,sp			; increase stack ptr
+		cmpi.w	#$60,($FFFFF73E).w
+		beq.s	loc5_1AD8C
+		bcc.s	loc5_1AD88
+		addq.w	#4,($FFFFF73E).w
+ 
+loc5_1AD88:
+		subq.w	#2,($FFFFF73E).w
+ 
+loc5_1AD8C:
+		bsr.w	Knuckles_LevelBound
+		bsr.w	Knuckles_AnglePos
+	;	move.w	#$60,($FFFFF73E).w	; reset looking up/down
+		rts
+; End of subroutine Knuckles_SpinDash
+
+; ---------------------------------------------------------------------------
+; Subroutine to	slow Knuckles walking up a	slope
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_SlopeResist:			; XREF: Obj99_MdNormal
+		move.b	$26(a0),d0
+		addi.b	#$60,d0
+		cmpi.b	#$C0,d0
+		bcc.s	locret5_13508
+		move.b	$26(a0),d0
+		jsr	(CalcSine).l
+		muls.w	#$20,d0
+		asr.l	#8,d0
+		tst.w	$20(a0)
+		beq.s	locret5_13508
+		bmi.s	loc5_13504
+		tst.w	d0
+		beq.s	locret5_13502
+		add.w	d0,$20(a0)	; change Knuckles's inertia
+
+locret5_13502:
+		rts	
+; ===========================================================================
+
+loc5_13504:
+		add.w	d0,$20(a0)
+
+locret5_13508:
+		rts	
+; End of function Knuckles_SlopeResist
+
+; ---------------------------------------------------------------------------
+; Subroutine to	push Knuckles down	a slope	while he's rolling
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_RollRepel:			; XREF: Obj99_MdRoll
+		move.b	$26(a0),d0
+		addi.b	#$60,d0
+		cmpi.b	#-$40,d0
+		bcc.s	locret5_13544
+		move.b	$26(a0),d0
+		jsr	(CalcSine).l
+		muls.w	#$50,d0
+		asr.l	#8,d0
+		tst.w	$20(a0)
+		bmi.s	loc5_1353A
+		tst.w	d0
+		bpl.s	loc5_13534
+		asr.l	#2,d0
+
+loc5_13534:
+		add.w	d0,$20(a0)
+		rts	
+; ===========================================================================
+
+loc5_1353A:
+		tst.w	d0
+		bmi.s	loc5_13540
+		asr.l	#2,d0
+
+loc5_13540:
+		add.w	d0,$20(a0)
+
+locret5_13544:
+		rts	
+; End of function Knuckles_RollRepel
+
+; ---------------------------------------------------------------------------
+; Subroutine to	push Knuckles down	a slope
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_SlopeRepel:			; XREF: Obj99_MdNormal; Obj99_MdRoll
+		nop	
+		tst.b	$38(a0)
+		bne.s	locret5_13580
+		tst.w	$3E(a0)
+		bne.s	loc5_13582
+		move.b	$26(a0),d0
+		addi.b	#$20,d0
+		andi.b	#$C0,d0
+		beq.s	locret5_13580
+		move.w	$20(a0),d0
+		bpl.s	loc5_1356A
+		neg.w	d0
+
+loc5_1356A:
+		cmpi.w	#$280,d0
+		bcc.s	locret5_13580
+		clr.w	$20(a0)
+		bset	#1,$22(a0)
+		move.w	#$1E,$3E(a0)
+
+locret5_13580:
+		rts	
+; ===========================================================================
+
+loc5_13582:
+		subq.w	#1,$3E(a0)
+		rts	
+; End of function Knuckles_SlopeRepel
+
+; ---------------------------------------------------------------------------
+; Subroutine to	return Knuckles's angle to 0 as he jumps
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_JumpAngle:			; XREF: Obj99_MdJump; Obj99_MdJump2
+		move.b	$26(a0),d0	; get Knuckles's angle
+		beq.s	locret5_135A2	; if already 0,	branch
+		bpl.s	loc5_13598	; if higher than 0, branch
+
+		addq.b	#2,d0		; increase angle
+		bcc.s	loc5_13596
+		moveq	#0,d0
+
+loc5_13596:
+		bra.s	loc5_1359E
+; ===========================================================================
+
+loc5_13598:
+		subq.b	#2,d0		; decrease angle
+		bcc.s	loc5_1359E
+		moveq	#0,d0
+
+loc5_1359E:
+		move.b	d0,$26(a0)
+
+locret5_135A2:
+		rts	
+; End of function Knuckles_JumpAngle
+
+; ---------------------------------------------------------------------------
+; Subroutine for Knuckles to interact with	the floor after	jumping/falling
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_Floor:				; XREF: Obj01_MdJump; Obj01_MdJump2
+		move.l	($FFFFFFD0).w,($FFFFF796).w		; MJ: load first collision data location
+		cmpi.b	#$C,($FFFFFFD8).w			; MJ: is second collision set to be used?
+		beq.s	@first					; MJ: if not, branch
+		move.l	($FFFFFFD4).w,($FFFFF796).w		; MJ: load second collision data location
+@first:
+		move.b	($FFFFFFD9).w,d5			; MJ: load L/R/B soldity bit
+		move.w	$10(a0),d1
+		move.w	$12(a0),d2
+		jsr	(CalcAngle).l
+		subi.b	#$20,d0
+		andi.b	#$C0,d0
+		cmpi.b	#$40,d0
+		beq.w	loc5_13680
+		cmpi.b	#$80,d0
+		beq.w	loc5_136E2
+		cmpi.b	#-$40,d0
+		beq.w	loc5_1373E
+		bsr.w	Knuckles_HitWall
+		tst.w	d1
+		bpl.s	loc5_135F0
+		sub.w	d1,8(a0)
+		move.w	#0,$10(a0)
+
+loc5_135F0:
+		bsr.w	sub_14EB4
+		tst.w	d1
+		bpl.s	loc5_13602
+		add.w	d1,8(a0)
+		move.w	#0,$10(a0)
+
+loc5_13602:
+        move.b  $12(a0),d0       ; * get blocks per frame (D)
+        andi.w  #$F0,d0         ; * ''
+        move.w  d0,-(sp)        ; * save D to stack
+
+loc5_13602_0:     
+		exg d0,d2           ; * D as base Ypos
+        add.w   $C(a0),d2      ; * add ypos
+        move.w  8(a0),d3      ; * get xpos
+        bsr.w   Knuckles_HitFloor2     ; * check
+        tst.w   d1          ; * success?
+        bmi.s   loc5_13602_1          ; * yes, branch
+        subi.w  #$10,(sp)       ; * set D to previous $10 pixels
+        move.w  (sp),d0         ; * get D to our scratch reg
+        bpl.s   loc5_13602_0          ; * if we have any remain to check, branch
+        addq.w  #2,sp           ; * if not (if there's definitely nothing to collide with)
+        rts             ;   fix the stack and return
+
+loc5_13602_1:     
+		move.w  (sp),d0         ; * get D to our scratch reg
+        addq.w  #2,sp           ; * fix the stack
+        add.w   d0,d1           ; * add D to the "within-in-block" result (and fix final value)
+        add.w   d1,$C(a0)      ; * add final value to ypos
+    ;    move.b  d1,($FFFFFFEF).w
+        tst.w   d0          ; * check D
+        beq.s   loc5_1361E          ; * if zero (falling slow), branch
+        andi.w  #$FFF0,$C(a0)      ; * just in case, align ypos
+ 
+loc5_1361E:
+        move.b  d3,$26(a0)
+		move.b	#0,$1C(a0)
+		move.b	d3,d0
+		addi.b	#$20,d0
+		andi.b	#$40,d0
+		bne.s	loc5_1365C
+		move.b	d3,d0
+		addi.b	#$10,d0
+		andi.b	#$20,d0
+		beq.s	loc5_1364E
+		asr	$12(a0)
+		bra.s	loc5_13670
+; ===========================================================================
+
+loc5_1364E:
+		move.w	#0,$12(a0)
+		move.w	$10(a0),$20(a0)
+        bra.w   Knuckles_ResetOnFloor
+; ===========================================================================
+
+loc5_1365C:
+		move.w	#0,$10(a0)
+		cmpi.w	#$FC0,$12(a0)
+		ble.s	loc5_13670
+		move.w	#$FC0,$12(a0)
+
+loc5_13670:
+        bsr.w   Knuckles_ResetOnFloor
+		move.w	$12(a0),$20(a0)
+		tst.b	d3
+		bpl.s	locret5_1367E
+		neg.w	$20(a0)
+
+locret5_1367E:
+		rts	
+; ===========================================================================
+
+loc5_13680:
+		bsr.w	Knuckles_HitWall
+		tst.w	d1
+		bpl.s	loc5_1369A
+		sub.w	d1,8(a0)
+		move.w	#0,$10(a0)
+		move.w	$12(a0),$20(a0)
+		rts	
+; ===========================================================================
+
+loc5_1369A:
+		bsr.w	Sonic_DontRunOnWalls
+		tst.w	d1
+		bpl.s	loc5_136B4
+		sub.w	d1,$C(a0)
+		tst.w	$12(a0)
+		bpl.s	locret5_136B2
+		move.w	#0,$12(a0)
+
+locret5_136B2:
+		rts	
+; ===========================================================================
+
+loc5_136B4:
+		tst.w	$12(a0)
+		bmi.s	locret5_136E0
+		bsr.w	Knuckles_HitFloor
+		tst.w	d1
+		bpl.s	locret5_136E0
+		add.w	d1,$C(a0)
+		move.b	d3,$26(a0)
+		move.b	#0,$1C(a0)
+		move.w	#0,$12(a0)
+		move.w	$10(a0),$20(a0)
+		bsr.w	Knuckles_ResetOnFloor
+
+locret5_136E0:
+		rts	
+; ===========================================================================
+
+loc5_136E2:
+		bsr.w	Knuckles_HitWall
+		tst.w	d1
+		bpl.s	loc5_136F4
+		sub.w	d1,8(a0)
+		move.w	#0,$10(a0)
+
+loc5_136F4:
+		bsr.w	sub_14EB4
+		tst.w	d1
+		bpl.s	loc5_13706
+		add.w	d1,8(a0)
+		move.w	#0,$10(a0)
+
+loc5_13706:
+		bsr.w	Sonic_DontRunOnWalls
+		tst.w	d1
+		bpl.s	locret5_1373C
+		sub.w	d1,$C(a0)
+		move.b	d3,d0
+		addi.b	#$20,d0
+		andi.b	#$40,d0
+		bne.s	loc5_13726
+		move.w	#0,$12(a0)
+		rts	
+; ===========================================================================
+
+loc5_13726:
+		move.b	d3,$26(a0)
+		bsr.w	Knuckles_ResetOnFloor
+		move.w	$12(a0),$20(a0)
+		tst.b	d3
+		bpl.s	locret5_1373C
+		neg.w	$20(a0)
+
+locret5_1373C:
+		rts	
+; ===========================================================================
+
+loc5_1373E:
+		bsr.w	sub_14EB4
+		tst.w	d1
+		bpl.s	loc5_13758
+		add.w	d1,8(a0)
+		move.w	#0,$10(a0)
+		move.w	$12(a0),$20(a0)
+		rts	
+; ===========================================================================
+
+loc5_13758:
+		bsr.w	Sonic_DontRunOnWalls
+		tst.w	d1
+		bpl.s	loc5_13772
+		sub.w	d1,$C(a0)
+		tst.w	$12(a0)
+		bpl.s	locret5_13770
+		move.w	#0,$12(a0)
+
+locret5_13770:
+		rts	
+; ===========================================================================
+
+loc5_13772:
+		tst.w	$12(a0)
+		bmi.s	locret5_1379E
+		bsr.w	Knuckles_HitFloor
+		tst.w	d1
+		bpl.s	locret5_1379E
+		add.w	d1,$C(a0)
+		move.b	d3,$26(a0)
+		move.w	#0,$12(a0)
+		move.w	$10(a0),$20(a0)
+		bsr.w	Knuckles_ResetOnFloor
+
+locret5_1379E:
+		rts	
+; End of function Knuckles_Floor
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Knuckles	when he	gets hurt
+; ---------------------------------------------------------------------------
+
+Obj99_Hurt:				; XREF: Obj99_Index
+		clr.b	($FFFFFEB3).w
+		jsr	SpeedToPos
+		addi.w	#$30,$12(a0)
+		btst	#6,$22(a0)
+		beq.s	loc5_1380C
+		subi.w	#$20,$12(a0)
+
+loc5_1380C:
+		bsr.w	Knuckles_HurtStop
+		bsr.w	Knuckles_LevelBound
+		bsr.w	Main_RecordPos
+		bsr.w	Knuckles_Animate
+		bsr.w	LoadKnucklesDynPLC
+		jmp	DisplaySprite
+
+; ---------------------------------------------------------------------------
+; Subroutine to	stop Knuckles falling after he's been hurt
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_HurtStop:				; XREF: Obj99_Hurt
+		move.w	($FFFFF72E).w,d0
+		addi.w	#$E0,d0
+		cmp.w	$C(a0),d0
+		bcs.w	JMP_KillKnuckles
+		bsr.w	Knuckles_Floor
+		btst	#1,$22(a0)
+		bne.s	locret5_13860
+		moveq	#0,d0
+		move.w	d0,$12(a0)
+		move.w	d0,$10(a0)
+		move.w	d0,$20(a0)
+		move.b	#0,$1C(a0)
+		subq.b	#2,$24(a0)
+		move.w	#$78,$30(a0)
+
+locret5_13860:
+		rts	
+; End of function Knuckles_HurtStop
+
+JMP_KillKnuckles:
+		jmp	KillSonic
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Knuckles	when he	dies
+; ---------------------------------------------------------------------------
+
+Obj99_Death:				; XREF: Obj99_Index
+		clr.b	($FFFFFEB3).w
+		bsr.w	GameOver5
+		jsr	ObjectFall
+		bsr.w	Main_RecordPos
+		bsr.w	Knuckles_Animate
+		bsr.w	LoadKnucklesDynPLC
+		jmp	DisplaySprite
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+GameOver5:				; XREF: Obj99_Death
+		move.w	($FFFFF72E).w,d0
+		addi.w	#$100,d0
+		cmp.w	$C(a0),d0
+		bcc.w	locret5_13900
+		move.w	#-$38,$12(a0)
+		addq.b	#2,$24(a0)
+		clr.b	($FFFFFE1E).w	; stop time counter
+		addq.b	#1,($FFFFFE1C).w ; update lives	counter
+		subq.b	#1,($FFFFFE12).w ; subtract 1 from number of lives
+		bne.s	loc5_138D4
+		move.w	#0,$3A(a0)
+		move.b	#$39,($FFFFB080).w ; load GAME object
+		move.b	#$39,($FFFFB0C0).w ; load OVER object
+		move.b	#1,($FFFFB0DA).w ; set OVER object to correct frame
+		clr.b	($FFFFFE1A).w
+
+loc5_138C2:
+		moveq	#$1E,d0
+		jsr	(PlaySound).l	; play game over music
+		moveq	#3,d0
+		jmp	(LoadPLC).l	; load game over patterns
+; ===========================================================================
+
+loc5_138D4:
+		move.w	#60,$3A(a0)	; set time delay to 1 second
+		tst.b	($FFFFFE1A).w	; is TIME OVER tag set?
+		beq.s	locret5_13900	; if not, branch
+		move.w	#0,$3A(a0)
+		move.b	#$39,($FFFFB080).w ; load TIME object
+		move.b	#$39,($FFFFB0C0).w ; load OVER object
+		move.b	#2,($FFFFB09A).w
+		move.b	#3,($FFFFB0DA).w
+		bra.s	loc5_138C2
+; ===========================================================================
+
+locret5_13900:
+		rts	
+; End of function GameOver
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Knuckles	when the level is restarted
+; ---------------------------------------------------------------------------
+
+Obj99_ResetLevel:			; XREF: Obj99_Index
+		tst.w	$3A(a0)
+		beq.s	locret5_13914
+		subq.w	#1,$3A(a0)	; subtract 1 from time delay
+		bne.s	locret5_13914
+		move.w	#1,($FFFFFE02).w ; restart the level
+
+locret5_13914:
+		rts	
+
+; ---------------------------------------------------------------------------
+; Subroutine to	animate	Knuckles's sprites
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+Knuckles_Animate:				; XREF: Obj99_Control; et al
+		lea	(KnucklesAniData).l,a1
+		moveq	#0,d0
+		move.b	$1C(a0),d0
+		cmp.b	$1D(a0),d0	; is animation set to restart?
+		beq.s	KnuAnim_Do	; if not, branch
+		move.b	d0,$1D(a0)	; set to "no restart"
+		move.b	#0,$1B(a0)	; reset	animation
+		move.b	#0,$23(a0)	; reset	frame duration
+
+KnuAnim_Do:
+		add.w	d0,d0
+		adda.w	(a1,d0.w),a1	; jump to appropriate animation	script
+		move.b	(a1),d0
+		bmi.s	KnuAnim_WalkRun	; if animation is walk/run/roll/jump, branch
+		move.b	$22(a0),d1
+		andi.b	#1,d1
+		andi.b	#$FC,1(a0)
+		or.b	d1,1(a0)
+		subq.b	#1,$23(a0)	; subtract 1 from frame	duration
+		bpl.s	KnuAnim_Delay	; if time remains, branch
+		move.b	d0,$23(a0)	; load frame duration
+
+KnuAnim_Do2:
+		moveq	#0,d1
+		move.b	$1B(a0),d1	; load current frame number
+		move.b	1(a1,d1.w),d0	; read sprite number from script
+		cmp.b	#$FD,d0					; MJ: is it a flag from FD to FF?
+		bhs	KnuAnim_End_FF				; MJ: if so, branch to flag routines
+ 
+KnuAnim_Next:
+		move.b	d0,$1A(a0)	; load sprite number
+		addq.b	#1,$1B(a0)	; next frame number
+
+KnuAnim_Delay:
+		rts	
+; ===========================================================================
+
+KnuAnim_End_FF:
+		addq.b	#1,d0		; is the end flag = $FF	?
+		bne.s	KnuAnim_End_FE	; if not, branch
+		move.b	#0,$1B(a0)	; restart the animation
+		move.b	1(a1),d0	; read sprite number
+		bra.s	KnuAnim_Next
+; ===========================================================================
+
+KnuAnim_End_FE:
+		addq.b	#1,d0		; is the end flag = $FE	?
+		bne.s	KnuAnim_End_FD	; if not, branch
+		move.b	2(a1,d1.w),d0	; read the next	byte in	the script
+		sub.b	d0,$1B(a0)	; jump back d0 bytes in	the script
+		sub.b	d0,d1
+		move.b	1(a1,d1.w),d0	; read sprite number
+		bra.s	KnuAnim_Next
+; ===========================================================================
+
+KnuAnim_End_FD:
+		addq.b	#1,d0		; is the end flag = $FD	?
+		bne.s	KnuAnim_End	; if not, branch
+		move.b	2(a1,d1.w),$1C(a0) ; read next byte, run that animation
+
+KnuAnim_End:
+		rts	
+; ===========================================================================
+
+KnuAnim_WalkRun:				; XREF: KnuAnim_Do
+		subq.b	#1,$23(a0)	; subtract 1 from frame	duration
+		bpl.s	KnuAnim_Delay	; if time remains, branch
+		addq.b	#1,d0		; is animation walking/running?
+		bne.w	KnuAnim_RollJump	; if not, branch
+		moveq	#0,d1
+		move.b	$26(a0),d0	; get Knuckles's angle
+		move.b	$22(a0),d2
+		andi.b	#1,d2		; is Knuckles mirrored horizontally?
+		bne.s	loc5_13A70	; if yes, branch
+		not.b	d0		; reverse angle
+
+loc5_13A70:
+		addi.b	#$10,d0		; add $10 to angle
+		bpl.s	loc5_13A78	; if angle is $0-$7F, branch
+		moveq	#3,d1
+
+loc5_13A78:
+		andi.b	#$FC,1(a0)
+		eor.b	d1,d2
+		or.b	d2,1(a0)
+		btst	#5,$22(a0)
+		bne.w	KnuAnim_Push
+		lsr.b	#4,d0		; divide angle by $10
+		andi.b	#6,d0		; angle	must be	0, 2, 4	or 6
+		move.w	$20(a0),d2	; get Knuckles's speed
+		bpl.s	loc5_13A32
+		neg.w	d2
+
+loc5_13A32:
+		lea	(KnuAni_Run).l,a1 ; use	running	animation
+		cmpi.w	#$600,d2	; is Knuckles at running speed?
+		bcc.s	loc5_13AB4	; if yes, branch
+		lea	(KnuAni_Walk).l,a1 ; use walking animation
+		add.b	d0,d0
+
+loc5_13AB4:
+		add.b	d0,d0
+		move.b	d0,d3
+		neg.w	d2
+		addi.w	#$800,d2
+		bpl.s	loc5_13AC2
+		moveq	#0,d2
+
+loc5_13AC2:
+		lsr.w	#8,d2
+		move.b	d2,$23(a0)	; modify frame duration
+		bsr.w	KnuAnim_Do2
+		add.b	d3,$1A(a0)	; modify frame number
+		rts	
+
+; ===========================================================================			
+
+KnuAnim_RollJump:				; XREF: KnuAnim_WalkRun
+		addq.b	#1,d0		; is animation rolling/jumping?
+		bne.s	KnuAnim_Push	; if not, branch
+		move.w	$20(a0),d2	; get Knuckles's speed
+		bpl.s	loc5_13ADE
+		neg.w	d2
+
+loc5_13ADE:
+		lea	(KnuAni_Roll2).l,a1 ; use fast animation
+		cmpi.w	#$600,d2	; is Knuckles moving fast?
+		bcc.s	loc5_13AF0	; if yes, branch
+		lea	(KnuAni_Roll).l,a1 ; use slower	animation
+
+loc5_13AF0:
+		neg.w	d2
+		addi.w	#$400,d2
+		bpl.s	loc5_13AFA
+		moveq	#0,d2
+
+loc5_13AFA:
+		lsr.w	#8,d2
+		move.b	d2,$23(a0)	; modify frame duration
+		move.b	$22(a0),d1
+		andi.b	#1,d1
+		andi.b	#$FC,1(a0)
+		or.b	d1,1(a0)
+		bra.w	KnuAnim_Do2
+; ===========================================================================
+
+KnuAnim_Push:				; XREF: KnuAnim_RollJump
+		move.w	$20(a0),d2	; get Knuckles's speed
+		bmi.s	loc5_13B1E
+		neg.w	d2
+
+loc5_13B1E:
+		addi.w	#$800,d2
+		bpl.s	loc5_13B26
+		moveq	#0,d2
+
+loc5_13B26:
+		lsr.w	#6,d2
+		move.b	d2,$23(a0)	; modify frame duration
+		lea	(KnuAni_Push).l,a1
+		move.b	$22(a0),d1
+		andi.b	#1,d1
+		andi.b	#$FC,1(a0)
+		or.b	d1,1(a0)
+		bra.w	KnuAnim_Do2
+; End of function Knuckles_Animate
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; subroutine to	change Knuckles's angle & position as he walks along the floor
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+Knuckles_AnglePos:				; XREF: Obj01_MdNormal; Obj01_MdRoll
+		move.l	($FFFFFFD0).w,($FFFFF796).w		; MJ: load first collision data location
+		cmpi.b	#$C,($FFFFFFD8).w			; MJ: is second collision set to be used?
+		beq.s	@first					; MJ: if not, branch
+		move.l	($FFFFFFD4).w,($FFFFF796).w		; MJ: load second collision data location
+@first:
+		move.b	($FFFFFFD8).w,d5			; MJ: load L/R/B soldity bit
+		btst	#3,$22(a0)
+		beq.s	loc5_14602
+		moveq	#0,d0
+		move.b	d0,($FFFFF768).w
+		move.b	d0,($FFFFF76A).w
+		rts	
+; ===========================================================================
+
+loc5_14602:
+		moveq	#3,d0
+		move.b	d0,($FFFFF768).w
+		move.b	d0,($FFFFF76A).w
+		move.b	$26(a0),d0
+		addi.b	#$20,d0
+		bpl.s	loc5_14624
+		move.b	$26(a0),d0
+		bpl.s	loc5_1461E
+		subq.b	#1,d0
+
+loc5_1461E:
+		addi.b	#$20,d0
+		bra.s	loc5_14630
+; ===========================================================================
+
+loc5_14624:
+		move.b	$26(a0),d0
+		bpl.s	loc5_1462C
+		addq.b	#1,d0
+
+loc5_1462C:
+		addi.b	#$1F,d0
+
+loc5_14630:
+		andi.b	#$C0,d0
+		cmpi.b	#$40,d0
+		beq.w	Knuckles_WalkVertL
+		cmpi.b	#$80,d0
+		beq.w	Knuckles_WalkCeiling
+		cmpi.b	#$C0,d0
+		beq.w	Knuckles_WalkVertR
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$16(a0),d0
+		ext.w	d0
+		add.w	d0,d2
+		move.b	$17(a0),d0
+		ext.w	d0
+		add.w	d0,d3
+		lea	($FFFFF768).w,a4
+		movea.w	#$10,a3
+		move.w	#0,d6
+		bsr.w	FindFloor				; MJ: check solidity
+		move.w	d1,-(sp)
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$16(a0),d0
+		ext.w	d0
+		add.w	d0,d2
+		move.b	$17(a0),d0
+		ext.w	d0
+		neg.w	d0
+		add.w	d0,d3
+		lea	($FFFFF76A).w,a4
+		movea.w	#$10,a3
+		move.w	#0,d6
+		bsr.w	FindFloor				; MJ: check solidity
+		move.w	(sp)+,d0
+		bsr.w	Knuckles_Angle
+		tst.w	d1
+		beq.s	locret5_146BE
+		bpl.s	loc5_146C0
+		cmpi.w	#-$E,d1
+		blt.s	locret5_146E6
+		add.w	d1,$C(a0)
+
+locret5_146BE:
+		rts	
+; ===========================================================================
+
+loc5_146C0:
+		cmpi.w	#$E,d1
+		bgt.s	loc5_146CC
+
+loc5_146C6:
+		add.w	d1,$C(a0)
+		rts	
+; ===========================================================================
+
+loc5_146CC:
+		tst.b	$38(a0)
+		bne.s	loc5_146C6
+		bset	#1,$22(a0)
+		bclr	#5,$22(a0)
+		move.b	#1,$1D(a0)
+		rts	
+; ===========================================================================
+
+locret5_146E6:
+		rts	
+; End of function Knuckles_AnglePos
+
+; ===========================================================================
+		move.l	8(a0),d2
+		move.w	$10(a0),d0
+		ext.l	d0
+		asl.l	#8,d0
+		sub.l	d0,d2
+		move.l	d2,8(a0)
+		move.w	#$38,d0
+		ext.l	d0
+		asl.l	#8,d0
+		sub.l	d0,d3
+		move.l	d3,$C(a0)
+		rts	
+; ===========================================================================
+
+locret5_1470A:
+		rts	
+; ===========================================================================
+		move.l	$C(a0),d3
+		move.w	$12(a0),d0
+		subi.w	#$38,d0
+		move.w	d0,$12(a0)
+		ext.l	d0
+		asl.l	#8,d0
+		sub.l	d0,d3
+		move.l	d3,$C(a0)
+		rts	
+		rts	
+; ===========================================================================
+		move.l	8(a0),d2
+		move.l	$C(a0),d3
+		move.w	$10(a0),d0
+		ext.l	d0
+		asl.l	#8,d0
+		sub.l	d0,d2
+		move.w	$12(a0),d0
+		ext.l	d0
+		asl.l	#8,d0
+		sub.l	d0,d3
+		move.l	d2,8(a0)
+		move.l	d3,$C(a0)
+		rts	
+
+; ---------------------------------------------------------------------------
+; subroutine to	change Knuckles's angle as he walks along the floor
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_Angle:				; XREF: Knuckles_AnglePos; et al
+		move.b	($FFFFF76A).w,d2
+		cmp.w	d0,d1
+		ble.s	loc5_1475E
+		move.b	($FFFFF768).w,d2
+		move.w	d0,d1
+
+loc5_1475E:
+		btst	#0,d2
+		bne.s	loc5_1476A
+		move.b	d2,$26(a0)
+		rts	
+; ===========================================================================
+
+loc5_1476A:
+		move.b	$26(a0),d2
+		addi.b	#$20,d2
+		andi.b	#$C0,d2
+		move.b	d2,$26(a0)
+		rts	
+; End of function Knuckles_Angle
+
+; ---------------------------------------------------------------------------
+; subroutine allowing Knuckles to walk up a vertical slope/wall to	his right
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_WalkVertR:			; XREF: Knuckles_AnglePos
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$17(a0),d0
+		ext.w	d0
+		neg.w	d0
+		add.w	d0,d2
+		move.b	$16(a0),d0
+		ext.w	d0
+		add.w	d0,d3
+		lea	($FFFFF768).w,a4
+		movea.w	#$10,a3
+		move.w	#0,d6
+		bsr.w	FindWall				; MJ: check solidity
+		move.w	d1,-(sp)
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$17(a0),d0
+		ext.w	d0
+		add.w	d0,d2
+		move.b	$16(a0),d0
+		ext.w	d0
+		add.w	d0,d3
+		lea	($FFFFF76A).w,a4
+		movea.w	#$10,a3
+		move.w	#0,d6
+		bsr.w	FindWall				; MJ: check solidity
+		move.w	(sp)+,d0
+		bsr.w	Knuckles_Angle
+		tst.w	d1
+		beq.s	locret5_147F0
+		bpl.s	loc5_147F2
+		cmpi.w	#-$E,d1
+		blt.w	locret5_1470A
+		add.w	d1,8(a0)
+
+locret5_147F0:
+		rts	
+; ===========================================================================
+
+loc5_147F2:
+		cmpi.w	#$E,d1
+		bgt.s	loc5_147FE
+
+loc5_147F8:
+		add.w	d1,8(a0)
+		rts	
+; ===========================================================================
+
+loc5_147FE:
+		tst.b	$38(a0)
+		bne.s	loc5_147F8
+		bset	#1,$22(a0)
+		bclr	#5,$22(a0)
+		move.b	#1,$1D(a0)
+		rts	
+; End of function Knuckles_WalkVertR
+
+; ---------------------------------------------------------------------------
+; subroutine allowing Knuckles to walk upside-down
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_WalkCeiling:			; XREF: Knuckles_AnglePos
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$16(a0),d0
+		ext.w	d0
+		sub.w	d0,d2
+		eori.w	#$F,d2
+		move.b	$17(a0),d0
+		ext.w	d0
+		add.w	d0,d3
+		lea	($FFFFF768).w,a4
+		movea.w	#-$10,a3
+		move.w	#$0800,d6
+		bsr.w	FindFloor				; MJ: check solidity
+		move.w	d1,-(sp)
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$16(a0),d0
+		ext.w	d0
+		sub.w	d0,d2
+		eori.w	#$F,d2
+		move.b	$17(a0),d0
+		ext.w	d0
+		sub.w	d0,d3
+		lea	($FFFFF76A).w,a4
+		movea.w	#-$10,a3
+		move.w	#$0800,d6
+		bsr.w	FindFloor				; MJ: check solidity
+		move.w	(sp)+,d0
+		bsr.w	Knuckles_Angle
+		tst.w	d1
+		beq.s	locret5_14892
+		bpl.s	loc5_14894
+		cmpi.w	#-$E,d1
+		blt.w	locret5_146E6
+		sub.w	d1,$C(a0)
+
+locret5_14892:
+		rts	
+; ===========================================================================
+
+loc5_14894:
+		cmpi.w	#$E,d1
+		bgt.s	loc5_148A0
+
+loc5_1489A:
+		sub.w	d1,$C(a0)
+		rts	
+; ===========================================================================
+
+loc5_148A0:
+		tst.b	$38(a0)
+		bne.s	loc5_1489A
+		bset	#1,$22(a0)
+		bclr	#5,$22(a0)
+		move.b	#1,$1D(a0)
+		rts	
+; End of function Knuckles_WalkCeiling
+
+; ---------------------------------------------------------------------------
+; subroutine allowing Knuckles to walk up a vertical slope/wall to	his left
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_WalkVertL:
+		move.w	$C(a0),d2				; MJ: Load Y position
+		move.w	8(a0),d3				; MJ: Load X position
+		moveq	#0,d0					; MJ: clear d0
+		move.b	$17(a0),d0				; MJ: load height
+		ext.w	d0					; MJ: set left byte pos or neg
+		sub.w	d0,d2					; MJ: subtract from Y position
+		move.b	$16(a0),d0				; MJ: load width
+		ext.w	d0					; MJ: set left byte pos or neg
+		sub.w	d0,d3					; MJ: subtract from X position
+		eori.w	#$F,d3
+		lea	($FFFFF768).w,a4			; MJ: load address of the angle value set
+		movea.w	#-$10,a3
+		move.w	#$400,d6
+		bsr.w	FindWall				; MJ: check solidity
+		move.w	d1,-(sp)
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$17(a0),d0
+		ext.w	d0
+		add.w	d0,d2
+		move.b	$16(a0),d0
+		ext.w	d0
+		sub.w	d0,d3
+		eori.w	#$F,d3
+		lea	($FFFFF76A).w,a4
+		movea.w	#-$10,a3
+		move.w	#$400,d6
+		bsr.w	FindWall				; MJ: check solidity
+		move.w	(sp)+,d0
+		bsr.w	Knuckles_Angle
+		tst.w	d1
+		beq.s	locret5_14934
+		bpl.s	loc5_14936
+		cmpi.w	#-$E,d1
+		blt.w	locret5_1470A
+		sub.w	d1,8(a0)
+
+locret5_14934:
+		rts
+
+; ===========================================================================
+
+loc5_14936:
+		cmpi.w	#$E,d1
+		bgt.s	loc5_14942
+
+loc5_1493C:
+		sub.w	d1,8(a0)
+		rts	
+
+; ===========================================================================
+
+loc5_14942:
+		tst.b	$38(a0)
+		bne.s	loc5_1493C
+		bset	#1,$22(a0)
+		bclr	#5,$22(a0)
+		move.b	#1,$1D(a0)
+		rts	
+; End of function Knuckles_WalkVertL
+
+; ---------------------------------------------------------------------------
+; subroutine to	make Knuckles land	on the floor after jumping
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_HitFloor:				; XREF: Knuckles_Floor
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+
+Knuckles_HitFloor2:
+		move.l	($FFFFFFD0).w,($FFFFF796).w		; MJ: load first collision data location
+		cmpi.b	#$C,($FFFFFFD8).w			; MJ: is second collision set to be used?
+		beq.s	@first					; MJ: if not, branch
+		move.l	($FFFFFFD4).w,($FFFFF796).w		; MJ: load second collision data location
+@first:
+		move.b	($FFFFFFD8).w,d5			; MJ: load L/R/B soldity bit
+		moveq	#0,d0
+		move.b	$16(a0),d0
+		ext.w	d0
+		add.w	d0,d2
+		move.b	$17(a0),d0
+		ext.w	d0
+		add.w	d0,d3
+		lea	($FFFFF768).w,a4
+		movea.w	#$10,a3
+		move.w	#0,d6
+		bsr.w	FindFloor				; MJ: check solidity
+		move.w	d1,-(sp)
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+		moveq	#0,d0
+		move.b	$16(a0),d0
+		ext.w	d0
+		add.w	d0,d2
+		move.b	$17(a0),d0
+		ext.w	d0
+		sub.w	d0,d3
+		lea	($FFFFF76A).w,a4
+		movea.w	#$10,a3
+		move.w	#0,d6
+		bsr.w	FindFloor				; MJ: check solidity
+		move.w	(sp)+,d0
+		move.b	#0,d2
+
+loc5_14DD0:
+		move.b	($FFFFF76A).w,d3
+		cmp.w	d0,d1
+		ble.s	loc5_14DDE
+		move.b	($FFFFF768).w,d3
+		exg	d0,d1
+
+loc5_14DDE:
+		btst	#0,d3
+		beq.s	locret5_14DE6
+		move.b	d2,d3
+
+locret5_14DE6:
+		rts	
+
+; End of function Knuckles_HitFloor
+
+; ===========================================================================
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+
+loc5_14DF0:				; XREF: Knuckles_WalkSpeed
+		addi.w	#$A,d2
+		lea	($FFFFF768).w,a4
+		movea.w	#$10,a3
+		move.w	#0,d6
+		bsr.w	FindFloor				; MJ: check solidity
+		move.b	#0,d2
+
+loc5_14E0A:				; XREF: sub_14EB4
+		move.b	($FFFFF768).w,d3
+		btst	#0,d3
+		beq.s	locret5_14E16
+		move.b	d2,d3
+
+locret5_14E16:
+		rts	
+
+; ---------------------------------------------------------------------------
+; subroutine to	stop Knuckles when	he jumps at a wall
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+Knuckles_HitWall:				; XREF: Knuckles_Floor
+		move.w	$C(a0),d2
+		move.w	8(a0),d3
+
+loc5_1504A:
+		subi.w	#$A,d3
+		eori.w	#$F,d3
+		lea	($FFFFF768).w,a4
+		movea.w	#-$10,a3
+		move.w	#$400,d6
+		bsr.w	FindWall				; MJ: check solidity
+		move.b	#$40,d2
+		bra.w	loc5_14E0A
+; End of function Knuckles_HitWall
 
 ; ===========================================================================
 
@@ -40635,6 +42567,14 @@ SilverAniData:
 
 TailsAniData:
 	include "_anim\Tails.asm"
+
+KnucklesAniData:
+	include "_anim\Knuckles.asm"
+
+LoadKnucklesDynPLC:
+		movea.l	#KnucklesDynPLC,a2	; get DPLC location
+		move.l	#Art_Knuckles,d6	; get art location
+		bra.w	LoadMainDynPLC
 
 LoadTailsTailsDynPLC:
 		movea.l	#TailsTailsDynPLC,a2	; get DPLC location
@@ -42568,6 +44508,66 @@ loc4_14D3C:
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 
+Knuckles_WalkSpeed:			; XREF: Silver_Move
+		move.l	($FFFFFFD0).w,($FFFFF796).w		; MJ: load first collision data location
+		cmpi.b	#$C,($FFFFFFD8).w			; MJ: is second collision set to be used?
+		beq.s	@first					; MJ: if not, branch
+		move.l	($FFFFFFD4).w,($FFFFF796).w		; MJ: load second collision data location
+@first:
+		move.b	($FFFFFFD9).w,d5			; MJ: load L/R/B soldity bit
+		move.l	8(a0),d3
+		move.l	$C(a0),d2
+		move.w	$10(a0),d1
+		ext.l	d1
+		asl.l	#8,d1
+		add.l	d1,d3
+		move.w	$12(a0),d1
+		ext.l	d1
+		asl.l	#8,d1
+		add.l	d1,d2
+		swap	d2
+		swap	d3
+		move.b	d0,($FFFFF768).w
+		move.b	d0,($FFFFF76A).w
+		move.b	d0,d1
+		addi.b	#$20,d0
+		bpl.s	loc5_14D1A
+		move.b	d1,d0
+		bpl.s	loc5_14D14
+		subq.b	#1,d0
+
+loc5_14D14:
+		addi.b	#$20,d0
+		bra.s	loc5_14D24
+; ===========================================================================
+
+loc5_14D1A:
+		move.b	d1,d0
+		bpl.s	loc5_14D20
+		addq.b	#1,d0
+
+loc5_14D20:
+		addi.b	#$1F,d0
+
+loc5_14D24:
+		andi.b	#$C0,d0
+		beq.w	loc_14DF0
+		cmpi.b	#$80,d0
+		beq.w	loc_14F7C
+		andi.b	#$38,d1
+		bne.s	loc4_14D3C
+		addq.w	#8,d2
+
+loc5_14D3C:
+		cmpi.b	#$40,d0
+		beq.w	loc_1504A
+		bra.w	loc_14EBC
+
+; End of function Knuckles_WalkSpeed
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
 sub_14D48:				; XREF: Sonic_Jump
 		move.l	($FFFFFFD0).w,($FFFFF796).w		; MJ: load first collision data location
 		cmpi.b	#$C,($FFFFFFD8).w			; MJ: is second collision set to be used?
@@ -43375,7 +45375,7 @@ Obj68_Action:				; XREF: Obj68_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj68_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj68_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj68_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj68_Delete
@@ -43603,7 +45603,7 @@ Obj6A_Action:				; XREF: Obj6A_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj6A_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj6A_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj6A_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj6A_Delete
@@ -44279,6 +46279,7 @@ Map_obj6E:
 ; ---------------------------------------------------------------------------
 
 Obj6F:					; XREF: Obj_Index
+		rts
 		moveq	#0,d0
 		move.b	$24(a0),d0
 		move.w	Obj6F_Index(pc,d0.w),d1
@@ -44292,7 +46293,7 @@ Obj6F:					; XREF: Obj_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj6F_Display
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj6F_Display	; if it's zero, object was placed in debug mode
+		beq.s	loc_1629A	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	loc_1629A
@@ -44392,7 +46393,7 @@ loc_16380:				; XREF: Obj6F_Main
 loc_1639A:
 		add.w	d0,d0
 		andi.w	#$1E,d0
-		lea	(ObjPos_ABZ1pf_Index).l,a2
+	;	lea	(ObjPos_ABZ1pf_Index).l,a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d1
 		movea.l	a0,a1
@@ -44556,7 +46557,7 @@ Obj70_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj70_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj70_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj70_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj70_Delete
@@ -44610,7 +46611,7 @@ Obj72:					; XREF: Obj_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj72_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj72_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj72_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj72_Delete
@@ -45215,7 +47216,6 @@ Obj79_Main:				; XREF: Obj79_Index
 		move.w	#$280,$18(a0)
         move.w  $1E(a0),d0    ; get address in respawn table
         movea.w d0,a2   ; load address into a2
-        bclr    #7,(a2) ; clear respawn entry, so object can be loaded again
 		btst	#0,(a2)
 		bne.s	Obj79_RedLamp
 		move.b	($FFFFFE30).w,d1
@@ -45463,7 +47463,7 @@ Obj7D_ChkDel:
 		cmpi.w	#$280,d0
 		bls.s	Obj7D_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj7D_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj7D_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj7D_Delete
@@ -50177,7 +52177,7 @@ Obj3E:					; XREF: Obj_Index
 		cmpi.w	#$280,d0
 		bls.s	Obj3E_Done
 		move.w	$1E(a0),d0	; get address in respawn table
-		beq.s	Obj3E_Done	; if it's zero, object was placed in debug mode
+		beq.s	Obj3E_Delete	; if it's zero, object was placed in debug mode
 		movea.w	d0,a2	; load address into a2
 		bclr	#7,(a2)	; clear respawn entry, so object can be loaded again
 		bra.s	Obj3E_Delete
@@ -54433,6 +56433,12 @@ Map_TailsTails:
 	include "_maps\TailsTails.asm"
 
 ; ---------------------------------------------------------------------------
+; Sprite mappings - Knuckles
+; ---------------------------------------------------------------------------
+Map_Knuckles:
+	include "_maps\Knuckles.asm"
+
+; ---------------------------------------------------------------------------
 ; Uncompressed graphics	loading	array for Sonic
 ; ---------------------------------------------------------------------------
 SonicDynPLC:
@@ -54461,6 +56467,12 @@ TailsDynPLC:
 ; ---------------------------------------------------------------------------
 TailsTailsDynPLC:
 	include "_inc\Tails Tails dynamic pattern load cues.asm"
+
+; ---------------------------------------------------------------------------
+; Uncompressed graphics	loading	array for Silver
+; ---------------------------------------------------------------------------
+KnucklesDynPLC:
+	include "_inc\Knuckles dynamic pattern load cues.asm"
 
 ; ---------------------------------------------------------------------------
 ; Uncompressed graphics	loading	array for the Lightning Shield
@@ -54520,19 +56532,11 @@ Art_SilLives:	incbin	artunc\lifeiconsil.bin	; life counter icon
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - various
 ; ---------------------------------------------------------------------------
-Nem_Smoke:	incbin	artnem\xxxsmoke.bin	; unused smoke
-		even
-Nem_CCZSparkle:	incbin	artnem\xxxstars.bin	; unused stars
-		even
-Nem_TJZSonic:	incbin	artnem\xxxTJZson.bin	; unused TJZ Sonic holding his breath
-		even
-Nem_UnkFire:	incbin	artnem\xxxfire.bin	; unused fireball
-		even
-Nem_Warp:	incbin	artnem\xxxflash.bin	; unused entry to special stage flash
-		even
-Nem_Goggle:	incbin	artnem\xxxgoggl.bin	; unused goggles
-		even
 Nem_Booster: 	incbin  artnem\booster.bin 	; speed booster
+		even
+Nem_TornadoSign: 	incbin  artnem\tornadosign.bin
+		even
+Nem_Tornado: 	incbin  artnem\tornado.bin
 		even
 ; ---------------------------------------------------------------------------
 ; Sprite mappings - walls of the special stage
@@ -55398,18 +57402,6 @@ ObjPos_Index:	dc.w ObjPos_WOZ1-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_SZ2-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_SZ3-ObjPos_Index, ObjPos_Null-ObjPos_Index
 		dc.w ObjPos_SZ4-ObjPos_Index, ObjPos_Null-ObjPos_Index
-
-ObjPos_TJZxpf_Index:
-		dc.w ObjPos_TJZ1pf1-ObjPos_Index, ObjPos_TJZ1pf2-ObjPos_Index
-		dc.w ObjPos_TJZ2pf1-ObjPos_Index, ObjPos_TJZ2pf2-ObjPos_Index
-		dc.w ObjPos_TJZ3pf1-ObjPos_Index, ObjPos_TJZ3pf2-ObjPos_Index
-		dc.w ObjPos_TJZ1pf1-ObjPos_Index, ObjPos_TJZ1pf2-ObjPos_Index
-
-ObjPos_ABZ1pf_Index:
-		dc.w ObjPos_ABZ1pf1-ObjPos_Index, ObjPos_ABZ1pf2-ObjPos_Index
-		dc.w ObjPos_ABZ1pf3-ObjPos_Index, ObjPos_ABZ1pf4-ObjPos_Index
-		dc.w ObjPos_ABZ1pf5-ObjPos_Index, ObjPos_ABZ1pf6-ObjPos_Index
-		dc.w ObjPos_ABZ1pf1-ObjPos_Index, ObjPos_ABZ1pf2-ObjPos_Index
 		dc.b $FF, $FF, 0, 0, 0,	0
 ObjPos_WOZ1:	incbin	objpos\WOZ1.bin
 		even
@@ -55426,18 +57418,6 @@ ObjPos_TJZ2:	incbin	objpos\TJZ2.bin
 ObjPos_TJZ3:	incbin	objpos\TJZ3.bin
 		even
 ObjPos_TJZ4:	incbin	objpos\TJZ4.bin
-		even
-ObjPos_TJZ1pf1:	incbin	objpos\TJZ1pf1.bin
-		even
-ObjPos_TJZ1pf2:	incbin	objpos\TJZ1pf2.bin
-		even
-ObjPos_TJZ2pf1:	incbin	objpos\TJZ2pf1.bin
-		even
-ObjPos_TJZ2pf2:	incbin	objpos\TJZ2pf2.bin
-		even
-ObjPos_TJZ3pf1:	incbin	objpos\TJZ3pf1.bin
-		even
-ObjPos_TJZ3pf2:	incbin	objpos\TJZ3pf2.bin
 		even
 ObjPos_DDZ1:	incbin	objpos\DDZ1.bin
 		even
@@ -55470,18 +57450,6 @@ ObjPos_ABZ2:	incbin	objpos\ABZ2.bin
 ObjPos_ABZ3:	incbin	objpos\ABZ3.bin
 		even
 ObjPos_ABZ4:	incbin	objpos\ABZ4.bin
-		even
-ObjPos_ABZ1pf1:	incbin	objpos\ABZ1pf1.bin
-		even
-ObjPos_ABZ1pf2:	incbin	objpos\ABZ1pf2.bin
-		even
-ObjPos_ABZ1pf3:	incbin	objpos\ABZ1pf3.bin
-		even
-ObjPos_ABZ1pf4:	incbin	objpos\ABZ1pf4.bin
-		even
-ObjPos_ABZ1pf5:	incbin	objpos\ABZ1pf5.bin
-		even
-ObjPos_ABZ1pf6:	incbin	objpos\ABZ1pf6.bin
 		even
 ObjPos_End:	incbin	objpos\ending.bin
 		even
@@ -56166,7 +58134,7 @@ ExecuteParallaxScript:
 	swap	d1				; d1 = X (Int)
 	mulu.w	(a1)+,d1			; d1 = X*Coef (24.8)
 	lsl.l	#8,d1				; d1 = X*Coef (16.16)
-	neg.l	d1				; d1 = Initial position
+	neg.l	d1				; d1 = Initial position     v
 	move.l	d1,d2
 	asr.l	d7,d2				; d2 = Linear factor
 
@@ -56247,6 +58215,11 @@ Art_Tails:	incbin	artunc\tails.bin	; Tails
 ; Uncompressed graphics	- Tails' Tails
 ; ---------------------------------------------------------------------------
 Art_TailsTails:	incbin	artunc\tailstails.bin	; Tails
+		even
+; ---------------------------------------------------------------------------
+; Uncompressed graphics	- Knuckles
+; ---------------------------------------------------------------------------
+Art_Knuckles:	incbin	artunc\knuckles.bin	; Knuckles
 		even
 ;-------------------------------------------------------------------------------
 Menu_Font:
