@@ -73,7 +73,7 @@
 	dc.w $6142
 	dc.l Map_SSWalls ;24
 	dc.w $6142
-	dc.l Map_obj47 ;25
+	dc.l Map_SSWalls ;25
 	dc.w $223B
 	dc.l Map_SS_R ;26
 	dc.w $2570
@@ -99,9 +99,9 @@
 	dc.w $25F0
 	dc.l Map_SS_R ;31
 	dc.w $42F0
-	dc.l Map_obj47+$1000000	; add frame no.	* $1000000 ;32
+	dc.l Map_SSWalls+$1000000	; add frame no.	* $1000000 ;32
 	dc.w $223B
-	dc.l Map_obj47+$2000000 ;33
+	dc.l Map_SSWalls+$2000000 ;33
 	dc.w $223B
 	dc.l Map_SS_R ;34
 	dc.w $2797

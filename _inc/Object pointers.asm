@@ -1,42 +1,45 @@
 ; ---------------------------------------------------------------------------
 ; Object pointers
 ; ---------------------------------------------------------------------------
-	dc.l Obj01, Obj02,	Obj03, Obj04
-	dc.l SpinDash_dust, Obj06, Obj07, Obj08
-	dc.l Obj09, Obj0A, Obj0B, Obj0C
-	dc.l Obj0D, Obj0E, Obj0F, Obj10
-	dc.l Obj11, Obj12, Obj13, Obj14
-	dc.l Obj15, Obj16, Obj17, Obj18
-	dc.l Obj19, Obj1A, Obj1B, Obj1C
-	dc.l Obj1D, Obj1E, Obj1F, Obj20
-	dc.l Obj21, Obj22, Obj23, Obj24
+	dc.l Obj01, Obj02,	Obj03, ObjNone
+	dc.l SpinDash_dust, ObjNone, ObjNone, Obj08
+	dc.l Obj09, Obj0A, ObjNone, ObjNone
+	dc.l Obj0D, Obj0E, Obj0F, ObjNone
+	dc.l Obj11, ObjNone, ObjNone, ObjNone
+	dc.l Obj15, ObjNone, ObjNone, Obj18
+	dc.l ObjNone, ObjNone, Obj1B, Obj1C
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l Obj21, ObjNone, ObjNone, Obj24
 	dc.l Obj25, Obj26, Obj27, Obj28
-	dc.l Obj29, Obj2A, Obj2B, Obj2C
-	dc.l Obj2D, Obj2E, Obj2F, Obj30
-	dc.l Obj31, Obj32, Obj33, Obj34
-	dc.l Obj35, Obj36, Obj37, Obj38
-	dc.l Obj39, Obj3A, Obj3B, Obj3C
-	dc.l Obj3D, Obj3E, Obj3F, Obj40
-	dc.l Obj41, Obj42, Obj43, Obj44
-	dc.l Obj45, Obj46, Obj47, Obj48
-	dc.l Obj49, Obj4A, Obj4B, Obj4C
-	dc.l Obj4D, Obj4E, Obj4F, Obj50
-	dc.l Obj51, Obj52, Obj53, Obj54
-	dc.l Obj55, Obj56, Obj57, Obj58
-	dc.l Obj59, Obj5A, Obj5B, Obj5C
-	dc.l Obj5D, Obj5E, Obj5F, Obj60
-	dc.l Obj61, Obj62, Obj63, Obj64
-	dc.l Obj65, Obj66, Obj67, Obj68
-	dc.l Obj69, Obj6A, Obj6B, Obj6C
-	dc.l Obj6D, Obj6E, Obj6F, Obj70
-	dc.l Obj71, Obj72, Obj73, Obj74
-	dc.l Obj75, Obj76, Obj77, Obj78
-	dc.l Obj79, Obj7A, Obj7B, Obj7C
-	dc.l Obj7D, Obj7E, Obj7F, Obj80
-	dc.l Obj81, Obj82, Obj83, Obj84
-	dc.l Obj85, Obj86, Obj87, Obj88
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, Obj2E, ObjNone, ObjNone
+	dc.l ObjNone, Obj32, ObjNone, Obj34
+	dc.l ObjNone, Obj36, Obj37, Obj38
+	dc.l ObjNone, Obj3A, ObjNone, ObjNone
+	dc.l ObjNone, Obj3E, Obj3F, ObjNone
+	dc.l Obj41, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, Obj4A, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, Obj54
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, Obj5C
+	dc.l ObjNone, ObjNone, ObjNone, Obj60
+	dc.l ObjNone, ObjNone, ObjNone, Obj64
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l Obj71, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l Obj79, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, Obj7E, Obj7F, ObjNone
+	dc.l ObjNone, ObjNone, ObjNone, ObjNone
+	dc.l ObjNone, ObjNone, Obj87, Obj88
 	dc.l Obj89, Obj8A, Obj8B, Obj8C
-	dc.l Obj8D, Obj8E, Obj8F, Obj90
-	dc.l Obj91, Obj92, Obj93, Obj94
+	dc.l ObjNone, Obj8E, Obj8F, ObjNone
+	dc.l Obj91, Obj92, ObjNone, Obj94
 	dc.l Obj95, Obj96, Obj97, Obj98
-	dc.l Obj99, Obj9A
+	dc.l Obj99, Obj9A, ObjNone, ObjNone
+
+ObjNone:
+	rts
