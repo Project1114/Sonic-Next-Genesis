@@ -1,7 +1,11 @@
 ; ===========================================================================
-Current_Character       equ     $FFFFFFEC       ; whatever the character you are using is
-Current_Partner       equ     $FFFFFFEE       ; whatever the character you are using is
-Water_Flag              equ     $FFFFF629 ; if the level has water
+Current_Character   equ     $FFFFFFEC       ; whatever the character you are using is
+Current_Partner     equ     $FFFFFFEE       ; whatever the character you are using is
+Water_Flag          equ     $FFFFF629       ; if the level has water
+Universal_Timer     equ     $FFFFF664       ; timer that never resets during gameplay
+Universal_Timer2    equ     $FFFFF666       ; lowest word of timer
+Day_Time            equ     $FFFFF668       ; time of day
+Day_Time_Pal        equ     $FFFFF66A       ; flag for changing palette
 align macro
         cnop 0,\1
         endm
@@ -56,60 +60,45 @@ _Kos_RunBitStream macro
 ; ==============================================================================
 
 lvlord_sega             = $0000
-wave_ocean_act_1        = $0000
-wave_ocean_act_2        = $0001
-wave_ocean_act_3        = $0002
-wave_ocean_act_4        = $0003
+aaz_act_1        = $0000
+aaz_act_2        = $0001
+aaz_act_3        = $0002
+aaz_act_4        = $0003
 
-dusty_desert_act_1    = $0200
-dusty_desert_act_2    = $0201
-dusty_desert_act_3    = $0202
-dusty_desert_act_4    = $0203
+bbz_act_1         = $0100
+bbz_act_2         = $0101
+bbz_act_3         = $0102
+bbz_act_4         = $0103
+
+ccz_act_1    = $0200
+ccz_act_2    = $0201
+ccz_act_3    = $0202
+ccz_act_4    = $0203
                 
-crisis_city_act_1       = $0400
-crisis_city_act_2       = $0401
-crisis_city_act_3       = $0402
-crisis_city_act_4       = $0403
+ddz_act_1        = $0300
+ddz_act_2        = $0301
+ddz_act_3        = $0302
+ddz_act_4        = $0303
 
-tropical_jungle_act_1         = $0100
-tropical_jungle_act_2         = $0101
-tropical_jungle_act_3         = $0102
-tropical_jungle_act_4         = $0103
+eez_act_1       = $0400
+eez_act_2       = $0401
+eez_act_3       = $0402
+eez_act_4       = $0403
                 
-kingdom_valley_act_1        = $0300
-kingdom_valley_act_2        = $0301
-kingdom_valley_act_3        = $0302
-kingdom_valley_act_4        = $0303
+ffz_act_1       = $0500
+ffz_act_2       = $0501
+ffz_act_3       = $0502
+ffz_act_4       = $0503
 
-aquatic_base_act_1       = $0500
-aquatic_base_act_2       = $0501
-aquatic_base_act_3       = $0502
-aquatic_base_act_4       = $0503
+ggz_act_1       = $0600
+ggz_act_2       = $0601
+ggz_act_3       = $0602
+ggz_act_4       = $0603
 
-special_stage_act_1       = $0700
-special_stage_act_2       = $0701
-special_stage_act_3       = $0702
-special_stage_act_4       = $0703
-
-white_acropolis_act_1       = $0800
-white_acropolis_act_2       = $0801
-white_acropolis_act_3       = $0802
-white_acropolis_act_4       = $0803
-
-flame_core_act_1       = $0900
-flame_core_act_2       = $0901
-flame_core_act_3       = $0902
-flame_core_act_4       = $0903
-
-radical_train_act_1       = $0A00
-radical_train_act_2       = $0A01
-radical_train_act_3       = $0A02
-radical_train_act_4       = $0A03
-
-soleanna_act_1       = $0B00
-soleanna_act_2       = $0B01
-soleanna_act_3       = $0B02
-soleanna_act_4       = $0B03
+special_stage_act_1       = $0800
+special_stage_act_2       = $0801
+special_stage_act_3       = $0802
+special_stage_act_4       = $0803
 
 Snd_Special_FadeOut             equ     $E0
 Snd_Special_SEGA                equ     $E1

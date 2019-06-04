@@ -1,8 +1,8 @@
 ; ---------------------------------------------------------------------------
 ; Object pointers
 ; ---------------------------------------------------------------------------
-	dc.l Obj01, Obj02,	Obj03, ObjNone
-	dc.l SpinDash_dust, ObjNone, ObjNone, Obj08
+	dc.l Obj01, Obj02,	Obj03, Obj04
+	dc.l SpinDash_dust, Obj06, ObjNone, Obj08
 	dc.l Obj09, Obj0A, ObjNone, ObjNone
 	dc.l Obj0D, Obj0E, Obj0F, ObjNone
 	dc.l Obj11, ObjNone, ObjNone, ObjNone
@@ -37,7 +37,7 @@
 	dc.l ObjNone, ObjNone, Obj87, Obj88
 	dc.l Obj89, Obj8A, Obj8B, Obj8C
 	dc.l ObjNone, Obj8E, Obj8F, ObjNone
-	dc.l Obj91, Obj92, ObjNone, Obj94
+	dc.l Obj91, ObjNone, ObjNone, Obj94
 	dc.l Obj95, Obj96, Obj97, Obj98
 	dc.l Obj99, Obj9A, ObjNone, ObjNone
 

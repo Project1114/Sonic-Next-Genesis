@@ -1,10 +1,10 @@
-Palette File: pallet/special.bin
-Mapping File: mapeni/ssbg.bin
-Art File: artnem/ssbg.bin
+Palette File: pallet/BBZ.bin
+Mapping File: mapeni/Level Select.bin
+Art File: artunc/menutextS2.bin
 Mapping Compression: Enigma
-Art Compression: Nemesis
-x-Size: 64
+Art Compression: None
+x-Size: 40
 y-Size: 28
-Tile Offset: 0x00
-Palette Offset: 0x40
-Palette Length: 0x20
+Tile Offset: 0x10
+Letter Offset: 0x0E
+Number Offset: 0x00

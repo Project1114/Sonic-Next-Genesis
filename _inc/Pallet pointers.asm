@@ -13,43 +13,43 @@
 	dc.l Pal_Sonic	;3
 	dc.w $FB00
 	dc.w 7
-	dc.l Pal_WOZ	;4
+	dc.l Pal_AAZ	;4
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_TJZ	;5
+	dc.l Pal_BBZWater	;5
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_DDZ	;6
+	dc.l Pal_CCZ	;6
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_KVZ	;7
+	dc.l Pal_DDZ	;7
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_CCZ	;8
+	dc.l Pal_EEZ	;8
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_ABZ	;9
+	dc.l Pal_FFZ	;9
 	dc.w $FB20
 	dc.w $17
 	dc.l Pal_Special	;A
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_TJZWater	;B
+	dc.l Pal_AAZ;BBZWater	;B
 	dc.w $FB00
 	dc.w $1F
-	dc.l Pal_WOZ	;C
+	dc.l Pal_AAZ	;C
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_WOZ	;D
+	dc.l Pal_AAZ	;D
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_ABZWater	;E
+	dc.l Pal_AAZ;FFZWater	;E
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_TJZSonWater	;F
+	dc.l Pal_AAZ;BBZSonWater	;F
 	dc.w $FB00
 	dc.w 7
-	dc.l Pal_ABZ3SonWat	;10
+	dc.l Pal_AAZ;FFZ3SonWat	;10
 	dc.w $FB00
 	dc.w 7
 	dc.l Pal_SpeResult	;11
@@ -64,7 +64,7 @@
 	dc.l Menu_Palette	;14
 	dc.w $FB00
 	dc.w $1F
-	dc.l Pal_KVZWater	;15
+	dc.l Pal_AAZ;KVZWater	;15
 	dc.w $FB00
 	dc.w $1F
 	dc.l Pal_Silver	;16
@@ -85,16 +85,16 @@
 	dc.l Pal_Eggman	;1B
 	dc.w $FB20
 	dc.w 7
-	dc.l Pal_TJZSonWater2	;1C
+	dc.l Pal_AAZ;BBZSonWater2	;1C
 	dc.w $FB00
 	dc.w 7
-	dc.l Pal_TJZShaWater	;1D
+	dc.l Pal_AAZ;BBZShaWater	;1D
 	dc.w $FB00
 	dc.w 7
-	dc.l Pal_TJZSilWater	;1E
+	dc.l Pal_AAZ;BBZSilWater	;1E
 	dc.w $FB00
 	dc.w 7
-	dc.l Pal_TJZSilGWater	;1F
+	dc.l Pal_AAZ;BBZSilGWater	;1F
 	dc.w $FB00
 	dc.w 7
 	dc.l Pal_SilverSon	;20
@@ -103,21 +103,69 @@
 	dc.l Pal_SilverSha	;21
 	dc.w $FB00
 	dc.w 7
-	dc.l Pal_WAZ	;22
+	dc.l Pal_AAZ	;22
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_FCZ	;23
+	dc.l Pal_AAZ	;23
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_RTZ	;24
+	dc.l Pal_AAZ	;24
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_SZ	;25
+	dc.l Pal_AAZ	;25
 	dc.w $FB20
 	dc.w $17
-	dc.l Pal_WOZWater	;26
+	dc.l Pal_BBZWater;AAZWater	;26
 	dc.w $FB20
 	dc.w $17
 	dc.l Pal_Knuckles	;27
 	dc.w $FB00
 	dc.w 7
+	dc.l Pal_BBZa
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZb
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZc
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZd
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZe
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZf
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZg
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZh
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZi
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZj
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZk
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZl
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZm
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZn
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZo
+	dc.w $FB20
+	dc.w $17
+	dc.l Pal_BBZp
+	dc.w $FB20
+	dc.w $17

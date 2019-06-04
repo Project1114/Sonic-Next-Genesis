@@ -42,8 +42,8 @@ SonAni_Wait:
 		dc.b  $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA
 		dc.b  $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BB, $BC, $BC, $BD, $BD, $BE, $BE, $BD, $BD
 		dc.b  $BE, $BE, $BD, $BD, $BE, $BE, $BD, $BD, $BE, $BE, $BD, $BD, $BE, $BE, $BD, $BD, $BE, $BE, $BD, $BD
-		dc.b  $BE, $BE, $BD, $BD, $BE, $BE, $AD, $AD, $AD, $AD, $AD, $AD, $AE, $AE, $AE, $AE, $AE, $AE, $AF, $D9
-		dc.b  $D9, $D9, $D9, $D9, $D9, $AF, $AF, $FE, $35
+		dc.b  $BE, $BE, $BD, $BD, $BE, $BE, $AD, $AD, $AD, $AD, $AD, $AD, $AE, $AE, $AE, $AE, $AE, $AE, $AF, $D6
+		dc.b  $D6, $D6, $D6, $D6, $D6, $AF, $AF, $FE, $35
 SonAni_Balance:	dc.b   7, $A1,	$A2, $A3, $FF
 SonAni_LookUp:	dc.b   5, $C3,	$C4, $FE,   1
 SonAni_Duck:	dc.b   5, $9B,	$9C, $FE,   1
