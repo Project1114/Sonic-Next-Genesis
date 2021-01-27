@@ -1,8 +1,0 @@
-Operating system: Microsoft Windows NT 6.1.7601 Service Pack 1
-Opening INI file "C:\SonED2\s16_128\SonED\Converted\s1obj.ini"...
-Game type is S2.
-Loading value[00]...
-Layout file "" not found.
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at SonicRetro.SonLVL.API.LevelData.LoadLevel(String levelname, Boolean loadGraphics) in C:\Users\Mike\Documents\GitHub\SonLVL\SonLVLAPI\LevelData.cs:line 370
-   at SonicRetro.SonLVL.GUI.MainForm.backgroundLevelLoader_DoWork(Object sender, DoWorkEventArgs e) in C:\Users\Mike\Documents\GitHub\SonLVL\SonLVL\MainForm.cs:line 473

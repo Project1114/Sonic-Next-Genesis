@@ -4,8 +4,7 @@
 ; ---------------------------------------------------------------------------
 
 SSRGScreen:
-		move.b	#$E1,d0				; set music ID to "stop music"
-		jsr	PlaySound_Special			; play ID
+		command	mus_Stop
 		jsr	ClearPLC				; clear pattern load cues list
 		jsr	Pal_FadeFrom				; fade palettes out
 		jsr	ClearScreen				; clear the plane mappings
@@ -230,8 +229,7 @@ OSN_MoveIn:
 		blt	OSN_NoStop				; if not, branch
 		move.w	#$00DE,$08(a0)				; set him directly at the square
 		clr.w	$10(a0)					; stop sonic moving (no X speed)
-		moveq	#$3C,d0				; set to play spinning SFX
-		jsr	PlaySound_Special			; play SFX
+		sfx		sfx_Roll			; play SFX
 		addq.b	#$02,$24(a0)				; increase routine counter
 
 OSN_NoStop:
@@ -332,8 +330,8 @@ OS_Startup:
 
 OS_PlaySound:
 		addq.b	#$02,$24(a0)				; increase routine counter
-		moveq	#-$4A,d0				; set to play spin release SFX
-		jsr	PlaySound_Special			; play SFX
+		sfx		sfx_Dash			; play SFX
+		rts
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -346,8 +344,7 @@ OS_SpinIn:
 		cmpi.w	#$0060,d0				; has the square hit the letters?
 		blt	OS_Display				; if not, branch
 		addq.b	#$02,$24(a0)				; increase routine counter
-		moveq	#$5F,d0				; set to play spiked chandelier SFX
-		jsr	PlaySound_Special			; play SFX
+		sfx		sfx_Rumble			; play SFX
 		move.l	#$FF00FC00,$10(a0)			; set X and Y bounce off speeds
 		lea	($FFFFB010).l,a1			; load object ram's X and Y speeds
 		move.l	#$0300FC00,(a1)				; save "S" X and Y speeds

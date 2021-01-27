@@ -30,6 +30,10 @@
 		dc.w KnuAni_Hurt-KnucklesAniData
 		dc.w KnuAni_LZSlide-KnucklesAniData
 		dc.w KnuAni_Glide-KnucklesAniData
+		dc.w KnuAni_Glide-KnucklesAniData	; spawning
+		dc.w KnuAni_Walk-KnucklesAniData
+		dc.w KnuAni_Walk-KnucklesAniData
+		dc.w KnuAni_Hold-KnucklesAniData
 KnuAni_Walk:	dc.b  $FF,   7,	  8,   1,   2,	 3,   4,   5,	6, $FF
 KnuAni_Run:	dc.b $FF, $21,	$22, $23, $24, $FF, $FF, $FF, $FF, $FF
 KnuAni_Roll:	dc.b $FE, $9A,	$96, $9A, $97, $9A, $98, $9A, $99, $FF
@@ -53,7 +57,7 @@ KnuAni_Pose:	dc.b 7, $B1,	$B3, $B3, $B3, $B3, $B3, $B3, $B2, $B3,	$B4, $B3, $FE,
 KnuAni_Slide:	dc.b 3, $8E,	$8F, $8E, $8F, $FD,   0	
 KnuAni_Fall:	dc.b	7, $CA,	$CB, $FE,   1
 KnuAni_Stop:	dc.b 3, $9D,	$9E, $9F, $A0, $FD,   0
-KnuAni_Spring:	dc.b $2F, $8E,	$FD,   0
+KnuAni_Spring:	dc.b $2F, $8E,	$FF,   0
 KnuAni_LZHang:	dc.b 1, $AE,	$AF, $FF
 KnuAni_Leap1:	dc.b $F, $43, $43, $43,	$FE, 1
 KnuAni_Leap2:	dc.b $F, $43, $44, $FE,	1, 0
@@ -69,4 +73,5 @@ KnuAni_Blank:	dc.b $77, 0, $FD, 0
 KnuAni_GetUp:	dc.b   $F, $CD,	$FD,   0
 KnuAni_Ducked:	dc.b   $F, $9C,	$FD,   0
 KnuAni_Glide:	dc.b  $1F, $C0,	$FF
+KnuAni_Hold:	dc.b   $16, $91, $90,	$90, $90, $92, $92, $92, $91, $FF
 		even

@@ -7,7 +7,7 @@
     </ImageFromMappings>
     <ImageFromMappings id="vertyel">
       <ArtFile filename="../artnem/springh.bin" />
-      <MapFile type="ASM" filename="../_maps/obj41y.asm" frame="0" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj41y.asm" frame="0" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="horzred">
       <ArtFile filename="../artnem/springv.bin" />
@@ -15,7 +15,7 @@
     </ImageFromMappings>
     <ImageFromMappings id="horzyel">
       <ArtFile filename="../artnem/springv.bin" />
-      <MapFile type="ASM" filename="../_maps/obj41y.asm" frame="3" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj41y.asm" frame="3" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="diagred">
       <ArtFile filename="../artnem/springd.bin" />
@@ -23,7 +23,7 @@
     </ImageFromMappings>
     <ImageFromMappings id="diagyel">
       <ArtFile filename="../artnem/springd.bin" />
-      <MapFile type="ASM" filename="../_maps/obj41y.asm" frame="7" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj41y.asm" frame="7" startpal="0" />
     </ImageFromMappings>
   </Images>
   <Subtypes>

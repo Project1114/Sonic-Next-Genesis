@@ -30,10 +30,10 @@
 		dc.w ShaAni_Hurt-ShadowAniData
 		dc.w ShaAni_LZSlide-ShadowAniData
 		dc.w ShaAni_Blank-ShadowAniData
-		dc.w ShaAni_Float3-ShadowAniData
+		dc.w ShaAni_Roll-ShadowAniData	; spawning
 		dc.w ShaAni_Float4-ShadowAniData
-ShaAni_Walk:	dc.b $FF, $49, $4A, $43, $44, $45, $46, $47, $48, $FF
-ShaAni_Run:	dc.b $FF, $70, $71, $72, $73, $74, $75, $76, $77, $78, $79, $7A, $7B, $FF, $FF, $FF
+ShaAni_Walk:	dc.b $FF, $49, $4A, $43, $44, $45, $46, $47, $48, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+ShaAni_Run:	dc.b $FF, $7B, $7C, $7D, $7E, $7F, $80, $81, $82, $83, $84, $85, $86, $87, $88, $89, $8A, $FF
 ShaAni_Roll:	dc.b $FE, $2D, $2E, $2F, $30, $2C, $FF,	$FF
 ShaAni_Roll2:	dc.b $FE, $2D, $2E, $2C, $2F, $30, $2C,	$FF
 ShaAni_Push:	dc.b $FD, $33, $34, $35, $36, $FF, $FF,	$FF
@@ -49,11 +49,11 @@ ShaAni_Duck:	dc.b 3, $17, $18, $FE,1, 0
 ShaAni_SpinDash:	dc.b 0, $26, $27, $26, $28, $26, $29, $26, $2A, $26, $2B, $FF
 ShaAni_Pose:	dc.b 7, 2, 3, 4, 5, $FE, 1,0
 ShaAni_Slide:	dc.b $3F, $41, $FF, 0
-ShaAni_Fall:	dc.b 5, $2D, $2E, $2F, $30, $6F, $FE, 1
+ShaAni_Fall:	dc.b 3, $2D, $2E, $2F, $30, $71, $71, $72, $FE, 1
 ShaAni_Stop:	dc.b 7,	$10, $11, $12, $13, $FE,1, 0
 ShaAni_FrontBalance:	dc.b 7, $3A, $3B, $3C, $FF
 ShaAni_BackBalance:	dc.b 7, $14, $15, $16, $FF
-ShaAni_Spring:	dc.b 5, $63, $64, $65, $66, $67, $68, $69, $6A, $6B, $6C, $6D, $6E, $FD, $C
+ShaAni_Spring:	dc.b 5, $70, $FF, 0
 ShaAni_LZHang:	dc.b 4,	$21, $FF
 ShaAni_Leap1:	dc.b $F, $43, $43, $43,	$FE, 1
 ShaAni_Leap2:	dc.b $F, $43, $44, $FE,	1, 0

@@ -1,15 +1,52 @@
 ; ===========================================================================
 Current_Character   equ     $FFFFFFEC       ; whatever the character you are using is
-Current_Partner     equ     $FFFFFFEE       ; whatever the character you are using is
+Current_Partner     equ     $FFFFFFED       ; whatever the character you are using is
 Water_Flag          equ     $FFFFF629       ; if the level has water
 Universal_Timer     equ     $FFFFF664       ; timer that never resets during gameplay
 Universal_Timer2    equ     $FFFFF666       ; lowest word of timer
 Day_Time            equ     $FFFFF668       ; time of day
 Day_Time_Pal        equ     $FFFFF66A       ; flag for changing palette
+Flying_carrying_flag: equ   $FFFFF748    ;
+v_camera_pan:       equ     $FFFFF7A0    ; Extended Camera - how far the camera/view is panned to the left or right of Sonic (2 bytes)
+Scroll_Lock:        equ     $FFFFFE12    ;
+HIntJump:           equ     $FFFFFFC4
+HIntAddr:           equ     $FFFFFFC6
+VIntJump:           equ     $FFFFFFCA
+VIntAddr:           equ     $FFFFFFCC
+HIntCounter:        equ     $FFFFFFE8
+
+Z80_Space = $80C            ; The amount of space reserved for Z80 driver. The compressor tool may ask you to increase the size...
+z80_ram:    equ $A00000
+z80_bus_request equ $A11100
+z80_reset:  equ $A11200
+ConsoleRegion   equ $FFFFFFF8
+Drvmem      equ $FFFFF000
+
+ChecksumAddr    equ $FFFFFFEC       ; the checksum address we're checking (4 bytes)
+ChecksumValue   equ $FFFFFFF0       ; the accumulated value of checksum check (2 bytes)
+ChecksumStart   equ $FFFFFFF4       ; set if start button was pressed during checksum check
+
 align macro
         cnop 0,\1
         endm
 
+; Macro for playing a command
+command     macro id
+    move.b #id,mQueue.w
+    endm
+
+; Macro for playing music
+music       macro id
+    move.b #id,mQueue+1.w
+    endm
+
+; Macro for playing sound effect
+sfx     macro id
+    move.b #id,mQueue+2.w
+    endm
+
+        opt w-      ; disable warnings
+; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; check if object moves out of range
 ; input: location to jump to if out of range, x-axis pos (obX(a0) by default)
@@ -95,10 +132,10 @@ ggz_act_2       = $0601
 ggz_act_3       = $0602
 ggz_act_4       = $0603
 
-special_stage_act_1       = $0800
-special_stage_act_2       = $0801
-special_stage_act_3       = $0802
-special_stage_act_4       = $0803
+special_stage_act_1       = $0700
+special_stage_act_2       = $0701
+special_stage_act_3       = $0702
+special_stage_act_4       = $0703
 
 Snd_Special_FadeOut             equ     $E0
 Snd_Special_SEGA                equ     $E1
@@ -202,6 +239,33 @@ z68kPtr: macro addr
 Max_Rings = 511 ; default. maximum number possible is 759
 Rings_Space = (Max_Rings+1)*2
 
+; ---------------------------------------------------------------------------
+; Set a VRAM address via the VDP control port.
+; input: 16-bit VRAM address, control port (default is ($C00004).l)
+; ---------------------------------------------------------------------------
+
+locVRAM:    macro loc,controlport
+        if (narg=1)
+        move.l  #($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),($C00004).l
+        else
+        move.l  #($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),controlport
+        endc
+        endm
+
+; ---------------------------------------------------------------------------
+; Store a VRAM address in d0
+; input: 16-bit VRAM address
+; ---------------------------------------------------------------------------
+
+locVRAMd0:  macro loc
+        move.l  #($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),d0
+        endm
+
+; ---------------------------------------------------------------------------
+; DMA copy data from 68K (ROM/RAM) to the VRAM
+; input: source, length, destination
+; ---------------------------------------------------------------------------
+
 writeVRAM:  macro
         lea ($C00004).l,a5
         move.l  #$94000000+(((\2>>1)&$FF00)<<8)+$9300+((\2>>1)&$FF),(a5)
@@ -230,6 +294,10 @@ vram:  macro
         endc
         endm
 
+hudVRAM:    macro loc
+        move.l  #($40000000+((loc&$3FFF)<<16)+((loc&$C000)>>14)),d0
+        endm
+
 ; ---------------------------------------------------------------------------
 ; Copy a tilemap from 68K (ROM/RAM) to the VRAM without using DMA
 ; input: source, destination, width [cells], height [cells]
@@ -252,11 +320,125 @@ copyTilemap:    macro source,loc,width,height
 ; tells the Z80 to stop, and waits for it to finish stopping (acquire bus)
 stopZ80 macro
     move.w  #$100,($A11100).l ; stop the Z80
-loop:   btst    #0,($A11100).l
-    bne.s   loop ; loop until it says it's stopped
+@loop:   btst    #0,($A11100).l
+    bne.s   @loop ; loop until it says it's stopped
     endm
 
 ; tells the Z80 to start again
 startZ80 macro
     move.w  #0,($A11100).l    ; start the Z80
     endm
+
+mainspr_mapframe    = $B
+mainspr_width        = $E
+mainspr_childsprites     = $F    ; amount of child sprites
+mainspr_height        = $14
+sub2_x_pos        = $10    ;x_vel
+sub2_y_pos        = $12    ;y_vel
+sub2_mapframe        = $15
+sub3_x_pos        = $16    ;y_radius
+sub3_y_pos        = $18    ;priority
+sub3_mapframe        = $1B    ;anim_frame
+sub4_x_pos        = $1C    ;anim
+sub4_y_pos        = $1E    ;anim_frame_duration
+sub4_mapframe        = $21    ;collision_property
+sub5_x_pos        = $22    ;status
+sub5_y_pos        = $24    ;routine
+sub5_mapframe        = $27
+sub6_x_pos        = $28    ;subtype
+sub6_y_pos        = $2A
+sub6_mapframe        = $2D
+sub7_x_pos        = $2E
+sub7_y_pos        = $30
+sub7_mapframe        = $33
+sub8_x_pos        = $34
+sub8_y_pos        = $36
+sub8_mapframe        = $39
+sub9_x_pos        = $3A
+sub9_y_pos        = $3C
+sub9_mapframe        = $3F
+next_subspr       = $6
+
+make_art_tile: macro addr,pal,pri
+    move.w  #((pri&1)<<15)|((pal&3)<<13)|(addr&$7FF),2(a0)
+    endm
+
+; Universal Art
+ArtTile_TornadoSign = $4D9  ; $A tiles
+ArtTile_Spikes = $4E3       ; $10 tiles
+ArtTile_DSpring = $4F3      ; $20 tiles
+ArtTile_HSpring = $513      ; $10 tiles
+ArtTile_VSpring = $523      ; $10 tiles
+ArtTile_Animal1 = $533      ; $12 tiles
+ArtTile_Animal2 = $545      ; $12 tiles
+ArtTile_Explode = $557      ; $65 tiles
+ArtTile_Shield = $5BC       ; $24 tiles
+ArtTile_Dust = $5E0         ; $10 tiles
+ArtTile_Dust2 = $5F0        ; $10 tiles
+; $600-$67F is reserved
+ArtTile_Monitor = $680      ; $4F tiles
+ArtTile_Lamp = $6D0         ; $14 tiles
+ArtTile_Rings = $6E4        ; 8 tiles
+ArtTile_HUDBase = $6EC      ; 0 tiles
+ArtTile_HUDMarks = $6EC     ; 2 tiles
+ArtTile_HUDCent = $6EE      ; 4 tiles
+ArtTile_HUDMin = $6F2       ; 4 tiles
+ArtTile_HUDSec = $6F6       ; 4 tiles
+ArtTile_HUDRings = $6FA     ; 6 tiles
+; $700-$77F is reserved
+ArtTile_Main = $780         ; $20 tiles ($10 for Tails)
+ArtTile_MainSec = $790      ; $10 tiles
+ArtTile_Partner = $7A0      ; $20 tiles ($10 for Tails)
+ArtTile_PartnerSec = $7B0   ; $10 tiles
+
+; End of Level
+ArtTile_HUDBonus = $570
+
+; AAZ
+; BBZ
+ArtTile_Orbinaut = $428 
+; CCZ
+; DDZ
+; EEZ
+; FFZ
+; GGZ
+; SSZ
+
+; Bonus
+ArtTile_HUDBaseSS = $21B
+ArtTile_HUDMarksSS = $21B
+ArtTile_HUDCentSS = $21D
+ArtTile_HUDMinSS = $221
+ArtTile_HUDSecSS = $225
+ArtTile_HUDRingsSS = $229
+
+; Subsprite SSTs
+mainspr_mapframe    = $B
+mainspr_width        = $E
+mainspr_childsprites     = $F    ; amount of child sprites
+mainspr_height        = $14
+sub2_x_pos        = $10    ;x_vel
+sub2_y_pos        = $12    ;y_vel
+sub2_mapframe        = $15
+sub3_x_pos        = $16    ;y_radius
+sub3_y_pos        = $18    ;priority
+sub3_mapframe        = $1B    ;anim_frame
+sub4_x_pos        = $1C    ;anim
+sub4_y_pos        = $1E    ;anim_frame_duration
+sub4_mapframe        = $21    ;collision_property
+sub5_x_pos        = $22    ;status
+sub5_y_pos        = $24    ;routine
+sub5_mapframe        = $27
+sub6_x_pos        = $28    ;subtype
+sub6_y_pos        = $2A
+sub6_mapframe        = $2D
+sub7_x_pos        = $2E
+sub7_y_pos        = $30
+sub7_mapframe        = $33
+sub8_x_pos        = $34
+sub8_y_pos        = $36
+sub8_mapframe        = $39
+sub9_x_pos        = $3A
+sub9_y_pos        = $3C
+sub9_mapframe        = $3F
+next_subspr       = $6

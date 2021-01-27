@@ -3,35 +3,35 @@
   <Images>
     <ImageFromMappings id="horiz1">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="0" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="0" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="horiz2">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="1" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="1" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="horiz3">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="2" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="2" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="horiz4">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="3" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="3" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="vert1">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="4" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="4" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="vert2">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="5" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="5" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="vert3">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="6" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="6" startpal="0" />
     </ImageFromMappings>
     <ImageFromMappings id="vert4">
       <ArtFile filename="../artnem/spikes.bin" />
-      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="7" startpal="1" />
+      <MapFile type="ASM" filename="../_maps/obj36.asm" frame="7" startpal="0" />
     </ImageFromMappings>
   </Images>
   <Subtypes>

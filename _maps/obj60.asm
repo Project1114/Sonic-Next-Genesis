@@ -1,19 +1,14 @@
-; --------------------------------------------------------------------------------
-; Sprite mappings - output from SonMapEd - Sonic 1 format
-; --------------------------------------------------------------------------------
-
-SME_1pamB:	
-		dc.w SME_1pamB_A-SME_1pamB, SME_1pamB_10-SME_1pamB	
-		dc.w SME_1pamB_16-SME_1pamB, SME_1pamB_1C-SME_1pamB	
-		dc.w SME_1pamB_22-SME_1pamB	
-SME_1pamB_A:	dc.b 1	
-		dc.b $F8, 5, 0, 4, $F8	
-SME_1pamB_10:	dc.b 1	
-		dc.b $F8, 5, $60, 0, $F8	
-SME_1pamB_16:	dc.b 1	
-		dc.b $F8, 5, $60, 0, $F8	
-SME_1pamB_1C:	dc.b 1	
-		dc.b $F8, 5, $60, 8, $F8	
-SME_1pamB_22:	dc.b 1	
-		dc.b $F8, 5, $E8, 8, $F8	
+; ---------------------------------------------------------------------------
+; Sprite mappings - Orbinaut enemy (LZ,	SLZ, SBZ)
+; ---------------------------------------------------------------------------
+		dc.w byte_11EEC-Map_obj60, byte_11EF2-Map_obj60
+		dc.w byte_11EF8-Map_obj60, byte_11EFE-Map_obj60
+byte_11EEC:	dc.b 1
+		dc.b $F4, $A, 0, 0, $F4
+byte_11EF2:	dc.b 1
+		dc.b $F4, $A, $20, 9, $F4
+byte_11EF8:	dc.b 1
+		dc.b $F4, $A, 0, $12, $F4
+byte_11EFE:	dc.b 1
+		dc.b $F8, 5, 0,	$1B, $F8
 		even

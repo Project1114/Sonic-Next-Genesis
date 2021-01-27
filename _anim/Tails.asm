@@ -13,13 +13,13 @@
 		dc.w TaiAni_SpinDash-TailsAniData
 		dc.w TaiAni_Pose-TailsAniData
 		dc.w TaiAni_Slide-TailsAniData
-		dc.w TaiAni_Fall-TailsAniData
+		dc.w TaiAni_Fall1-TailsAniData
 		dc.w TaiAni_Stop-TailsAniData
-		dc.w TaiAni_Balance-TailsAniData
-		dc.w TaiAni_Balance-TailsAniData
+		dc.w TaiAni_Fall2-TailsAniData
+		dc.w TaiAni_FastRun-TailsAniData
 		dc.w TaiAni_Spring-TailsAniData
 		dc.w TaiAni_LZHang-TailsAniData
-		dc.w TaiAni_Blank-TailsAniData
+		dc.w TaiAni_Whip-TailsAniData
 		dc.w TaiAni_Blank-TailsAniData
 		dc.w TaiAni_Surf-TailsAniData
 		dc.w TaiAni_Bubble-TailsAniData
@@ -55,11 +55,13 @@ TaiAni_Duck:	dc.b $3F, $99,	$FF
 TaiAni_SpinDash:	dc.b 0, $86,	$87, $88, $FF
 TaiAni_Pose:	dc.b $F, $A5,	$A6, $FE,   1
 TaiAni_Slide:	dc.b 3, $8E,	$8F, $8E, $8F, $FD,   0	
-TaiAni_Fall:	dc.b 5, $2D, $2E, $2F, $30, $6F, $FE, 1
+TaiAni_Fall1:	dc.b 1, $96, $97, $98, $96, $97, $98, $FD, $E, 0
 TaiAni_Stop:	dc.b 3, $8E,	$8F, $8E, $8F, $FD,   0	
-TaiAni_Spring:	dc.b 3, $8B,	$8C, $8B, $8C, $8B, $8C, $8B, $8C, $8B,	$8C, $8B, $8C, $FD,   0
+TaiAni_Spring:	dc.b 3, $8B,	$8C, $FF
 TaiAni_LZHang:	dc.b 1, $9D,	$9E, $FF
-TaiAni_Leap1:	dc.b $F, $43, $43, $43,	$FE, 1
+TaiAni_Whip:	dc.b 3, $CB, $CC, $CD, $CE, $CF, $D0, $D1, $FD, $B
+TaiAni_Fall2:	dc.b 5, $C9, $CA, $FF
+TaiAni_FastRun:	dc.b  $FF, $D2,	$D3, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 TaiAni_Leap2:	dc.b $F, $43, $44, $FE,	1, 0
 TaiAni_Surf:	dc.b 9, $B5,	$B6, $B7, $B8, $B9, $BA, $BB, $BC, $F
 TaiAni_Bubble:	dc.b $B, $9F,	$9F,   3,   4, $FD,   0	
