@@ -1,0 +1,5027 @@
+Silence_Header:
+	sHeaderInit
+	sHeaderTempo	$02, $58
+	sHeaderCh	$05, $03
+	sHeaderDAC	Silence_DAC1
+	sHeaderDAC	Silence_DAC2
+	sHeaderFM	Silence_FM1, $00, $01
+	sHeaderFM	Silence_FM2, $00, $00
+	sHeaderFM	Silence_FM3, $00, $01
+	sHeaderFM	Silence_FM4, $00, $01
+	sHeaderFM	Silence_FM5, $00, $01
+	sHeaderPSG	Silence_PSG1, $0C, $40, $00, vNone
+	sHeaderPSG	Silence_PSG2, $0C, $30, $00, vNone
+	sHeaderPSG	Silence_PSG3, $00, $00, $00, v02
+
+	; Patch $00
+	; $3C
+	; $3A, $32, $52, $52,	$1F, $1F, $1F, $1F
+	; $0B, $07, $0B, $07,	$08, $00, $08, $00
+	; $87, $47, $87, $47,	$24, $17, $24, $17
+	spAlgorithm	$04
+	spFeedback	$07
+	spDetune	$03, $05, $03, $05
+	spMultiple	$0A, $02, $02, $02
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$1F, $1F, $1F, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$08, $08, $00, $00
+	spSustainLv	$08, $08, $04, $04
+	spDecayRt	$0B, $0B, $07, $07
+	spReleaseRt	$07, $07, $07, $07
+	spTotalLv	$24, $24, $17, $17
+
+	; Patch $01
+	; $22
+	; $31, $50, $51, $34,	$17, $1F, $13, $1F
+	; $06, $01, $08, $01,	$06, $03, $04, $03
+	; $68, $38, $58, $18,	$08, $14, $18, $12
+	spAlgorithm	$02
+	spFeedback	$04
+	spDetune	$03, $05, $05, $03
+	spMultiple	$01, $01, $00, $04
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$17, $13, $1F, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$06, $04, $03, $03
+	spSustainLv	$06, $05, $03, $01
+	spDecayRt	$06, $08, $01, $01
+	spReleaseRt	$08, $08, $08, $08
+	spTotalLv	$08, $18, $14, $12
+
+	; Patch $02
+	; $2C
+	; $34, $54, $53, $33,	$0F, $13, $0F, $13
+	; $03, $00, $03, $00,	$00, $00, $00, $00
+	; $47, $47, $47, $47,	$1E, $13, $1E, $13
+	spAlgorithm	$04
+	spFeedback	$05
+	spDetune	$03, $05, $05, $03
+	spMultiple	$04, $03, $04, $03
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$0F, $0F, $13, $13
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$00, $00, $00, $00
+	spSustainLv	$04, $04, $04, $04
+	spDecayRt	$03, $03, $00, $00
+	spReleaseRt	$07, $07, $07, $07
+	spTotalLv	$1E, $1E, $13, $13
+
+
+Silence_DAC1:
+	sPan		spCenter
+	dc.b nRst, $60
+
+Silence_DACLoop:
+	dc.b nRst, $1E, $7E, $7E, $06, dKick, $01, nRst
+	dc.b $05, dKick, $24, $06, $06, $24, $06, $06
+	dc.b $06, nRst, $1E, dKick, $06, $06, $24, $06
+	dc.b $01, nRst, $05, dKick, $24, $06, $06, $24
+	dc.b $06, $06, $06, nRst, $1E, dKick, $06, $06
+	dc.b $06, nRst, $0C, dKickSnare, $06, nRst, $0C, dKick
+	dc.b $06, $01, nRst, $05, dKick
+
+Silence_Loop214:
+	dc.b $06, nRst, $0C, dKickSnare, $06, nRst, $0C, dKick
+	dc.b $06, $06
+	sLoop		$00, $03, Silence_Loop214
+
+Silence_Loop215:
+	dc.b $06, nRst, $0C, dKickSnare, $06, nRst, $0C, dKick
+	dc.b $06, $01, nRst, $05, dKick, $06, nRst, $0C
+	dc.b dKickSnare, $06, nRst, $0C, dKick, $06, $06
+	sLoop		$00, $02, Silence_Loop215
+	dc.b $06, nRst, $0C, dKickSnare, $06, $06, $06, $06
+	dc.b dKick, $01, nRst, $0B, dKickSnare, $0C, dKick, $06
+	dc.b $06, dKickSnare, nRst
+
+Silence_Loop216:
+	dc.b dKick, $01, nRst, $0B, dKickSnare, $0C, dKick, $06
+	dc.b $06, dKickSnare, $0C
+	sLoop		$00, $02, Silence_Loop216
+	dc.b dKick, $01, nRst, $0B, dKickSnare, $0C, dKick, $06
+	dc.b $06, dKickSnare, $03, $03, $03, $03
+
+Silence_Loop217:
+	dc.b dKick, $01, nRst, $0B, dKickSnare, $0C, dKick, $06
+	dc.b $06, dKickSnare, $0C
+	sLoop		$00, $02, Silence_Loop217
+	dc.b dKick, $01, nRst, $0B, dKickSnare, $0C, dKick, $01
+	dc.b nRst, $05, dKick, $06, dKickSnare, $0C, dKick, $01
+	dc.b nRst, $12, dKick, $06, dKickSnare, $01, $01, nRst
+	dc.b dKickSnare
+
+Silence_Loop218:
+	dc.b $02, $01, $02
+	sLoop		$00, $04, Silence_Loop218
+	dc.b $02, $02, nRst, $60
+	sPan		spCenter
+	sJump	Silence_DACLoop
+
+Silence_DAC2:
+	sStop
+
+Silence_FM1:
+	sPan		spCenter
+	sVoice		$00
+
+Silence_Loop1:
+	dc.b nA2, $05, nRst, $01, nE3, $05, nRst, $01
+	dc.b nB3, $05, nRst, $01, nC4, $05, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop1
+
+Silence_FM1Jump:
+Silence_Loop2:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$00
+	dc.b nD3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nF4, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nD3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop2
+
+Silence_Loop3:
+	dc.b nA2, $05, nRst, $01, nE3, $05, nRst, $01
+	dc.b nB3, $05, nRst, $01, nC4, $05, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop3
+
+Silence_Loop4:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$00
+	dc.b nD3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nF4, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nD3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop4
+
+Silence_Loop5:
+	dc.b nA2, $05, nRst, $01, nE3, $05, nRst, $01
+	dc.b nB3, $05, nRst, $01, nC4, $05, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop5
+
+Silence_Loop6:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$00
+	dc.b nD3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nF4, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nD3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop6
+
+Silence_Loop7:
+	dc.b nA2, $05, nRst, $01, nE3, $05, nRst, $01
+	dc.b nB3, $05, nRst, $01, nC4, $05, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop7
+
+Silence_Loop8:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$00
+	dc.b nD3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nF4, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nD3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop8
+
+Silence_Loop9:
+	dc.b nA2, $05, nRst, $01, nE3, $05, nRst, $01
+	dc.b nB3, $05, nRst, $01, nC4, $05, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop9
+
+Silence_Loop10:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$00
+	dc.b nD3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nF4, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nD3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop10
+
+Silence_Loop11:
+	dc.b nA2, $05, nRst, $01, nE3, $05, nRst, $01
+	dc.b nB3, $05, nRst, $01, nC4, $05, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop11
+
+Silence_Loop12:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$00
+	dc.b nD3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nF4, $05, nRst, $01
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	dc.b nD3, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop12
+
+Silence_Loop13:
+	dc.b nF3, $03, nA3, nC4, nE4
+	sLoop		$00, $04, Silence_Loop13
+
+Silence_Loop14:
+	dc.b nE3
+	ssDetune	$FF
+	dc.b nG3
+	ssDetune	$00
+	dc.b nB3, nD4
+	sLoop		$00, $04, Silence_Loop14
+
+Silence_Loop15:
+	dc.b nD3, nF3, nA3, nC4
+	sLoop		$00, $04, Silence_Loop15
+
+Silence_Loop16:
+	dc.b nE3
+	ssDetune	$FF
+	dc.b nG3
+	ssDetune	$00
+	dc.b nB3, nD4
+	sLoop		$00, $04, Silence_Loop16
+
+Silence_Loop17:
+	dc.b nF3, nA3, nC4, nE4
+	sLoop		$00, $04, Silence_Loop17
+
+Silence_Loop18:
+	dc.b nE3
+	ssDetune	$FF
+	dc.b nG3
+	ssDetune	$00
+	dc.b nB3, nD4
+	sLoop		$00, $04, Silence_Loop18
+	dc.b nD3, nF3, nA3, nC4, nD3, nF3, nA3, nC4
+	dc.b nCs3, nF3, nAb3, nC4, nCs3, nF3, nAb3, nC4
+	dc.b nC3, nE3
+	ssDetune	$FF
+	dc.b nG3
+	ssDetune	$00
+	dc.b nB3, nD4, nRst, $01, nE4, $02, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $02, nRst, $01
+	ssDetune	$00
+	dc.b nB4, $02, nRst, $01, nC5, nD5, $18, nRst
+	dc.b $01, nA2, $06, nRst, $01, nE3, $05, nRst
+	dc.b $01, nB3, $05, nRst, $01, nC4, $05, nRst
+	dc.b $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01, nA2, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$FF
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$00
+	dc.b nC4, $05, nRst, $01, nB3, $05, nRst, $01
+	dc.b nE3, $05, nRst, $01
+	sPan		spCenter
+	sVoice		$00
+	sJump	Silence_FM1Jump
+
+Silence_FM2:
+	sPan		spCenter
+	sVoice		$01
+
+Silence_Loop19:
+	dc.b nA2, $5F, nRst, $01
+
+Silence_FM2Jump:
+	ssDetune	$FF
+	dc.b nG2, $5F, nRst, $01
+	ssDetune	$00
+	sLoop		$00, $02, Silence_Loop19
+
+Silence_Loop20:
+	dc.b nA2, $05, nRst, $01, nA2, $23, nRst, $01
+	dc.b nE2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop20
+
+Silence_Loop21:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01, nG2, $23, nRst, $01
+	ssDetune	$00
+	dc.b nD2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop21
+
+Silence_Loop22:
+	dc.b nA2, $05, nRst, $01, nA2, $23, nRst, $01
+	dc.b nE2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop22
+
+Silence_Loop23:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01, nG2, $23, nRst, $01
+	ssDetune	$00
+	dc.b nD2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop23
+
+Silence_Loop24:
+	dc.b nA2, $05, nRst, $01, nA2, $23, nRst, $01
+	dc.b nE2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop24
+
+Silence_Loop25:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01, nG2, $23, nRst, $01
+	ssDetune	$00
+	dc.b nD2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop25
+
+Silence_Loop26:
+	dc.b nA2, $05, nRst, $01, nA2, $23, nRst, $01
+	dc.b nE2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop26
+
+Silence_Loop27:
+	ssDetune	$FF
+	dc.b nG2, $05, nRst, $01, nG2, $23, nRst, $01
+	ssDetune	$00
+	dc.b nD2, $05, nRst, $01
+	sLoop		$00, $02, Silence_Loop27
+	dc.b nF2, $11, nRst, $01, nF2, $17, nRst, $01
+	dc.b nF2, $05, nRst, $01, nE2, $11, nRst, $01
+	dc.b nE2, $17, nRst, $01, nE2, $05, nRst, $01
+	dc.b nD2, $11, nRst, $01, nD2, $17, nRst, $01
+	dc.b nD2, $05, nRst, $01, nE2, $11, nRst, $01
+	dc.b nE2, $17, nRst, $01, nE2, $05, nRst, $01
+	dc.b nF2, $11, nRst, $01, nF2, $17, nRst, $01
+	dc.b nF2, $05, nRst, $01, nE2, $11, nRst, $01
+	dc.b nE2, $17, nRst, $01, nE2, $05, nRst, $01
+	dc.b nD2, $11, nRst, $01, nD2, $05, nRst, $01
+	dc.b nCs2, $11, nRst, $01, nCs2, $05, nRst, $01
+	dc.b nC2, $32, nRst, $01, nA2, $60, nRst, $01
+	sPan		spCenter
+	sVoice		$01
+	sJump	Silence_FM2Jump
+
+Silence_FM3:
+	sPan		spCenter
+	sVoice		$02
+
+Silence_Loop28:
+	dc.b nA2, $5F, nRst, $01
+
+Silence_FM3Jump:
+	ssDetune	$FF
+	dc.b nG2, $5F, nRst, $01
+	ssDetune	$00
+	sLoop		$00, $06, Silence_Loop28
+
+Silence_Loop29:
+	dc.b nF2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop29
+
+Silence_Loop30:
+	dc.b nE2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop30
+
+Silence_Loop31:
+	dc.b nD2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop31
+
+Silence_Loop32:
+	dc.b nE2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop32
+
+Silence_Loop33:
+	dc.b nF2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop33
+
+Silence_Loop34:
+	dc.b nE2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop34
+	dc.b nD2, $05, nRst, $07, nD2, $05, nRst, $07
+	dc.b nCs2, $05, nRst, $07, nCs2, $05, nRst, $07
+	dc.b nE2, $32, nRst, $02, nA2, $5F, nRst, $01
+	sPan		spCenter
+	sVoice		$02
+	sJump	Silence_FM3Jump
+
+Silence_FM4:
+	sPan		spLeft
+	sVoice		$00
+	ssDetune	$07
+	dc.b nRst, $05
+	ssDetune	$08
+	dc.b nA2, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01, nE3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01
+
+Silence_FM4Jump:
+	dc.b nE3, $05
+
+Silence_Loop35:
+	dc.b nRst, $01
+	ssDetune	$06
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $05, nRst, $01, nBb3, $05, nRst, $01
+	ssDetune	$06
+	dc.b nF4, $05, nRst, $01
+	ssDetune	$09
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05
+	sLoop		$00, $02, Silence_Loop35
+
+Silence_Loop36:
+	dc.b nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01, nE3, $05
+	sLoop		$00, $02, Silence_Loop36
+
+Silence_Loop37:
+	dc.b nRst, $01
+	ssDetune	$06
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $05, nRst, $01, nBb3, $05, nRst, $01
+	ssDetune	$06
+	dc.b nF4, $05, nRst, $01
+	ssDetune	$09
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05
+	sLoop		$00, $02, Silence_Loop37
+
+Silence_Loop38:
+	dc.b nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01, nE3, $05
+	sLoop		$00, $02, Silence_Loop38
+
+Silence_Loop39:
+	dc.b nRst, $01
+	ssDetune	$06
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $05, nRst, $01, nBb3, $05, nRst, $01
+	ssDetune	$06
+	dc.b nF4, $05, nRst, $01
+	ssDetune	$09
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05
+	sLoop		$00, $02, Silence_Loop39
+
+Silence_Loop40:
+	dc.b nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01, nE3, $05
+	sLoop		$00, $02, Silence_Loop40
+
+Silence_Loop41:
+	dc.b nRst, $01
+	ssDetune	$06
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $05, nRst, $01, nBb3, $05, nRst, $01
+	ssDetune	$06
+	dc.b nF4, $05, nRst, $01
+	ssDetune	$09
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05
+	sLoop		$00, $02, Silence_Loop41
+
+Silence_Loop42:
+	dc.b nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01, nE3, $05
+	sLoop		$00, $02, Silence_Loop42
+
+Silence_Loop43:
+	dc.b nRst, $01
+	ssDetune	$06
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $05, nRst, $01, nBb3, $05, nRst, $01
+	ssDetune	$06
+	dc.b nF4, $05, nRst, $01
+	ssDetune	$09
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05
+	sLoop		$00, $02, Silence_Loop43
+
+Silence_Loop44:
+	dc.b nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01, nE3, $05
+	sLoop		$00, $02, Silence_Loop44
+
+Silence_Loop45:
+	dc.b nRst, $01
+	ssDetune	$06
+	dc.b nG2, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $05, nRst, $01, nBb3, $05, nRst, $01
+	ssDetune	$06
+	dc.b nF4, $05, nRst, $01
+	ssDetune	$09
+	dc.b nBb3, $05, nRst, $01, nA3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nD3, $05
+	sLoop		$00, $02, Silence_Loop45
+	dc.b nRst, $01
+	ssDetune	$06
+
+Silence_Loop46:
+	dc.b nF3, $02, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $02, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $02, nRst, $01
+	ssDetune	$06
+	dc.b nE4, $02, nRst, $01
+	sLoop		$00, $04, Silence_Loop46
+	dc.b nE3, $02, nRst, $01
+
+Silence_Loop47:
+	dc.b nG3, $02, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $02, nRst, $01, nD4, $02, nRst, $01
+	dc.b nE3, $02, nRst, $01
+	ssDetune	$06
+	sLoop		$00, $03, Silence_Loop47
+	dc.b nG3, $02, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $02, nRst, $01, nD4, $02
+
+Silence_Loop48:
+	dc.b nRst, $01, nD3, $02, nRst, $01
+	ssDetune	$06
+	dc.b nF3, $02, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $02, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $02
+	sLoop		$00, $04, Silence_Loop48
+	dc.b nRst, $01
+	ssDetune	$06
+	dc.b nE3, $02, nRst, $01
+
+Silence_Loop49:
+	dc.b nG3, $02, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $02, nRst, $01, nD4, $02, nRst, $01
+	dc.b nE3, $02, nRst, $01
+	ssDetune	$06
+	sLoop		$00, $03, Silence_Loop49
+	dc.b nG3, $02, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $02, nRst, $01, nD4, $02, nRst, $01
+	ssDetune	$06
+
+Silence_Loop50:
+	dc.b nF3, $02, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $02, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $02, nRst, $01
+	ssDetune	$06
+	dc.b nE4, $02, nRst, $01
+	sLoop		$00, $04, Silence_Loop50
+	dc.b nE3, $02, nRst, $01
+
+Silence_Loop51:
+	dc.b nG3, $02, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $02, nRst, $01, nD4, $02, nRst, $01
+	dc.b nE3, $02, nRst, $01
+	ssDetune	$06
+	sLoop		$00, $03, Silence_Loop51
+	dc.b nG3, $02, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $02, nRst, $01, nD4, $02
+
+Silence_Loop52:
+	dc.b nRst, $01, nD3, $02, nRst, $01
+	ssDetune	$06
+	dc.b nF3, $02, nRst, $01
+	ssDetune	$08
+	dc.b nA3, $02, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $02
+	sLoop		$00, $02, Silence_Loop52
+
+Silence_Loop53:
+	dc.b nRst, $01, nCs3, $02, nRst, $01
+	ssDetune	$06
+	dc.b nF3, $02, nRst, $01
+	ssDetune	$08
+	dc.b nAb3, $02, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $02
+	sLoop		$00, $02, Silence_Loop53
+	dc.b nRst, $01, nC3, $02, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $02, nRst, $01, nG3, $02, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $02, nRst, $01, nD4, $03, nE4
+	ssDetune	$06
+	dc.b nG4, nRst, $01
+	ssDetune	$04
+	dc.b nB4, $02, nRst, $01
+	ssDetune	$05
+	dc.b nC5
+	ssDetune	$04
+	dc.b nD5, $18, nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $01, nE3, $05, nRst, $01
+	ssDetune	$08
+	dc.b nA2, $05, nRst, $01
+	ssDetune	$06
+	dc.b nE3, $05, nRst, $01, nB3, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$06
+	dc.b nG4, $05, nRst, $01
+	ssDetune	$05
+	dc.b nC4, $05, nRst, $01
+	ssDetune	$04
+	dc.b nB3, $05, nRst, $02
+	ssDetune	$00
+	sVoice		$00
+	sPan		spLeft
+	sJump	Silence_FM4Jump
+
+Silence_FM5:
+	sPan		spRight
+	ssDetune	$08
+	sVoice		$01
+	dc.b nRst, $05
+	sVoice		$02
+
+Silence_Loop54:
+	dc.b nA2, $5F, nRst, $01
+
+Silence_FM5Jump:
+	ssDetune	$06
+	dc.b nG2, $5F, nRst, $01
+	ssDetune	$08
+	sLoop		$00, $05, Silence_Loop54
+	dc.b nA2, $5F, nRst, $01
+	ssDetune	$06
+	dc.b nG2, $5F, nRst, $01
+
+Silence_Loop55:
+	dc.b nF2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop55
+
+Silence_Loop56:
+	dc.b nE2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop56
+
+Silence_Loop57:
+	dc.b nD2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop57
+
+Silence_Loop58:
+	dc.b nE2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop58
+
+Silence_Loop59:
+	dc.b nF2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop59
+
+Silence_Loop60:
+	dc.b nE2, $05, nRst, $07
+	sLoop		$00, $04, Silence_Loop60
+	dc.b nD2, $05, nRst, $07, nD2, $05, nRst, $07
+	dc.b nCs2, $05, nRst, $07, nCs2, $05, nRst, $07
+	dc.b nE2, $32, nRst, $62
+	ssDetune	$00
+	sPan		spRight
+	sVoice		$02
+	sJump	Silence_FM5Jump
+
+Silence_PSG2:
+	dc.b nA0, $01
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	saVol		$C0
+	dc.b nE1
+	saVol		$F0
+
+Silence_Loop61:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop61
+	dc.b nRst
+	saVol		$C0
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC2
+	saVol		$F0
+
+Silence_Loop62:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop62
+	dc.b nRst
+	saVol		$C0
+	dc.b nG2
+	saVol		$F0
+
+Silence_Loop63:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop63
+	dc.b nRst
+	saVol		$C0
+	dc.b nC2
+	saVol		$F0
+
+Silence_Loop64:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop64
+	dc.b nRst
+	saVol		$C0
+	ssDetune	$00
+	dc.b nB1
+	saVol		$F0
+
+Silence_Loop65:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop65
+	dc.b nRst
+	saVol		$C0
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	saVol		$C0
+	dc.b nA0
+	saVol		$F0
+
+Silence_Loop66:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop66
+	dc.b nRst
+	saVol		$C0
+	dc.b nE1
+	saVol		$F0
+
+Silence_Loop67:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop67
+	dc.b nRst
+	saVol		$C0
+	dc.b nB1
+	saVol		$F0
+
+Silence_Loop68:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop68
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC2
+	saVol		$F0
+
+Silence_Loop69:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop69
+	dc.b nRst
+	saVol		$C0
+	dc.b nG2
+	saVol		$F0
+
+Silence_Loop70:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop70
+	dc.b nRst
+	saVol		$C0
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nB1
+	saVol		$F0
+
+Silence_Loop71:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop71
+	dc.b nRst
+	saVol		$C0
+	dc.b nE1
+	saVol		$F0
+
+Silence_Loop72:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop72
+	dc.b nRst
+	saVol		$C0
+
+Silence_PSG2Loop:
+	dc.b nG0, $01
+	saVol		$F0
+
+Silence_Loop73:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop73
+	dc.b nRst
+	saVol		$C0
+	dc.b nD1
+	saVol		$F0
+
+Silence_Loop74:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop74
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop75:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop75
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	saVol		$C0
+	dc.b nF2
+	saVol		$F0
+
+Silence_Loop76:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop76
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+
+Silence_Loop77:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop77
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop78:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop78
+	dc.b nRst
+	saVol		$C0
+	dc.b nD1
+	saVol		$F0
+
+Silence_Loop79:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop79
+	dc.b nRst
+	saVol		$C0
+	dc.b nG0
+	saVol		$F0
+
+Silence_Loop80:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop80
+	dc.b nRst
+	saVol		$C0
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop81:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop81
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+
+Silence_Loop82:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop82
+	dc.b nRst
+	saVol		$C0
+	dc.b nF2
+	saVol		$F0
+
+Silence_Loop83:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop83
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+
+Silence_Loop84:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop84
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop85:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop85
+	dc.b nRst
+	saVol		$C0
+	dc.b nD1
+	saVol		$F0
+
+Silence_Loop86:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop86
+	dc.b nRst, nA0
+	saVol		$B0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nE1
+	saVol		$F0
+
+Silence_Loop87:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop87
+	dc.b nRst
+	saVol		$C0
+	dc.b nB1
+	saVol		$F0
+
+Silence_Loop88:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop88
+	dc.b nRst
+	saVol		$C0
+	ssDetune	$FF
+	dc.b nC2
+	saVol		$F0
+
+Silence_Loop89:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop89
+	dc.b nRst
+	saVol		$C0
+	dc.b nG2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	saVol		$C0
+	dc.b nC2
+	saVol		$F0
+
+Silence_Loop90:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop90
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nB1
+	saVol		$F0
+
+Silence_Loop91:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop91
+	dc.b nRst
+	saVol		$C0
+	dc.b nE1
+	saVol		$F0
+
+Silence_Loop92:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop92
+	dc.b nRst
+	saVol		$C0
+	dc.b nA0
+	saVol		$F0
+
+Silence_Loop93:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop93
+	dc.b nRst
+	saVol		$C0
+	dc.b nE1
+	saVol		$F0
+
+Silence_Loop94:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop94
+	dc.b nRst
+	saVol		$C0
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC2
+	saVol		$F0
+
+Silence_Loop95:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop95
+	dc.b nRst
+	saVol		$C0
+	dc.b nG2
+	saVol		$F0
+
+Silence_Loop96:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop96
+	dc.b nRst
+	saVol		$C0
+	dc.b nC2
+	saVol		$F0
+
+Silence_Loop97:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop97
+	dc.b nRst
+	saVol		$C0
+	ssDetune	$00
+	dc.b nB1
+	saVol		$F0
+
+Silence_Loop98:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop98
+	dc.b nRst
+	saVol		$C0
+	dc.b nE1
+	saVol		$F0
+
+Silence_Loop99:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop99
+	dc.b nRst
+	saVol		$C0
+	dc.b nG0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nD1
+	saVol		$F0
+
+Silence_Loop100:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop100
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop101:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop101
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+
+Silence_Loop102:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop102
+	dc.b nRst
+	saVol		$C0
+	dc.b nF2
+	saVol		$F0
+
+Silence_Loop103:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop103
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+
+Silence_Loop104:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop104
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop105:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop105
+	dc.b nRst
+	saVol		$C0
+	dc.b nD1
+	saVol		$F0
+
+Silence_Loop106:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop106
+	dc.b nRst
+	saVol		$C0
+	dc.b nG0
+	saVol		$F0
+
+Silence_Loop107:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop107
+	dc.b nRst
+	saVol		$C0
+	dc.b nD1
+	saVol		$F0
+
+Silence_Loop108:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop108
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop109:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop109
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b nRst
+	saVol		$C0
+	dc.b nF2
+	saVol		$F0
+
+Silence_Loop110:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop110
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb1
+	saVol		$F0
+
+Silence_Loop111:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop111
+	dc.b nRst
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop112:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop112
+	dc.b nRst
+	saVol		$C0
+	dc.b nD1
+	saVol		$F0
+
+Silence_Loop113:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop113
+	dc.b nRst, nA1
+	saVol		$B0
+
+Silence_Loop114:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop114
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2
+	saVol		$F0
+
+Silence_Loop115:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop115
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop116:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop116
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC3
+	saVol		$F0
+
+Silence_Loop117:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop117
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nG3
+	saVol		$F0
+
+Silence_Loop118:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop118
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC3
+	saVol		$F0
+
+Silence_Loop119:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop119
+	dc.b nRst
+	saVol		$C0
+	ssDetune	$00
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop120:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop120
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2
+	saVol		$F0
+
+Silence_Loop121:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop121
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop122:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop122
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2
+	saVol		$F0
+
+Silence_Loop123:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop123
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop124:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop124
+	dc.b nRst
+	saVol		$C0
+	ssDetune	$FF
+	dc.b nC3
+	saVol		$F0
+
+Silence_Loop125:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop125
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nG3
+	saVol		$F0
+
+Silence_Loop126:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop126
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC3
+	saVol		$F0
+
+Silence_Loop127:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop127
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop128:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop128
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2
+	saVol		$F0
+
+Silence_Loop129:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop129
+	dc.b nRst
+	ssDetune	$00
+	dc.b nG1
+	saVol		$B0
+
+Silence_Loop130:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop130
+	dc.b nRst
+	saVol		$C0
+	dc.b nD2
+	saVol		$F0
+
+Silence_Loop131:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop131
+	dc.b nRst
+	saVol		$C0
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nBb2
+	saVol		$F0
+
+Silence_Loop132:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop132
+	dc.b nRst
+	saVol		$C0
+	dc.b nF3
+	saVol		$F0
+
+Silence_Loop133:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop133
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb2
+	saVol		$F0
+
+Silence_Loop134:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop134
+	dc.b nRst
+	saVol		$C0
+	dc.b nA2
+	saVol		$F0
+
+Silence_Loop135:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop135
+	dc.b nRst
+	saVol		$C0
+	dc.b nD2
+	saVol		$F0
+
+Silence_Loop136:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop136
+	dc.b nRst
+	saVol		$C0
+	dc.b nG1
+	saVol		$F0
+
+Silence_Loop137:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop137
+	dc.b nRst
+	saVol		$C0
+	dc.b nD2
+	saVol		$F0
+
+Silence_Loop138:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop138
+	dc.b nRst
+	saVol		$C0
+	dc.b nA2
+	saVol		$F0
+
+Silence_Loop139:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop139
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb2
+	saVol		$F0
+
+Silence_Loop140:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop140
+	dc.b nRst
+	saVol		$C0
+	dc.b nF3
+	saVol		$F0
+
+Silence_Loop141:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop141
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb2
+	saVol		$F0
+
+Silence_Loop142:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop142
+	dc.b nRst
+	saVol		$C0
+	dc.b nA2
+	saVol		$F0
+
+Silence_Loop143:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop143
+	dc.b nRst
+	saVol		$C0
+	dc.b nD2
+	saVol		$F0
+
+Silence_Loop144:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop144
+	dc.b nRst, nA1
+	saVol		$B0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$FF
+	dc.b nE2
+	saVol		$F0
+
+Silence_Loop145:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop145
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop146:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop146
+	dc.b nRst
+	saVol		$C0
+	ssDetune	$FF
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$00
+	dc.b nG3
+	saVol		$F0
+
+Silence_Loop147:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop147
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC3
+	saVol		$F0
+
+Silence_Loop148:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop148
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop149:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop149
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2
+	saVol		$F0
+
+Silence_Loop150:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop150
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nA1
+	saVol		$F0
+
+Silence_Loop151:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop151
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$00
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop152:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop152
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC3
+	saVol		$F0
+
+Silence_Loop153:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop153
+	dc.b nRst
+	ssDetune	$00
+	saVol		$C0
+	dc.b nG3
+	saVol		$F0
+
+Silence_Loop154:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop154
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC3
+	saVol		$F0
+
+Silence_Loop155:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop155
+	dc.b nRst
+	saVol		$C0
+	ssDetune	$00
+	dc.b nB2
+	saVol		$F0
+
+Silence_Loop156:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop156
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2
+	saVol		$F0
+
+Silence_Loop157:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop157
+	dc.b nRst
+	ssDetune	$00
+	dc.b nG1
+	saVol		$B0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nD2
+	saVol		$F0
+
+Silence_Loop158:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop158
+	dc.b nRst
+	saVol		$C0
+	dc.b nA2
+	saVol		$F0
+
+Silence_Loop159:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop159
+	dc.b nRst
+	saVol		$C0
+	dc.b nBb2
+	saVol		$F0
+
+Silence_Loop160:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop160
+	dc.b nRst
+	saVol		$C0
+	dc.b nF3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nBb2
+	saVol		$F0
+
+Silence_Loop161:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop161
+	dc.b nRst
+	saVol		$C0
+	dc.b nA2
+	saVol		$F0
+
+Silence_Loop162:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop162
+	dc.b nRst
+	saVol		$C0
+	dc.b nD2
+	saVol		$F0
+
+Silence_Loop163:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop163
+	dc.b nRst, nG1
+	saVol		$B0
+
+Silence_Loop164:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop164
+	dc.b nRst
+	saVol		$C0
+	dc.b nD2
+	saVol		$F0
+
+Silence_Loop165:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop165
+	dc.b nRst
+	saVol		$C0
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nBb2
+	saVol		$F0
+
+Silence_Loop166:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop166
+	dc.b nRst
+	saVol		$C0
+	dc.b nF3
+	saVol		$F0
+
+Silence_Loop167:
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	sLoop		$00, $02, Silence_Loop167
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$A8
+	dc.b nG2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$00
+	dc.b nF2, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2, $05
+	saVol		$40
+	dc.b sHold, $01, $01
+	saVol		$C0
+	dc.b sHold, $11
+
+Silence_Loop168:
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$02
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop168
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$00
+	dc.b nD2, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2, $05
+	saVol		$40
+	dc.b sHold, $01, $01
+	saVol		$C0
+	dc.b sHold, $11
+
+Silence_Loop169:
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$02
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop169
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$00
+	dc.b nD2, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC2, $05
+	saVol		$40
+	dc.b sHold, $01, nD2
+	ssDetune	$00
+	saVol		$C0
+	dc.b sHold, $1C
+
+Silence_Loop170:
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$03
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	sLoop		$00, $0B, Silence_Loop170
+	saVol		$40
+	dc.b sHold, $03
+	saVol		$18
+	dc.b nRst, $02
+	ssDetune	$FF
+	dc.b nG2, $01
+	saVol		$A8
+	dc.b sHold, $04
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$00
+	saVol		$C0
+	dc.b nF2, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2, $05
+	saVol		$40
+	dc.b sHold, $01, $01
+	saVol		$C0
+	dc.b sHold, $11
+
+Silence_Loop171:
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$02
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop171
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$00
+	dc.b nD2, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nE2, $05
+	saVol		$40
+	dc.b sHold, $01, $01
+	saVol		$C0
+	dc.b sHold, $11
+
+Silence_Loop172:
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$02
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop172
+	dc.b $06
+	saVol		$40
+	dc.b nC2, $01
+	saVol		$C0
+	ssDetune	$00
+	dc.b sHold, nD2, $04
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC2, $05
+	saVol		$40
+	dc.b sHold, $01, nD2
+	ssDetune	$00
+	saVol		$C0
+	dc.b sHold, $17
+
+Silence_Loop173:
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$03
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	sLoop		$00, $06, Silence_Loop173
+	saVol		$40
+	dc.b nF2
+	saVol		$C0
+	dc.b sHold, $0B
+
+Silence_Loop174:
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$02
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop174
+	ssDetune	$FF
+	dc.b nG2, $0B
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$00
+	saVol		$C0
+	dc.b nF2, $0C
+	saVol		$40
+	dc.b nE2, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b sHold, $10
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$00
+	saVol		$C0
+	dc.b nA2, $12
+
+Silence_Loop175:
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$02
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop175
+	saVol		$40
+	dc.b nB2
+	saVol		$C0
+	dc.b sHold, $11
+	saVol		$40
+	dc.b nD2, $01
+	saVol		$C0
+	dc.b sHold, $0A
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b nBb1
+	saVol		$C0
+	dc.b sHold, nC2, $04
+	saVol		$40
+	dc.b sHold, $01, nBb1
+	saVol		$C0
+	ssDetune	$00
+	dc.b sHold, nB1, $04
+	saVol		$40
+	dc.b sHold, $01, nC2
+	ssDetune	$FF
+	saVol		$C0
+	dc.b sHold, $17
+
+Silence_Loop176:
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$03
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	sLoop		$00, $06, Silence_Loop176
+	saVol		$40
+	dc.b nD2
+	ssDetune	$00
+	saVol		$C0
+	dc.b sHold, $0B
+
+Silence_Loop177:
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$03
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop177
+	saVol		$40
+	dc.b nA1
+	saVol		$C0
+	dc.b sHold, $04
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nB1, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nC2, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$00
+	saVol		$C0
+	dc.b nD2, $05
+	saVol		$40
+	dc.b sHold, $01, nE2
+	ssDetune	$FF
+	saVol		$C0
+	dc.b sHold, $10
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$00
+	saVol		$C0
+	dc.b nA2, $12
+
+Silence_Loop178:
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$02
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop178
+	saVol		$40
+	dc.b nB2
+	saVol		$C0
+	dc.b sHold, $10
+	saVol		$40
+	dc.b sHold, $01, nD3
+	saVol		$C0
+	dc.b sHold, $0B
+	saVol		$40
+	dc.b $01
+	saVol		$C0
+	dc.b sHold, $05
+	saVol		$40
+	ssDetune	$FF
+	dc.b nBb2, $01
+	saVol		$C0
+	dc.b sHold, nC3, $04
+	saVol		$40
+	dc.b sHold, $01, nB2
+	ssDetune	$00
+	saVol		$C0
+	dc.b sHold, $04
+	saVol		$40
+	dc.b sHold, $01, nC3
+	ssDetune	$FF
+	saVol		$C0
+	dc.b sHold, $19
+
+Silence_Loop179:
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	sLoop		$00, $05, Silence_Loop179
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	saVol		$40
+	dc.b nD3
+	ssDetune	$00
+	saVol		$C0
+	dc.b sHold, $17
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $03
+	ssDetune	$FF
+	dc.b sHold, $02
+	ssDetune	$00
+	dc.b sHold, $02
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $02
+	ssDetune	$FF
+	dc.b sHold, $02
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C8
+	dc.b nA0
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst, $02
+	saVol		$D8
+	dc.b nE1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nB1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FF
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nG2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$00
+	saVol		$E8
+	dc.b nB1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nE1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nA0, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst, $02
+	saVol		$D8
+	dc.b nE1, $01, sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nB1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FF
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nG2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$00
+	saVol		$D8
+	dc.b nB1, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	saVol		$E8
+	dc.b nE1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$F8
+	dc.b sHold, $01, nRst, $02
+	sVolEnv		vNone
+	sJump		Silence_PSG2Loop
+
+Silence_PSG1:
+	ssDetune	$FE
+	dc.b nRst, $03, nE1, $05, nRst, $01
+	ssDetune	$FB
+	dc.b nA0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+
+Silence_Loop180:
+	dc.b sHold, $01
+	saVol		$10
+	sLoop		$00, $03, Silence_Loop180
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nG2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+
+Silence_Loop181:
+	dc.b sHold, $01
+	saVol		$10
+	sLoop		$00, $03, Silence_Loop181
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FB
+	saVol		$C8
+	dc.b nA0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nG2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+
+Silence_Loop182:
+	dc.b sHold, $01
+	saVol		$10
+	sLoop		$00, $03, Silence_Loop182
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+
+Silence_PSG1Jump:
+	ssDetune	$FD
+	dc.b nE1, $01
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FB
+	saVol		$C8
+
+	dc.b nG0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FC
+	saVol		$C8
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+
+Silence_Loop183:
+	dc.b sHold, $01
+	saVol		$10
+	sLoop		$00, $03, Silence_Loop183
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nF2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FC
+	saVol		$C8
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+
+Silence_Loop184:
+	dc.b sHold, $01
+	saVol		$10
+	sLoop		$00, $03, Silence_Loop184
+	dc.b nRst
+	ssDetune	$FB
+	saVol		$C8
+	dc.b nG0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FC
+	saVol		$C8
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nF2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+
+Silence_Loop185:
+	dc.b sHold, $01
+	saVol		$10
+	sLoop		$00, $03, Silence_Loop185
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$FC
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FB
+	saVol		$C8
+	dc.b nA0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nG2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FB
+	saVol		$C8
+	dc.b nA0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nG2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nC2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nB1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$FD
+	dc.b nE1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FB
+	saVol		$C8
+	dc.b nG0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FC
+	saVol		$C8
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nF2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$18
+
+Silence_Loop186:
+	dc.b sHold, $01
+	saVol		$10
+	sLoop		$00, $03, Silence_Loop186
+	dc.b nRst
+	saVol		$C8
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FC
+	saVol		$C8
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FB
+	saVol		$C8
+	dc.b nG0
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FC
+	saVol		$C8
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nF2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nBb1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FD
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FC
+	saVol		$C8
+	dc.b nD1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$FD
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nG3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FD
+	saVol		$C8
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nG3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nG1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nD2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nBb2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nF3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nBb2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nD2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nG1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nD2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FF
+	dc.b nBb2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nF3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nBb2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nD2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nG3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FF
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$FD
+	dc.b nA1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nG3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$C8
+	dc.b nC3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$FF
+	dc.b nB2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	ssDetune	$FE
+	dc.b nE2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nG1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nD2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FF
+	dc.b nBb2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01, nRst
+	saVol		$D8
+	dc.b nF3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nBb2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	ssDetune	$FE
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$20
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nD2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nG1
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nD2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nA2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FF
+	saVol		$C8
+	dc.b nBb2
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	saVol		$C8
+	dc.b nF3
+	saVol		$F0
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$18
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$10
+	dc.b nRst
+	ssDetune	$FE
+	saVol		$B0
+	dc.b nG2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nF2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nE2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b $12
+
+Silence_Loop187:
+	ssDetune	$FB
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop187
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nD2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nE2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b $12
+
+Silence_Loop188:
+	ssDetune	$FB
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop188
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nD2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$FD
+	dc.b nC2, $06
+	saVol		$40
+	dc.b nD2, $01
+	saVol		$C0
+	dc.b sHold, $1C
+
+Silence_Loop189:
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	sLoop		$00, $02, Silence_Loop189
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+
+Silence_Loop190:
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	sLoop		$00, $08, Silence_Loop190
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	saVol		$40
+	dc.b sHold, $03
+	saVol		$10
+	dc.b nRst, $02
+	saVol		$B0
+	dc.b nG2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nF2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nE2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b $12
+
+Silence_Loop191:
+	ssDetune	$FB
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop191
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nD2, $06
+	saVol		$40
+	dc.b nE2, $01
+	saVol		$C0
+	dc.b sHold, $04
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b $12
+
+Silence_Loop192:
+	ssDetune	$FB
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop192
+	saVol		$40
+	dc.b $01
+	saVol		$C0
+	dc.b sHold, $04
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nD2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nC2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nD2, $18
+
+Silence_Loop193:
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop193
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$00
+
+Silence_Loop194:
+	dc.b sHold, $01
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FE
+	sLoop		$00, $02, Silence_Loop194
+	dc.b sHold, $01
+	saVol		$40
+	dc.b nF2
+	saVol		$C0
+	dc.b sHold, $0B
+
+Silence_Loop195:
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	sLoop		$00, $03, Silence_Loop195
+	dc.b nG2, $0C
+	saVol		$40
+	ssDetune	$FD
+	dc.b nEb2, $01
+	saVol		$C0
+	ssDetune	$FE
+	dc.b sHold, nF2, $0A
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nE2, $11
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nA2, $12
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FF
+
+Silence_Loop196:
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	sLoop		$00, $02, Silence_Loop196
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b nB2, $11
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FE
+	saVol		$C0
+	dc.b nD2, $0B
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$FD
+	dc.b nC2, $06
+	saVol		$40
+	dc.b nBb1, $01
+	saVol		$C0
+	ssDetune	$FE
+	dc.b sHold, nB1, $04
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FD
+	saVol		$C0
+	dc.b nC2, $18
+
+Silence_Loop197:
+	ssDetune	$FA
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	sLoop		$00, $02, Silence_Loop197
+	ssDetune	$FA
+	dc.b sHold, $01
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FA
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FF
+
+Silence_Loop198:
+	dc.b sHold, $01
+	ssDetune	$FA
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FD
+	sLoop		$00, $02, Silence_Loop198
+	dc.b sHold, $01, nD2, $0C
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$00
+
+Silence_Loop199:
+	dc.b sHold, $01
+	ssDetune	$FC
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$01
+	dc.b sHold, $01
+	ssDetune	$FE
+	sLoop		$00, $02, Silence_Loop199
+	dc.b sHold, $01, nA1, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nB1, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FD
+	saVol		$C0
+	dc.b nC2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nD2, $06
+	saVol		$40
+	ssDetune	$FE
+	dc.b nE2, $01
+	saVol		$C0
+	dc.b sHold, $10
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b nA2, $12
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FF
+
+Silence_Loop200:
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	sLoop		$00, $02, Silence_Loop200
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b nB2, $11
+	saVol		$40
+	dc.b sHold, $01, nD3
+	saVol		$C0
+	dc.b sHold, $0A
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	dc.b $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$FE
+	dc.b nC3, $05
+	saVol		$40
+	dc.b sHold, $01
+	ssDetune	$FF
+	saVol		$C0
+	dc.b nB2, $05
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$C0
+	ssDetune	$FE
+	dc.b nC3, $18
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FF
+
+Silence_Loop201:
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	sLoop		$00, $02, Silence_Loop201
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FF
+
+Silence_Loop202:
+	dc.b sHold, $01
+	ssDetune	$FD
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FE
+	sLoop		$00, $02, Silence_Loop202
+	dc.b sHold, $01
+	saVol		$40
+	ssDetune	$FF
+	dc.b nD3
+	saVol		$C0
+	dc.b sHold, $18
+	ssDetune	$FE
+	dc.b sHold, $02
+	ssDetune	$00
+	dc.b sHold, $02
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $01
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $02
+	ssDetune	$00
+	dc.b sHold, $02
+	ssDetune	$FE
+	dc.b sHold, $02
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $02
+	ssDetune	$FE
+	dc.b sHold, $02
+	ssDetune	$00
+	dc.b sHold, $02
+	ssDetune	$FF
+	dc.b sHold, $01
+	ssDetune	$FE
+	dc.b sHold, $01
+	ssDetune	$00
+	dc.b sHold, $02
+	ssDetune	$FF
+	saVol		$40
+	dc.b sHold, $01
+	saVol		$D8
+	dc.b nA0, sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FD
+	saVol		$D8
+	dc.b nE1, $01
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FE
+	saVol		$E8
+	dc.b nB1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FD
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FE
+	saVol		$E8
+	dc.b nG2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FD
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FE
+	saVol		$E8
+	dc.b nB1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FD
+	saVol		$E8
+	dc.b nE1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FB
+	saVol		$E8
+	dc.b nA0, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FD
+	saVol		$E8
+	dc.b nE1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FE
+	saVol		$E8
+	dc.b nB1, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FD
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FE
+	saVol		$E8
+	dc.b nG2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FD
+	saVol		$E8
+	dc.b nC2, $02
+	saVol		$08
+	dc.b sHold, $01
+	saVol		$10
+	dc.b sHold, $01, nRst, $02
+	ssDetune	$FE
+	saVol		$E8
+	dc.b nB1, $02
+	saVol		$08
+	dc.b sHold, $02, nRst, $02
+	sVolEnv		vNone
+	saVol		$F8
+	sJump	Silence_PSG1Jump
+
+Silence_PSG3:
+	sNoisePSG	$E7
+	dc.b nA5
+
+SilenceFix_Loop203:
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	sLoop		$00, $05, SilenceFix_Loop203
+	dc.b $06
+	saVol		$B0
+Silence_PSG3Jump:
+
+SilenceFix_Loop204:
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	sLoop		$00, $05, SilenceFix_Loop204
+	dc.b $06
+	saVol		$10
+	dc.b $01
+	saVol		$A0
+
+	dc.b sHold, $05
+
+SilenceFix_Loop205:
+	saVol		$08
+	dc.b $06
+	saVol		$08
+	dc.b $06, $06
+	sLoop		$00, $05, SilenceFix_Loop205
+	saVol		$B0
+
+SilenceFix_Loop206:
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	sLoop		$00, $05, SilenceFix_Loop206
+	dc.b $06
+	saVol		$10
+	dc.b sHold, $01
+	saVol		$A0
+	dc.b sHold, $0B
+
+SilenceFix_Loop207:
+	dc.b $06, $06, $06, $06, $18
+	sLoop		$00, $03, SilenceFix_Loop207
+	dc.b $06, $06, $06, $06, $0C
+	saVol		$48
+	dc.b sHold, $01
+	saVol		$B8
+	dc.b sHold, $0B
+
+SilenceFix_Loop208:
+	dc.b $06, $06, $06, $06, $18
+	sLoop		$00, $03, SilenceFix_Loop208
+	dc.b $06, $0C, $06, $0C
+	saVol		$48
+	dc.b sHold, $01
+	saVol		$B8
+	dc.b sHold, $0B
+
+SilenceFix_Loop209:
+	dc.b $06, $0C, $06, $18
+	sLoop		$00, $03, SilenceFix_Loop209
+
+SilenceFix_Loop210:
+	dc.b $06, $0C, $06, $0C
+	saVol		$48
+	dc.b sHold, $01
+	saVol		$B8
+	dc.b sHold, $0B, $06, $0C, $06, $18
+	sLoop		$00, $02, SilenceFix_Loop210
+	dc.b $06, $1E
+	saVol		$58
+	dc.b sHold, $01
+	saVol		$A8
+	dc.b sHold, $05
+
+SilenceFix_Loop211:
+	dc.b $0C, $18
+	sVolEnv		v03
+	dc.b $06
+	saVol		$60
+	dc.b sHold, $01
+	saVol		$A0
+	dc.b sHold, $05
+	sVolEnv		v02
+	sLoop		$00, $03, SilenceFix_Loop211
+	dc.b $0C, $1E
+	saVol		$58
+	dc.b sHold, $01
+	saVol		$A8
+	dc.b sHold, $05
+
+SilenceFix_Loop212:
+	dc.b $0C, $18
+	sVolEnv		v03
+	dc.b $06
+	saVol		$60
+	dc.b sHold, $01
+	saVol		$A0
+	dc.b sHold, $05
+	sVolEnv		v02
+	sLoop		$00, $02, SilenceFix_Loop212
+	dc.b $0C, $06
+	saVol		$60
+	dc.b sHold, $01
+	saVol		$A0
+	dc.b sHold, $11
+	sVolEnv		v03
+	dc.b $06
+	saVol		$60
+	dc.b sHold, $01
+	saVol		$A0
+	dc.b sHold, $05
+	sVolEnv		v02
+	dc.b $06, $10
+	saVol		$08
+	dc.b sHold, $0A
+	saVol		$08
+	dc.b sHold, $08
+	saVol		$08
+	dc.b sHold, $06
+	saVol		$E8
+
+SilenceFix_Loop213:
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	saVol		$08
+	dc.b $06
+	sLoop		$00, $05, SilenceFix_Loop213
+	dc.b $06
+	saVol		$B0
+	sJump	Silence_PSG3Jump
+	sStop

@@ -1,0 +1,1044 @@
+Title_Header:
+	sHeaderInit
+	sHeaderTempo	$02, $08
+	sHeaderCh	$05, $03
+	sHeaderDAC	Title_DAC1, $00
+	sHeaderDAC	Title_DAC2, $00
+	sHeaderFM	Title_FM1, $00, $00
+	sHeaderFM	Title_FM2, $0C, $14
+	sHeaderFM	Title_FM3, $00, $07
+	sHeaderFM	Title_FM4, $00, $07
+	sHeaderFM	Title_FM5, $00, $09
+	sHeaderPSG	Title_PSG1, $0C, $38, $00, v03
+	sHeaderPSG	Title_PSG2, $0C, $10, $00, v03
+	sHeaderPSG	Title_PSG3, $0C, $20, $00, v05
+
+	; Patch $00
+	; $3D
+	; $02, $62, $01, $21,	$1F, $1F, $1F, $1F
+	; $03, $06, $06, $06,	$0C, $0B, $0B, $0B
+	; $28, $88, $88, $88,	$21, $15, $17, $15
+	spAlgorithm	$05
+	spFeedback	$07
+	spDetune	$00, $00, $06, $02
+	spMultiple	$02, $01, $02, $01
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$1F, $1F, $1F, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$03, $06, $06, $06
+	spSustainLv	$02, $08, $08, $08
+	spDecayRt	$0C, $0B, $0B, $0B
+	spReleaseRt	$08, $08, $08, $08
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$21, $17, $15, $15
+
+	; Patch $01
+	; $04
+	; $71, $41, $31, $31,	$13, $13, $13, $13
+	; $00, $00, $00, $00,	$00, $00, $00, $00
+	; $0F, $0F, $0F, $0F,	$11, $16, $0F, $16
+	spAlgorithm	$04
+	spFeedback	$00
+	spDetune	$07, $03, $04, $03
+	spMultiple	$01, $01, $02, $01
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$13, $13, $13, $13
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$00, $00, $00, $00
+	spSustainLv	$00, $00, $00, $00
+	spDecayRt	$00, $00, $00, $00
+	spReleaseRt	$0F, $0F, $0F, $0F
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$11, $0F, $0F, $16
+
+	; Patch $02
+	; $35
+	; $00, $05, $02, $02,	$4E, $1C, $1D, $1F
+	; $1B, $0D, $17, $1F,	$00, $14, $07, $09
+	; $27, $0F, $0F, $07,	$12, $80, $80, $80
+	spAlgorithm	$05
+	spFeedback	$06
+	spDetune	$00, $00, $00, $00
+	spMultiple	$00, $02, $05, $02
+	spRateScale	$01, $00, $00, $00
+	spAttackRt	$0E, $1D, $1C, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$1B, $17, $0D, $1F
+	spSustainLv	$02, $00, $00, $00
+	spDecayRt	$00, $07, $14, $09
+	spReleaseRt	$07, $0F, $0F, $07
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$12, $00, $00, $00
+
+	; Patch $03
+	; $3C
+	; $31, $43, $62, $01,	$12, $10, $14, $10
+	; $04, $08, $04, $08,	$02, $05, $04, $07
+	; $12, $15, $12, $15,	$20, $14, $20, $14
+	spAlgorithm	$04
+	spFeedback	$07
+	spDetune	$03, $06, $04, $00
+	spMultiple	$01, $02, $03, $01
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$12, $14, $10, $10
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$04, $04, $08, $08
+	spSustainLv	$01, $01, $01, $01
+	spDecayRt	$00, $00, $00, $00
+	spReleaseRt	$02, $02, $05, $05
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$20, $20, $14, $14
+
+	; Patch $04
+	; $3D
+	; $02, $62, $01, $21,	$1F, $1F, $1F, $1F
+	; $03, $06, $06, $06,	$0C, $0B, $0B, $0B
+	; $28, $88, $88, $88,	$21, $15, $17, $15
+	spAlgorithm	$05
+	spFeedback	$07
+	spDetune	$00, $00, $06, $02
+	spMultiple	$02, $01, $02, $01
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$1F, $1F, $1F, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$0C, $0B, $0B, $0B
+	spSustainLv	$02, $08, $08, $08
+	spDecayRt	$03, $06, $06, $06
+	spReleaseRt	$08, $08, $08, $08
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$21, $17, $15, $15
+
+	; Patch $05
+	; $3D
+	; $01, $01, $01, $01,	$94, $19, $19, $19
+	; $0F, $0D, $0D, $0D,	$07, $04, $04, $04
+	; $25, $1A, $1A, $1A,	$15, $80, $80, $80
+	spAlgorithm	$05
+	spFeedback	$07
+	spDetune	$00, $00, $00, $00
+	spMultiple	$01, $01, $01, $01
+	spRateScale	$02, $00, $00, $00
+	spAttackRt	$14, $19, $19, $19
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$0F, $0D, $0D, $0D
+	spSustainLv	$02, $01, $01, $01
+	spDecayRt	$07, $04, $04, $04
+	spReleaseRt	$05, $0A, $0A, $0A
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$15, $0F, $0F, $0F
+
+Title_DAC1:
+	sPan		spCenter
+	dc.b nRst, $7F, nRst, $2F, dHighTom, $18, dMidTom, $0C, dLowTom
+	dc.b $06, $2A, dSnare, $03, $03, $06, dKick, dKick
+	dc.b $12, dSnare, $0C, dKick, $06, $0C, dSnare, $03
+	dc.b dHighTom, dLowTom, $06, dKick
+
+Title_Loop109:
+	dc.b $09, $03, dSnare, $06, dKick
+	sLoop		$00, $0F, Title_Loop109
+	dc.b dKick, $03, $06, dSnare, dKick, $03, dSnare, $06
+	dc.b dKick
+
+Title_Loop110:
+	dc.b $03, $06, $03, dSnare, $06, dKick
+	sLoop		$00, $0E, Title_Loop110
+	dc.b dKick, $03, $06, $03, dSnare, dKick, $06, dSnare
+	dc.b dLowTom, dMidTom, dMidTom, $03, dLowTom, $06, dKick, $09
+	dc.b $03, dSnare, $0C, dKick, $03, $06, $03, dSnare
+	dc.b dMidTom, dSnare, dLowTom, dKick, dKick
+
+Title_Loop111:
+	dc.b $06, $03, dSnare, $06, dKick, dKick, $03
+	sLoop		$00, $0C, Title_Loop111
+	dc.b $06, $03, dSnare, dKick, $06, dSnare, dKick, dMidTom
+	dc.b dMidTom, $03, dSnare, $06, dKick, $48, dSnare, $09
+	dc.b $09, $06, dKick, $7F, nRst, $29, dSnare, $09
+	dc.b $09, $06, dKick, $42, $06, dSnare, $09, dKick
+	dc.b $03, dSnare, $06, dKick, $03, dSnare, $09, dKick
+
+Title_Loop112:
+	dc.b $06, dSnare, dKick, $0C
+	sLoop		$00, $03, Title_Loop112
+	dc.b $06, dSnare, $03, dKick, $06, dSnare, $09, dKick
+	dc.b $06, dSnare, dKick, $0C, $06, dSnare, dKick, $0C
+	dc.b $06, dSnare, dKick, dKick, dKick, dSnare, $03, dKick
+	dc.b $06, dSnare, $03, dKick, $06, $06, dSnare, dKick
+	dc.b $0C, $06, dSnare, dKick, dKick, dKick, dSnare, dKick
+	dc.b $0C, $06, dSnare, $03, dKick, $06, dSnare, $03
+	dc.b dKick
+
+Title_Loop113:
+	dc.b $06, $06, dSnare, dKick
+	sLoop		$00, $03, Title_Loop113
+	dc.b dKick
+
+Title_Loop114:
+	dc.b dKick, dSnare, $03, dKick, $06
+
+Title_Loop115:
+	dc.b dSnare, $03, dKick, $06
+	sLoop		$00, $04, Title_Loop114
+	dc.b $06, dSnare, $03, dKick, dKick
+	sLoop		$01, $07, Title_Loop115
+	dc.b dSnare, $33
+	ssTempo		$05
+	dc.b nRst, $7F, nRst, nRst, nRst, $4B, dSnare, $06, dKick
+	dc.b $03, $06, dSnare, $03
+
+Title_Loop116:
+	dc.b dKick, $06, $06
+
+Title_Loop117:
+	dc.b $06, dSnare, dKick, $03, $06, dSnare, dKick, $03
+	dc.b dSnare, $06
+	sLoop		$00, $02, Title_Loop116
+	dc.b dKick, $03, dSnare, dKick, $06, $06, dSnare, dKick
+	dc.b $03, $06, dSnare, dKick, $03, dSnare, $06, dKick
+	dc.b dKick, dKick, dSnare, dKick, $03, $06, dSnare, dKick
+	dc.b $03, dSnare, dKick, dSnare, $06, dKick
+	sLoop		$01, $0C, Title_Loop117
+	dc.b dKick, dSnare, dKick, $03, $06, dSnare, dKick, $03
+	dc.b dSnare, $06, dKick, dKick, dKick, dSnare, dKick, $03
+	dc.b $06, dSnare, dKick, $03, dSnare, $06, dKick, $03
+	dc.b dSnare, dKick, $06, $06, dSnare, dKick, $03, $06
+	dc.b dSnare, dKick, $03, dSnare, $06, dKick, dKick, dKick
+	dc.b dSnare, dKick, $03, $06, dSnare, dKick, $03, dSnare
+	dc.b dKick, dSnare, $06, dKick, $0C, dHighTom, $18, dMidTom
+	dc.b dLowTom, dLowTom, $3C
+	ssTempo		$08
+	sPan		spCenter
+	sStop
+
+Title_DAC2:
+	sStop
+
+Title_FM5:
+	saDetune	$05
+	dc.b nRst, $09
+
+Title_FM1:
+	sPan		spCenter
+	sVoice		$00
+	dc.b nRst, $7F, nRst, nRst, $70, nE4, $06, nFs4, nG4
+	dc.b nRst, $1E, nFs4, $0C, nG4, $06, nB4, $48
+	dc.b nRst, $06, nFs4, $0C, nG4, $06, nA4, $18
+	dc.b nRst, $06, nB4, $0C, nFs4, $1E, nRst, $06
+	dc.b nE4, $0C, nG4, $06, nFs4, $60
+
+Title_Loop1:
+	dc.b nRst, $18, nE4, nB4, nG4, nD5, $24, nE5
+	dc.b $08, sHold, nEb5, $01, sHold, nD5, sHold, nCs5, sHold, nC5
+	dc.b nB4, $18, nFs4, $0C, nG4, nA4, $24, nB4
+	dc.b $08, sHold, nBb4, $01, sHold, nA4, sHold, nAb4, sHold, nG4
+	dc.b nFs4, $18, nE4, $0C, nG4, nFs4, $60
+	sLoop		$00, $02, Title_Loop1
+	dc.b nRst, $7F, nRst, nRst, nRst, $4B
+	sVoice		$03
+;	saVol		$05
+	dc.b nE5, $18, nFs5, $48, nG5, $0C, nFs5, nG5
+	dc.b $06, nFs5, nD5, nE5, $4E, nD5, $30, nE5
+	dc.b $18, nA5
+;	saVol		$07
+	dc.b nG5, $30, nFs5, nE5, nG5, nFs5, nE5, nD5
+	dc.b nFs5, nE5, nD5, nB4, nE5, $18
+;	saVol		$F4
+	dc.b sHold, nF5, $04, sHold, nFs5, sHold, nG5
+	dc.b sHold, nAb5, sHold, nA5, sHold, nBb5
+;	saVol		$0C
+	dc.b sHold, nB5, $4B
+;	saVol		$F4
+	dc.b sHold, nBb5, $02, sHold, nA5, sHold, nAb5, sHold, nG5
+	dc.b sHold, nFs5, sHold, nF5, sHold, nE5, sHold, nEb5, sHold, nD5
+	dc.b sHold, nCs5, sHold, nC5
+;	saVol		$0C
+	dc.b nB4, $7F, sHold, $11, $60, $60, $60, $54
+	saVol		$FE
+	dc.b nBb4, $02, sHold, nA4, sHold, nAb4, sHold, nG4
+	dc.b sHold, nFs4, sHold, nF4
+	sVoice		$04
+
+Title_Loop2:
+	dc.b nE4, $06, nA4, nB4, nE4, $03, nA4, $06
+	dc.b nB4, nE4, $03, nA4, $06, nB4, nD4, nA4
+	dc.b nB4, nD4, $03, nA4, $06, nB4, nD4, $03
+	dc.b nA4, $06, nB4, nG4, nA4, nB4, nG4, $03
+	dc.b nA4, $06, nB4, nG4, $03, nA4, $06, nB4
+	dc.b $03, $03, $03, nA4, $06, $06, nE4, $03
+	dc.b $03, nG4, nG4, nE4, $06, $06, nB3, $03
+	dc.b $06
+	sLoop		$00, $03, Title_Loop2
+	dc.b nRst, $7F, nRst, nRst, nRst, $0F
+;	saVol		$FB
+	sVoice		$05
+	dc.b nE4, $0C, nB4, $12, nD5, $06, $06, nE5
+	dc.b $03, nB4, $21, nA4, $06, $06, nB4, $03
+	dc.b nG4, $21, nB4, $06, nA4, nG4, $03, nE4
+	dc.b $21, nA4, $06, $06, nB4, $03, nG4, $1B
+	dc.b nFs4, $09, nE4, $2D, nD4, $06, $06, nE4
+	dc.b $03, nB3, $27, nD4, $0C, nE4, nFs4, nA4
+	dc.b nG4, $06, nFs4, $03, nE4, $06, nD4, nE4
+	dc.b $15, nD4, $03, nFs4, nG4, $06, nA4, $03
+	dc.b nFs4, $06, nG4, nE4, $15, nD4, $06, $06
+	dc.b nE4, $03, nB3, $57, nG4, $06, nFs4, $03
+	dc.b nE4, $06, nD4, nE4, $15, nD4, $03, nFs4
+	dc.b nA4, $06, nB4, $03, nFs4, $06, nG4, nB4
+	dc.b $15, nG4, $06, nFs4, nG4, $03, nD5, $57
+	saVol		$05
+	sVoice		$04
+
+Title_Loop3:
+	dc.b nE4, $06, nA4, nB4, nE4, $03, nA4, $06
+	dc.b nB4, nE4, $03, nA4, $06, nB4, nD4, nA4
+	dc.b nB4, nD4, $03, nA4, $06, nB4, nD4, $03
+	dc.b nA4, $06, nB4, nG4, nA4, nB4, nG4, $03
+	dc.b nA4, $06, nB4, nG4, $03, nA4, $06, nB4
+	dc.b $03, $03, $03, nA4, $06, $06, nE4, $03
+	dc.b $03, nG4, nG4, nE4, $06, $06, nB3, $03
+	dc.b $06
+	sLoop		$00, $04, Title_Loop3
+	sStop
+
+Title_FM2:
+	sPan		spCenter
+	sVoice		$02
+	dc.b nRst, $7F, nRst, nRst, $5E, nB1, $06, nE2, $0C
+	dc.b nFs2, $06, nG2, nE2, nB1, $12, nG1, $06
+	dc.b nA1, $0C, nG1, $06, nA1, nB1, $24, $0C
+	dc.b nE2, $12, nFs2, $06, nG2, nFs2, nD2, nB1
+	dc.b nA1, $12, nG1, $03, nA1, nB1, $12, nA1
+	dc.b $03, nB1, nC2, $09, nD2, nE2, $06, nD2
+	dc.b $09, nB1, nG1, $06, nA1, $12, nG1, $03
+	dc.b nA1, nB1, $18, nC2, $0C, nD2, nE2, nFs2
+	dc.b nE2, $30, $18, $18, nC2, $30, $18, nD2
+	dc.b nE2, $30, nD2, $12, nE2, $0C, nD2, nE2
+	dc.b $06, nFs2, $60, nE2, $0C, nD2, $06, nB1
+	dc.b nD2, nB1, nD2, nE2, $0C, nB1, $06, nD2
+	dc.b nB1, nG2, nD2, nFs2, nD2
+
+Title_Loop4:
+	dc.b nA1, $0C, $0C, $06, nG1, nA1, nB1, $1E
+	dc.b nE2, $09, nD2, nB1, $06
+	sLoop		$00, $02, Title_Loop4
+	dc.b $2A, $06, nG2, nD2, nFs2, nD2, nA2, nD2
+	dc.b nB2, nD2, nE2, $12, nB2, nE2, $30, $0C
+	dc.b nD2, $12, nA2, nD2, $30, nE2, $0C, nCs2
+	dc.b $12, nE2, nA2, $1E, nD2, $12, nB2, $1E
+	dc.b nE2, $12, nFs2, $1E, nG2, $0C, nFs2, $06
+	dc.b nE2, nD2, nE2, $12, nB2, nE2, $30, $0C
+	dc.b nD2, $12, nA2, nD2, $30, nE2, $0C, nCs2
+	dc.b $12, nE2, nA2, $1E, nD2, $12, nE2, $1E
+	dc.b nFs2, $12, nB2, $1E, nG3, $0C, nFs3, $06
+	dc.b nE3
+
+Title_Loop5:
+	dc.b nD3, nE3, $12, $12, $12, $12, $0C, $0C
+	dc.b nD3, $12, $12, $12, $12, $0C
+	sLoop		$00, $02, Title_Loop5
+	dc.b $06, nB2, nA2, $12, $12, $12, nB2, nB2
+	dc.b $0C, nG2, nA2, $12, $12, $12, nFs2, nFs2
+	dc.b $0C, $0C, nG2, $12, $12, $12, $12, $0C
+	dc.b $0C, nFs2, $09, nE2, nD2, $06, nG2, nFs2
+	dc.b nC2, nD2, nB1, $7F, sHold, $41, $60, nE2
+	dc.b nB1, nE2, $30, nD2, nG2, nA2, nE2, nD2
+	dc.b nG2, nA2, nE2, nD2, $18, nFs2, nG2, $30
+	dc.b nA2, $18, nB2, $0C, $01, nBb2, nA2, nG2
+	dc.b nFs2, nF2, nE2, nEb2, nD2, nCs2, nRst, nB1
+
+Title_Loop6:
+	dc.b nE2, $06, nB1, nD2, $03, nE2, $06, $06
+	dc.b nB1, $03, nE2, nB1, nD2, $06, nE2, nD2
+	dc.b nA1, nC2, $03, nD2, $06, $06, nA1, $03
+	dc.b nD2, nA1, nC2, $06, nD2, nG2, nD2, nFs2
+	dc.b $03, nG2, $06, $06, nD2, $03, nG2, nD2
+	dc.b nFs2, $06, nG2, nA2, $03, nB2, $06, $06
+	dc.b nA2, $03, $06, nG2, $03, nA2, $06, $06
+	dc.b nG2, $03, nFs2, $06, nE2, nB1, nD2, $03
+	dc.b nE2, $06, $06, nB1, $03, nE2, nB1, nD2
+	dc.b $06, nE2, nFs2, nC2, nE2, $03, nFs2, $06
+	dc.b $06, nC2, $03, nFs2, nC2, nE2, $06, nFs2
+	dc.b nG2, nD2, nFs2, $03, nG2, $06, $06, nD2
+	dc.b $03, nG2, nD2, nFs2, $06, nG2, nA2, $03
+	dc.b nB2, $06, $06, nA2, $03, $06, nG2, $03
+	dc.b nA2, $06, $06, nG2, $03, nFs2, $06
+	sLoop		$00, $03, Title_Loop6
+
+Title_Loop7:
+	dc.b nE2, $30, nD2, nG2, nA2
+	sLoop		$00, $03, Title_Loop7
+	dc.b nE2, nD2, nG2, nA2, $18, nB2, $0C, $01
+	dc.b nBb2, nA2, nG2, nFs2, nF2, nE2, nEb2, nD2
+	dc.b nCs2, nRst, nB1, nE2, $60, nRst, $30
+	sPan		spCenter
+	sVoice		$02
+	sStop
+
+Title_FM3:
+	sPan		spCenter
+	sVoice		$01
+	dc.b nRst, $78, nRst, nRst, nRst, nRst, nRst, nG4
+	dc.b $60, $60, nFs4, nEb4, nE4, $30, nG4, nG4
+	dc.b nA4, nFs4, nE4, nEb4, $54
+	saVol		$FB
+
+Title_Loop8:
+	dc.b nE4, $03, nFs4, nG4, nB4
+	sLoop		$00, $05, Title_Loop8
+	dc.b nRst, $24
+
+Title_Loop9:
+	dc.b nD4, $03, nE4, nFs4, nA4
+	sLoop		$00, $05, Title_Loop9
+	dc.b nRst, $24
+
+Title_Loop10:
+	dc.b nCs4, $03, nD4, nE4, nG4
+	sLoop		$00, $05, Title_Loop10
+	dc.b nRst, $24, nEb4, $03
+
+Title_Loop11:
+	dc.b nFs4, nA4, nB4, nEb4
+	saVol		$01
+	sLoop		$00, $02, Title_Loop11
+	dc.b nFs4, nA4, nB4
+	saVol		$01
+	dc.b nEb4, nFs4, nA4
+	saVol		$01
+	dc.b nB4, nEb4, nFs4
+	saVol		$01
+	dc.b nA4, nB4, nRst, $30, nG4, $48, nFs4, $06
+	dc.b nG4, $0C, nFs4, $36, nD4, $30, nE4, $48
+	dc.b nFs4, $0C, nG4, nFs4, $48, nD4, $18, nG4
+	dc.b $48, nFs4, $06, nG4, $0C, nFs4, $66, nE4
+	dc.b $48, nFs4, $06, nE4, $0C, nD4, $4E, nA4
+	dc.b $18, nE4, $30, nD4, $18, nFs4, $06, nA4
+	dc.b $0C, nE4, $36, nFs4, $30, nG4, $48, nFs4
+	dc.b $06, nA4, $0C, nE4, $7F, sHold, $77
+	saVol		$FB
+	dc.b nFs4, $60, nG4, nAb4
+	saVol		$05
+	dc.b nA4, nB4, nA4, nB4, nA4, nB4, $54, nRst
+	dc.b $0C
+
+Title_Loop12:
+	dc.b nB4, $60, nA4, $48, nG4, $0C, nFs4, nE4
+	dc.b $60, nA4, $30, nG4, $18, nFs4
+	sLoop		$00, $02, Title_Loop12
+	dc.b nB4, $60, nA4, $48, nG4, $0C, nFs4, nE4
+	dc.b $60, nA4, $30, nG4, $18
+
+Title_Loop13:
+	dc.b nB4, nA4, $60
+	sLoop		$00, $04, Title_Loop13
+	dc.b nB4, $54, nRst, $0C, nB4, $60, nRst, $30
+	sPan		spCenter
+	sVoice		$01
+	sStop
+
+Title_FM4:
+	sPan		spCenter
+	sVoice		$01
+	dc.b nRst, $78, nRst, nRst, nRst, nRst, nRst, nB2
+	dc.b $60, nC3, nA2, nB2, nB2, nC3, nA2, nB2
+	dc.b nRst, $1E, nG3, $06, nRst, nG3, $18, nFs3
+	dc.b $12, nG3, $0C, nRst, $1E, nA3, $06, nRst
+	dc.b nA3, $18, nG3, $12, nA3, $0C, nB3, $06
+	dc.b nA3, nG3, nE3, $30, nB2, $06, nG3, nFs3
+	dc.b nE3, $0C, nFs3, $60, nRst
+
+Title_Loop14:
+	dc.b $5C
+	sLoop		$00, $0C, Title_Loop14
+	dc.b nB2, $7F, sHold, $41, nE3
+
+Title_Loop15:
+	dc.b $60
+	sLoop		$00, $08, Title_Loop15
+	dc.b $54, nRst, $0C
+
+Title_Loop16:
+	dc.b nE3, $60, nD3, nC3, $48, nE3, $18, nD3
+	dc.b $60
+	sLoop		$00, $02, Title_Loop16
+	dc.b nE3, $18, nG3, $06, nFs3, $03, nE3, $06
+	dc.b nD3, nE3, $1B, nG3, $06, nFs3, $03, nE3
+	dc.b $06, nD3, nB2, $4B, nFs3, $0C, nG3, $06
+	dc.b nRst, $06, nE3, $18, nG3, $06, nFs3, $03
+	dc.b nE3, $06, nD3, nE3, $1B, nG3, $06, nFs3
+	dc.b $03, nE3, $06, nD3, nD3, $1B, nE3, $18
+	dc.b nFs3, nB3, nE3
+
+Title_Loop17:
+	dc.b $60
+	sLoop		$00, $07, Title_Loop17
+	dc.b $54, nRst, $0C, nE3, $60, nRst, $30
+	sPan		spCenter
+	sVoice		$01
+	sStop
+
+Title_PSG1:
+	saDetune		$02
+Title_LoopR:
+	dc.b nRst, $03, nE1
+
+Title_Loop20:
+	dc.b nE1
+	sLoop		$00, $06, Title_LoopR
+	sLoop		$01, $02, Title_Loop20
+
+Title_Loop21:
+	dc.b nE1, nRst, nE1
+	sLoop		$00, $05, Title_Loop21
+	dc.b nRst, $06, nG1, nFs1, nE1, nA1, $03, nB1
+	dc.b nA1, $06, nFs1, nD1, nB0, nA0, nC1, nE1
+	dc.b nA1, nB0, nEb1, nFs1, nB1, nE1, nFs1, nG1
+	dc.b nA1, $03, nB1, nA1, $06, nFs1, nD1, nB0
+	dc.b nA0, nC1, nE1, nA1, nB0, nEb1, nFs1, nB1
+
+Title_Loop22:
+	dc.b nRst, $03, nE1
+
+Title_Loop23:
+	dc.b nE1
+	sLoop		$00, $05, Title_Loop22
+	sLoop		$01, $02, Title_Loop23
+	dc.b nRst
+
+Title_Loop25:
+	dc.b nE1
+
+Title_Loop24:
+	dc.b nE1, nE1, nRst
+	sLoop		$00, $05, Title_Loop24
+	sLoop		$01, $02, Title_Loop25
+	dc.b nE1
+
+Title_Loop26:
+	dc.b nC1, nC1, nRst
+	sLoop		$00, $05, Title_Loop26
+	dc.b nC1
+	sLoop		$01, $02, Title_Loop26
+
+Title_Loop27:
+	dc.b nEb1, nEb1, nRst
+	sLoop		$00, $05, Title_Loop27
+	dc.b nEb1, nRst, $36
+
+Title_Loop28:
+	dc.b nE1, $06, nFs1, nG1, nB1
+	sLoop		$00, $03, Title_Loop28
+	dc.b nE1, nFs1, nG1
+	sLoop		$01, $02, Title_Loop28
+	dc.b nB1
+
+Title_Loop29:
+	dc.b nB1, nE1, nFs1, nG1
+	sLoop		$00, $04, Title_Loop29
+	dc.b nB1, nG1, nFs1, nE1, nA1, $03, nB1, nA1
+	dc.b $06, nFs1, nD1, nB0, nA0, nC1, nE1, nA1
+	dc.b nB0, nEb1, nFs1
+
+Title_Loop30:
+	dc.b nB1, nE1, nFs1, nG1
+	sLoop		$00, $0C, Title_Loop30
+	dc.b nB1, nG1, nFs1, nE1, nA1, $03, nB1, nA1
+	dc.b $06, nFs1, nD1, nB0, nA0, nC1, nE1, nA1
+	dc.b nB0, nEb1, nFs1, $03, nRst, $0F
+
+Title_Loop31:
+	dc.b nE1, $06, nG1, nB1, nRst, nE1, nG1, nB1
+	dc.b nRst, nE1, nG1, nB1, nE2, nB1, nD2, nA1
+	dc.b nB1
+	sLoop		$00, $03, Title_Loop31
+	dc.b nE1, nG1, nA1, $0C, nB1, $09, $09, nRst
+	dc.b $06, nE1, nG1, nA1, nB1, nA1, nG1, nFs1
+
+Title_Loop32:
+	dc.b nRst
+
+Title_Loop33:
+	dc.b nE1, nG1, nB1
+	sLoop		$00, $03, Title_Loop32
+	dc.b nE2, nB1, nD2, nA1, nB1
+	sLoop		$01, $02, Title_Loop33
+	dc.b nE1, nG1, nB1, nRst, nE1, nG1, nB1, nRst
+	dc.b nE1, nG1, nB1, nE2, nB1, nD2, nA1, nB1
+	dc.b $12, nE1, $06, nG1, $0C, nA1, $06, nB1
+	dc.b $0C, nE1, $06, nG1, nA1, nB1, nG1, nFs1
+	dc.b $03, nRst, $09, nE1
+
+Title_Loop34:
+	dc.b $03, $06
+	sLoop		$00, $04, Title_Loop34
+	dc.b $03, $03, $03, $03, nG1, nG1
+
+Title_Loop35:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop35
+	dc.b $03, $03, $03, nA1, nA1
+
+Title_Loop36:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop36
+	dc.b $03, $03, $03, nFs1, nFs1
+
+Title_Loop37:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop37
+	dc.b $03, $03, $03, nG1, nG1
+
+Title_Loop38:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop38
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop39:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop39
+	dc.b $03, $03, $03, nA1, nA1
+
+Title_Loop40:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop40
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop41:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop41
+	dc.b $03, $03, $03, nC2, nC2
+
+Title_Loop42:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop42
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop43:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop43
+	dc.b $03, $03, $03, nA1
+	sLoop		$01, $02, Title_Loop42
+	dc.b nA1
+
+Title_Loop44:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop44
+	dc.b $03, $03, $03, nD2, nD2
+
+Title_Loop45:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop45
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop46:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop46
+	dc.b $03, $03, $03, nE1, $18, nD1, nB0, nA0
+	dc.b nB1, nA1, nG1, nFs1, $0F, $09, nE1, $18
+	dc.b nD1, nB0, nA0, nB1, nA1, nG1, nFs1, nE1
+	dc.b nD1, nB0, nA0, $0F, $09, nB1, $18, nA1
+	dc.b nG1, nFs1, nG1, nE1, nB0, nA0, nB1, nA1
+	dc.b nG1, nFs1, nG1, nE1, nB0, nA0, $0F, $09
+	dc.b nB1, $18, nA1, nG1, nFs1, nG1, nE1, nB0
+	dc.b nA0, $0C, nRst
+
+Title_Loop47:
+	dc.b nE1, $18, nG1, nFs1, nD1, nG1, nB1, nA1
+	dc.b nB1, nA1, nG1, nFs1, nD1, nE1, nB0, nD1
+	dc.b nA0, $0C, nB0
+	sLoop		$00, $03, Title_Loop47
+	sStop
+
+Title_PSG2:
+	saVol	$10
+
+Title_Loop49:
+	dc.b nE1
+
+Title_Loop50:
+	dc.b $03, $03, nRst
+	sLoop		$00, $05, Title_Loop49
+	dc.b nE1
+	sLoop		$01, $03, Title_Loop50
+	dc.b nG1, $06, nFs1, nE1, nA1, $03, nB1, nA1
+	dc.b $06, nFs1, nD1, nB0, nA0, nC1, nE1, nA1
+	dc.b nB0, nEb1, nFs1, nB1, nE1, nFs1, nG1, nA1
+	dc.b $03, nB1, nA1, $06, nFs1, nD1, nB0, nA0
+	dc.b nC1, nE1, nA1, nB0, nEb1, nFs1, nB1
+
+Title_Loop51:
+	dc.b nE1
+
+Title_Loop52:
+	dc.b $03, $03, nRst
+	sLoop		$00, $05, Title_Loop51
+	dc.b nE1
+	sLoop		$01, $04, Title_Loop52
+
+Title_Loop53:
+	dc.b nC1, nC1, nRst
+	sLoop		$00, $05, Title_Loop53
+	dc.b nC1
+	sLoop		$01, $02, Title_Loop53
+
+Title_Loop54:
+	dc.b nEb1, nEb1, nRst
+	sLoop		$00, $05, Title_Loop54
+	dc.b nEb1, nRst, $1B
+	saVol	$40
+	dc.b nE1, $03
+
+Title_Loop55:
+	dc.b nE1
+	saVol	$F0
+	dc.b $03
+	saVol	$F8
+	sLoop		$00, $02, Title_Loop55
+	dc.b $03
+	saVol	$F8
+	dc.b $03
+	saVol	$F8
+	dc.b $06
+
+Title_Loop56:
+	dc.b nFs1, nG1, nB1, nE1
+	sLoop		$00, $0B, Title_Loop56
+	dc.b nFs1, nG1, nB1, nG1, nFs1, nE1, nA1, $03
+	dc.b nB1, nA1, $06, nFs1, nD1, nB0, nA0, nC1
+	dc.b nE1, nA1, nB0, nEb1, nFs1
+
+Title_Loop57:
+	dc.b nB1, nE1, nFs1, nG1
+	sLoop		$00, $0C, Title_Loop57
+	dc.b nB1, nG1, nFs1, nE1, nA1, $03, nB1, nA1
+	dc.b $06, nFs1, nD1, nB0, nA0, nC1, nE1, nA1
+	dc.b nB0, nEb1, nFs1
+
+Title_Loop58:
+	dc.b nB1, nRst
+
+Title_Loop59:
+	dc.b nE1, nG1
+	sLoop		$00, $03, Title_Loop58
+	dc.b nB1, nE2, nB1, nD2, nA1, nB1
+	sLoop		$01, $03, Title_Loop59
+	dc.b nE1, nG1, nA1, $0C, nB1, $18, nE1, $06
+	dc.b nG1, nA1, nB1, nA1, nG1, nFs1
+
+Title_Loop60:
+	dc.b nRst
+
+Title_Loop61:
+	dc.b nE1, nG1, nB1
+	sLoop		$00, $03, Title_Loop60
+	dc.b nE2, nB1, nD2, nA1, nB1
+	sLoop		$01, $02, Title_Loop61
+	dc.b nE1, nG1, nB1, nRst, nE1, nG1, nB1, nRst
+	dc.b nE1, nG1, nB1, nE2, nB1, nD2, nA1, nB1
+	dc.b $12, nE1, $06, nG1, $0C, nA1, $06, nB1
+	dc.b $0C, nE1, $06, nG1, nA1, nB1, nA1, nG1
+	dc.b nFs1, nE1
+
+Title_Loop62:
+	dc.b $03, $06
+	sLoop		$00, $04, Title_Loop62
+	dc.b $03, $03, $03, $03, nG1, nG1
+
+Title_Loop63:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop63
+	dc.b $03, $03, $03, nA1, nA1
+
+Title_Loop64:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop64
+	dc.b $03, $03, $03, nFs1, nFs1
+
+Title_Loop65:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop65
+	dc.b $03, $03, $03, nG1, nG1
+
+Title_Loop66:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop66
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop67:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop67
+	dc.b $03, $03, $03, nA1, nA1
+
+Title_Loop68:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop68
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop69:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop69
+	dc.b $03, $03, $03, nC2, nC2
+
+Title_Loop70:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop70
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop71:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop71
+	dc.b $03, $03, $03, nA1
+	sLoop		$01, $02, Title_Loop70
+	dc.b nA1
+
+Title_Loop72:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop72
+	dc.b $03, $03, $03, nD2, nD2
+
+Title_Loop73:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop73
+	dc.b $03, $03, $03, nB1, nB1
+
+Title_Loop74:
+	dc.b $06, $03
+	sLoop		$00, $04, Title_Loop74
+	dc.b $03, $03, $03
+
+Title_Loop75:
+	dc.b nE1, $18, nD1, nB0, nA0, nB1, nA1, nG1
+	dc.b nFs1
+	sLoop		$00, $03, Title_Loop75
+
+Title_Loop76:
+	dc.b nG1, nE1, nB0, nA0, nB1, nA1, nG1, nFs1
+	sLoop		$00, $02, Title_Loop76
+	dc.b nG1, nE1, nB0, nB0, $0C, nRst
+
+Title_Loop77:
+	dc.b nE1, $18, nG1, nFs1, nD1, nG1, nB1, nA1
+	dc.b nB1, nA1, nG1, nFs1, nD1, nE1, nB0, nD1
+	dc.b nA0, $0C, nB0
+	sLoop		$00, $02, Title_Loop77
+	dc.b nE1, $18, nG1, nFs1, nD1, nG1, nB1, nA1
+	dc.b nB1, nA1, nG1, nFs1, nD1, nE1, nB0, nD1
+	dc.b nA0, $06, nB0, nE1, nFs1
+	sStop
+
+Title_PSG3:
+
+Title_Loop79:
+	dc.b nRst, $0C, nE2
+	sLoop		$00, $06, Title_Loop79
+	sVolEnv	vNone
+	dc.b nA0, $12, nBb0, $06, nB0, $18, nC1, $0C
+	dc.b nE1, nEb1, nB0
+	dc.b nA0, $12
+	dc.b nBb0, $06, nB0, $18, nC1, $0C, nA0, nB0
+	dc.b nEb1
+	sVolEnv	v05
+
+Title_Loop80:
+	dc.b nRst, nE2
+	sLoop		$00, $08, Title_Loop80
+	sVolEnv	vNone
+	dc.b nRst, nC2, nRst, nD2, nRst, nE2, nRst, nG2
+	dc.b nRst, nFs2, nRst, nG2, nB2, $30
+
+Title_Loop81:
+	dc.b nG1, $12, nE1, nG1, $0C, nFs1, $12, nD1
+	dc.b nE1, $0C
+	sLoop		$00, $03, Title_Loop81
+	dc.b nA0, $12, nBb0, $06, nB0, $18, nC1, $0C
+	dc.b nE1, nEb1, nB0, nG1, $12
+	dc.b nE1
+
+Title_Loop82:
+	dc.b nG1, $0C, nFs1, $12, nD1, nE1, $0C, nG1
+	dc.b $12, nE1
+	sLoop		$00, $02, Title_Loop82
+	dc.b nG1, $0C, nFs1, $12, nD1, nE1, $0C, nA0
+	dc.b $12, nBb0, $06, nB0, $18, nC1, $0C, nE1
+	dc.b nEb1, nB0
+	saVol	$18
+	dc.b nE1
+
+Title_Loop83:
+	dc.b $03
+	sLoop		$00, $20, Title_Loop83
+
+Title_Loop84:
+	dc.b nD1
+	sLoop		$00, $20, Title_Loop84
+
+Title_Loop85:
+	dc.b nCs1
+	sLoop		$00, $20, Title_Loop85
+
+Title_Loop86:
+	dc.b nB0
+	sLoop		$00, $20, Title_Loop86
+
+Title_Loop87:
+	dc.b nE1
+	sLoop		$00, $18, Title_Loop87
+
+Title_Loop88:
+	dc.b nA1
+	sLoop		$00, $08, Title_Loop88
+
+Title_Loop89:
+	dc.b nFs1
+	sLoop		$00, $18, Title_Loop89
+
+Title_Loop90:
+	dc.b nB1
+	sLoop		$00, $08, Title_Loop90
+
+Title_Loop91:
+	dc.b nG1
+	sLoop		$00, $10, Title_Loop91
+
+Title_Loop92:
+	dc.b nA1
+	sLoop		$00, $10, Title_Loop92
+
+Title_Loop93:
+	dc.b nB1
+	sLoop		$00, $10, Title_Loop93
+	dc.b nC2, nC2
+	saVol	$F8
+	dc.b $03, $03, $03
+	saVol	$F8
+	dc.b $03, $03, $03
+	saVol	$F8
+	dc.b nD2, nD2, nD2
+	saVol	$F8
+	dc.b $03, nB1, nB1, nB1
+	saVol	$F8
+	dc.b $03, nE2, nD2, nB1, nA1, nB1, nA1, nE1
+	dc.b nD1, nE1, nG1, nA1, nB1, nE2, nB1, nD2
+	dc.b nG1, nB1, nE1, nG1, nA1, nB1, nE1, nG1
+	dc.b nA1, nFs1, nE1, nFs1, nG1, nD2, nB1, nE2
+	dc.b nB1, nC2, nB1, nA1, nG1, nB1, nG1, nFs1
+	dc.b nD1, nCs1, nE1, nA1, nC2, nB1, nG1, nFs1
+	dc.b nD1, nC1, nEb1, nFs1, nB1, nC2, nB1, nG1
+	dc.b nE1, nA0, nB0, nC1, nE1, nB0, nEb1, nG1
+	dc.b nB1, nFs2, $06, nE2, $03, nFs2, $06, nE2
+	dc.b $03, nFs2, nE2, nG2, nFs2, nB1, nE1, nFs2
+	dc.b $06, nE2, $03, nFs2, $06, nE2, $03, nFs2
+	dc.b nE2, nB1, nG1, nE1, nB0, nB1, nG1, nE1
+	dc.b nA0, nB0, nEb1, nFs1, nB1, nC2, nB1, nA1
+	dc.b nG1, nB1, nE1, nG1, nB1, nA1, nFs1, nD1
+	dc.b nB0, nC1, nE1, nFs1, nC1, nB0, $0C, nFs0
+	dc.b $03, nG0, nA0, nB0, nG0, nA0, nB0, nD1
+	dc.b nA0, nB0, nC1, nD1, nC1, nB0, nA0, nG0
+	dc.b nA0, $18, $03, nB0, nC1, nE1, nEb1, nC1
+	dc.b nB0, nA0, nB0, $18, $0C, nC1, $03, nD1
+	dc.b nE1, nG1, nFs1, $18, nD1, $03, nE1, nFs1
+	dc.b nA1, nE1, nFs1, nG1, nB1, nA1, $18, nB1
+	dc.b $0C, nC2, $03, nB1, nA1, nG1, nB1, nG1
+	dc.b nFs1, nE1, nEb1, nG1, nFs1, nC2, nB1, nA1
+	dc.b nFs1, nD1, nB1, $24, nE1, $03, nFs1, nA1
+	dc.b nD2
+;	saVol	$18
+	dc.b nC2, $09
+;	saVol	$E8
+	dc.b nB1, nG1, $06, nFs1, nB0, nEb1, nFs1
+	dc.b nG1, $20
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$08
+	dc.b sHold, $08
+	saVol	$C0
+;	sVolEnv	v03
+	dc.b nRst, $7F, nRst, nRst, nRst, $06
+	saVol	$30
+
+Title_Loop94:
+	dc.b nE1, $03, nRst
+	sLoop		$00, $08, Title_Loop94
+
+Title_Loop95:
+	dc.b nFs1, nRst
+	sLoop		$00, $08, Title_Loop95
+
+Title_Loop96:
+	dc.b nG1, nRst
+	sLoop		$00, $08, Title_Loop96
+
+Title_Loop97:
+	dc.b nD1, nRst
+	sLoop		$00, $04, Title_Loop97
+
+Title_Loop98:
+	dc.b nCs1, nRst
+	sLoop		$00, $04, Title_Loop98
+
+Title_Loop99:
+	dc.b nB0, nRst
+	sLoop		$00, $08, Title_Loop99
+
+Title_Loop100:
+	dc.b nD1, nRst
+	sLoop		$00, $08, Title_Loop100
+
+Title_Loop101:
+	dc.b nE1, nRst
+	sLoop		$00, $08, Title_Loop101
+
+Title_Loop102:
+	dc.b nD1, nRst
+	sLoop		$00, $04, Title_Loop102
+
+Title_Loop103:
+	dc.b nEb1, nRst
+	sLoop		$00, $04, Title_Loop103
+
+Title_Loop104:
+	dc.b nE1, nRst
+	sLoop		$00, $08, Title_Loop104
+
+Title_Loop105:
+	dc.b nFs1, nRst
+	sLoop		$00, $08, Title_Loop105
+
+Title_Loop106:
+	dc.b nD1, nRst
+	sLoop		$00, $08, Title_Loop106
+
+Title_Loop107:
+	dc.b nA1, nRst
+	sLoop		$00, $07, Title_Loop107
+	dc.b nA1
+	saVol	$C0
+	sVolEnv	v03
+	dc.b nE2, $30, nG2, $06, nA2, $0C, nFs2, nG2
+	dc.b nD2, $36, $06, nA1, $0C, nB1, nD2, nE2
+	dc.b $36, nG2, $06, nA2, $0C, nFs2, nE2, nD2
+	dc.b $36, nCs2, $06, nD2, $0C, nE2, nD2, $06
+	dc.b nCs2, nB1, $1E
+	dc.b nE2, $18, nD2, nFs2, nE2
+	dc.b nD2, nE2, nD2, nC2, nD2, nFs2, nE2, nD2
+	dc.b nE2, nD2, nB1
+	saVol	$08
+	dc.b nRst, $7F, nRst, nRst, nRst, $0F
+
+Title_Loop108:
+	sVolEnv	vNone
+	dc.b nB1, $18, nA1, nG1, nFs1, nG1, nE1, nB0
+	dc.b nA0
+	sLoop		$00, $04, Title_Loop108
+	sStop

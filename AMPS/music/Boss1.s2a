@@ -1,0 +1,341 @@
+BossE_Header:
+	sHeaderInit	; Z80 offset is $D89A
+	sHeaderTempo	$02, $30
+	sHeaderCh	$05, $03
+	sHeaderDAC	BossE_DAC1
+	sHeaderDAC	BossE_DAC2
+	sHeaderFM	BossE_FM1, $E5, $11
+	sHeaderFM	BossE_FM2, $F1, $08
+	sHeaderFM	BossE_FM3, $F1, $17
+	sHeaderFM	BossE_FM4, $F1, $17
+	sHeaderFM	BossE_FM5, $E5, $17
+	sHeaderPSG	BossE_PSG1, $00, $40, $00, vNone
+	sHeaderPSG	BossE_PSG2, $00, $40, $00, vNone
+	sHeaderPSG	BossE_PSG3, $F4, $18, $00, vNone
+
+	; Patch $00
+	; $24
+	; $00, $00, $00, $00,	$1F, $1F, $1F, $1F
+	; $1F, $1D, $18, $17,	$0A, $0A, $0A, $0A
+	; $09, $09, $0A, $0A,	$12, $85, $18, $80
+	spAlgorithm	$04
+	spFeedback	$04
+	spDetune	$00, $00, $00, $00
+	spMultiple	$00, $00, $00, $00
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$1F, $1F, $1F, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$1F, $18, $1D, $17
+	spSustainLv	$00, $00, $00, $00
+	spDecayRt	$0A, $0A, $0A, $0A
+	spReleaseRt	$09, $0A, $09, $0A
+	spTotalLv	$12, $18, $05, $00
+
+	; Patch $01
+	; $3D
+	; $01, $02, $02, $02,	$1F, $08, $8A, $0A
+	; $08, $08, $08, $08,	$00, $01, $00, $00
+	; $0F, $1F, $1F, $1F,	$1F, $88, $88, $87
+	spAlgorithm	$05
+	spFeedback	$07
+	spDetune	$00, $00, $00, $00
+	spMultiple	$01, $02, $02, $02
+	spRateScale	$00, $02, $00, $00
+	spAttackRt	$1F, $0A, $08, $0A
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$08, $08, $08, $08
+	spSustainLv	$00, $01, $01, $01
+	spDecayRt	$00, $00, $01, $00
+	spReleaseRt	$0F, $0F, $0F, $0F
+	spTotalLv	$1F, $08, $08, $07
+
+	; Patch $02
+	; $3D
+	; $01, $01, $01, $01,	$8E, $52, $14, $4C
+	; $06, $08, $0F, $03,	$00, $10, $10, $10
+	; $3F, $1F, $1F, $1F,	$1B, $80, $80, $80
+	spAlgorithm	$05
+	spFeedback	$07
+	spDetune	$00, $00, $00, $00
+	spMultiple	$01, $01, $01, $01
+	spRateScale	$02, $00, $01, $01
+	spAttackRt	$0E, $14, $12, $0C
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$06, $0F, $08, $03
+	spSustainLv	$03, $01, $01, $01
+	spDecayRt	$00, $10, $10, $10
+	spReleaseRt	$0F, $0F, $0F, $0F
+	spTotalLv	$1B, $00, $00, $00
+
+	; Patch $03
+	; $3E
+	; $38, $72, $11, $26,	$1F, $14, $14, $14
+	; $14, $02, $02, $02,	$00, $01, $01, $01
+	; $0F, $3F, $3F, $3F,	$24, $80, $80, $80
+	spAlgorithm	$06
+	spFeedback	$07
+	spDetune	$03, $01, $07, $02
+	spMultiple	$08, $01, $02, $06
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$1F, $14, $14, $14
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$14, $02, $02, $02
+	spSustainLv	$00, $03, $03, $03
+	spDecayRt	$00, $01, $01, $01
+	spReleaseRt	$0F, $0F, $0F, $0F
+	spTotalLv	$24, $00, $00, $00
+
+	; Patch $04
+	; $24
+	; $01, $01, $00, $00,	$05, $05, $0A, $0A
+	; $0F, $0D, $08, $07,	$09, $09, $05, $05
+	; $09, $09, $03, $03,	$12, $85, $18, $82
+	spAlgorithm	$04
+	spFeedback	$04
+	spDetune	$00, $00, $00, $00
+	spMultiple	$01, $00, $01, $00
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$05, $0A, $05, $0A
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$0F, $08, $0D, $07
+	spSustainLv	$00, $00, $00, $00
+	spDecayRt	$09, $05, $09, $05
+	spReleaseRt	$09, $03, $09, $03
+	spTotalLv	$12, $18, $05, $02
+
+BossE_FM1:
+	saTranspose	$0C
+
+BossE_Jump2:
+BossE_Loop1:
+	sVoice		$01
+	sCall		BossE_Call1
+	sLoop		$00, $02, BossE_Loop1
+	sVoice		$02
+	dc.b nC7, $12, nB6, $02, nC7, nB6, nF6, $18
+	saTranspose	$F4
+	sVoice		$03
+	dc.b nRst, $0C, nA5, $06, nC6, nEb6, nD6, nC6
+	dc.b $02, nD6, nC6, nB5, $06
+	saTranspose	$0C
+	sVoice		$02
+	dc.b nC7, $12, nB6, $02, nC7, nB6, nE6, $18
+	saTranspose	$F4
+	sVoice		$03
+	dc.b nE5, $06, nF5, nAb5, nA5, nB5, nA5, nAb5
+	dc.b $02, nA5, nAb5, nF5, $06
+	saTranspose	$0C
+	sVoice		$02
+	dc.b nC7, $12, nB6, $02, nC7, nB6, nF6, $18
+	saVol		$FE
+	dc.b sHold, $0C, nA6, $06, nB6, nC7, nB6, nC7
+	dc.b nD7
+	saVol		$FE
+	dc.b nE7, $10, nD7, $04, nE7, nF7, $10, nE7
+	dc.b $04, nD7
+	saVol		$FE
+	dc.b nC7, $08, nB6, nAb6, nF6, $04, nD6, nB5
+	dc.b nC6, $02, nD6, nE6, nF6, nAb6, nB6
+	saVol		$06
+	sJump		BossE_Jump2
+
+BossE_Call1:
+	dc.b nE7, $18, nD7, nB6, $0C, nA6, $06, nB6
+	dc.b nC7, nB6, nA6, $02, nB6, nAb6, nF6, $06
+	dc.b nE6, $24, nF6, $02, nAb6, nF6, nD6, $06
+	dc.b nC6, $12, nD6, $02, nE6, nC6, nB5, $12
+	dc.b nC6, $02, nD6, nB5, nA5, $12, nB5, $02
+	dc.b nC6, nA5, nAb5, $18, nC6, $0C, nEb6, nA6
+	dc.b nEb7, nF7, nD7, nF6, nD6, $02, nF6, nD6
+	dc.b nB5, $06, nE6, $30
+	sRet	
+
+BossE_FM2:
+	sVoice		$00
+
+BossE_Loop4:
+BossE_Jump5:
+	sCall		BossE_Call5
+	sLoop		$00, $04, BossE_Loop4
+	dc.b nD4, $06, nRst, nD4, nRst, nD4, nRst, nD4
+	dc.b nRst, nEb4, nRst, nEb4, nRst, nEb4, nRst, nEb4
+	dc.b nRst, nA3, nRst, nA3, nRst, nA3, nRst, nA3
+	dc.b nRst, nE4, nRst, nE4, nRst, nE4, nRst, nE4
+	dc.b nRst, nD4, $06, nRst, nD4, nRst, nD4, nRst
+	dc.b nD4, nRst, nEb4, nRst, nEb4, nRst, nEb4, nRst
+	dc.b nEb4, nRst
+
+BossE_Loop5:
+	dc.b nE4, nRst, nE4, nRst
+	saVol		$FE
+	sLoop		$00, $04, BossE_Loop5
+	saVol		$08
+	sJump		BossE_Jump5
+
+BossE_Call5:
+	dc.b nA3, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03, $06, $03, $03, nEb4, $06, $03
+	dc.b $03, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03, nD4, $06, $03, $03, $06, $03
+	dc.b $03, $06, $03, $03, $06, $03, $03, nE4
+	dc.b $06, $03, $03, $06, $03, $03, $06, $03
+	dc.b $03, $06, $03, $03
+	sRet	
+
+BossE_FM3:
+	sVoice		$02
+
+BossE_Loop3:
+BossE_Jump4:
+	sPan		spCenter, $00
+	sCall		BossE_Call4
+	sLoop		$00, $04, BossE_Loop3
+	sPan		spLeft, $00
+	dc.b nC6, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	dc.b nEb5, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	dc.b nC6, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	dc.b nF5, $06
+	sCall		BossE_Call3
+	dc.b nAb5, $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nC6, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nB5, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nD6, $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nC6, $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nB5, $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$0C
+	sJump		BossE_Jump4
+
+BossE_Call4:
+	dc.b nA4, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03, $06, $03, $03, $06, $03, $03
+	dc.b $06, $03, $03, $06, $03, $03, $06, $03
+	dc.b $03, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03, $06, $03, $03, nB4, $06, $03
+	dc.b $03, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03
+	sRet	
+
+BossE_Call3:
+	dc.b $03, $03, $06, $03, $03
+	sRet	
+
+BossE_FM4:
+	sVoice		$02
+
+BossE_Loop2:
+BossE_Jump3:
+	sPan		spCenter, $00
+	sCall		BossE_Call2
+	sLoop		$00, $04, BossE_Loop2
+	sPan		spRight, $00
+	dc.b nF5, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	dc.b nA4, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	dc.b nE5, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	dc.b nB4, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nF5, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nEb5, $06
+	sCall		BossE_Call3
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nF5, $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b $06
+	sCall		BossE_Call3
+	saVol		$FE
+	dc.b nAb5, $06
+	sCall		BossE_Call3
+	saVol		$0C
+	sJump		BossE_Jump3
+
+BossE_Call2:
+	dc.b nE5, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03, $06, $03, $03, nEb5, $06, $03
+	dc.b $03, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03, nF5, $06, $03, $03, $06, $03
+	dc.b $03, $06, $03, $03, $06, $03, $03, $06
+	dc.b $03, $03, $06, $03, $03, nAb5, $06, $03
+	dc.b $03, $06, $03, $03
+	sRet	
+
+BossE_FM5:
+	sModAMPS	$05, $01, $04, $06
+	saTranspose	$0C
+	sJump		BossE_Jump2
+
+BossE_PSG1:
+	sStop	
+
+BossE_PSG2:
+	sStop	
+
+BossE_PSG3:
+	sNoisePSG	$E7
+	sVolEnv	v02
+
+BossE_Jump1:
+	dc.b nF6, $03
+	saVol		$10
+	dc.b $03, $03, $03
+	saVol		$F0
+	dc.b $03
+	saVol		$10
+	dc.b $03, $02, $02, $02
+	saVol		$F0
+	sJump		BossE_Jump1
+
+BossE_DAC1:
+BossE_Jump6:
+	dc.b dLowTimpani, $06, $03, $03
+	sJump		BossE_Jump6
+
+BossE_DAC2:
+	sStop

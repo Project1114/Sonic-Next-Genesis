@@ -1,0 +1,19 @@
+ddsfx_Header:
+	sHeaderInitSFX						; Z80 offset is $E1B5
+	sHeaderPrio	$6D
+	sHeaderCh	$01
+	sHeaderSFX	(1<<cfbRun), ctFM5, ddsfx_FM5, $00, $08
+
+ddsfx_FM5:
+	sVoice		pDropDash
+	dc.b nRst, $01
+	sModAMPS	$03, $01, $37, $FF
+	dc.b nCs6, $0C
+	sModAMPS	$00, $00, $00, $00
+
+ddsfx_Loop1:
+	dc.b sHold
+	saVol		$01
+	dc.b nCs6, $02
+	sLoop		$00, $2A, ddsfx_Loop1
+	sStop

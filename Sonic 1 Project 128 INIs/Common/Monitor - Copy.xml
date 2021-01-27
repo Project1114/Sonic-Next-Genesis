@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns="http://www.sonicretro.org" Namespace="S12005ObjectDefinitions.Common" TypeName="Monitor" Language="cs" Name="Monitor" Image="img">
+  <Images>
+    <ImageFromMappings id="blank">
+      <ArtFile filename="../artnem/monitors.bin" />
+      <MapFile type="ASM" filename="../_maps/obj26.asm" frame="0" startpal="0" />
+    </ImageFromMappings>
+  </Images>
+  <Subtypes>
+    <Subtype id="00" name="Rings" image="blank" />
+    <Subtype id="01" name="Shoes" image="blank" />
+    <Subtype id="02" name="Invincibility" image="blank" />
+    <Subtype id="03" name="Lightning Shield" image="blank" />
+    <Subtype id="04" name="Flame Shield" image="blank" />
+    <Subtype id="05" name="Bubble Shield" image="blank" />
+  </Subtypes>
+  <Properties>
+    <BitsProperty name="Contents" type="MonitorType" startbit="0" length="4" />
+  </Properties>
+  <Enums>
+    <Enum name="MonitorType">
+      <EnumMember name="Rings" />
+      <EnumMember name="Shoes" />
+      <EnumMember name="Invincibility" />
+      <EnumMember name="Lightning Shield" />
+      <EnumMember name="Flame Shield" />
+      <EnumMember name="Bubble Shield" />
+    </Enum>
+  </Enums>
+</ObjDef>

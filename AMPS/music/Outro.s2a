@@ -1,0 +1,139 @@
+Outro_Header:
+	sHeaderInit
+	sHeaderTempo	$01, $20
+	sHeaderCh	$05, $03
+	sHeaderDAC	Outro_DAC1
+	sHeaderDAC	Outro_DAC2
+	sHeaderFM	Outro_FM1, $00, $1A
+	sHeaderFM	Outro_FM2, $0C, $17
+	sHeaderFM	Outro_FM3, $00, $1E
+	sHeaderFM	Outro_FM4, $00, $18
+	sHeaderFM	Outro_FM5, $00, $18
+	sHeaderPSG	Outro_PSG1, $FB, $28, $00, vNone
+	sHeaderPSG	Outro_PSG2, $FB, $38, $00, vNone
+	sHeaderPSG	Outro_PSG3, $1A, $18, $00, vNone
+
+	; Patch $00
+	; $F2
+	; $42, $80, $50, $62,	$1F, $1F, $1F, $1F
+	; $05, $18, $09, $02,	$06, $0F, $06, $02
+	; $1F, $2F, $4F, $2F,	$15, $80, $41, $80
+	spAlgorithm	$02
+	spFeedback	$06
+	spDetune	$04, $05, $08, $06
+	spMultiple	$02, $00, $00, $02
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$1F, $1F, $1F, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$05, $09, $18, $02
+	spSustainLv	$01, $04, $02, $02
+	spDecayRt	$06, $06, $0F, $02
+	spReleaseRt	$0F, $0F, $0F, $0F
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$15, $41, $00, $00
+
+	; Patch $01
+	; $21
+	; $30, $31, $31, $30,	$05, $0F, $1F, $1F
+	; $07, $06, $09, $06,	$05, $05, $04, $04
+	; $2F, $1F, $1F, $FF,	$22, $1C, $10, $80
+	spAlgorithm	$01
+	spFeedback	$04
+	spDetune	$03, $03, $03, $03
+	spMultiple	$00, $01, $01, $00
+	spRateScale	$00, $00, $00, $00
+	spAttackRt	$05, $1F, $0F, $1F
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$07, $09, $06, $06
+	spSustainLv	$02, $01, $01, $0F
+	spDecayRt	$05, $04, $05, $04
+	spReleaseRt	$0F, $0F, $0F, $0F
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$22, $10, $1C, $00
+
+	; Patch $02
+	; $3A
+	; $32, $14, $76, $04,	$5D, $5D, $5D, $4A
+	; $1F, $1F, $1F, $1F,	$00, $00, $00, $00
+	; $0F, $0F, $0F, $0F,	$1B, $1E, $24, $80
+	spAlgorithm	$02
+	spFeedback	$07
+	spDetune	$03, $07, $01, $00
+	spMultiple	$02, $06, $04, $04
+	spRateScale	$01, $01, $01, $01
+	spAttackRt	$1D, $1D, $1D, $0A
+	spAmpMod	$00, $00, $00, $00
+	spSustainRt	$1F, $1F, $1F, $1F
+	spSustainLv	$00, $00, $00, $00
+	spDecayRt	$00, $00, $00, $00
+	spReleaseRt	$0F, $0F, $0F, $0F
+	spSSGEG		$00, $00, $00, $00
+	spTotalLv	$1B, $24, $1E, $00
+	even
+
+Outro_FM1:
+	sVoice		$02
+	dc.b nC3, $24, nD3, nEb3, nF3, nC3, $60
+	sStop
+
+Outro_FM2:
+	sVoice		$01
+	dc.b nC3, $24, nB2, nAb2, nBb2, nC3, $60
+	sStop
+
+Outro_FM5:
+	sPan		spLeft
+	sVoice		$00
+	dc.b nA2, $24, nB2, nC3, nD3, nE3, $60
+	sStop
+
+Outro_FM4:
+	sPan		spRight
+	sVoice		$00
+	dc.b nF2, $24, nG2, nAb2, nBb2, nG3, $60
+	sStop
+
+Outro_FM3:
+	sModAMPS	$03, $01, $01, $0F
+	dc.b nRst, $07
+	sJump		Outro_FM1
+
+Outro_PSG1:
+	sModAMPS	$02, $01, $01, $04
+	sVolEnv		v09
+
+Outro_Jump1:
+	dc.b nC4, $06, nF4, nG4, nC5, nG4, nF4, nD4
+	dc.b nF4, nG4, nB4, nG4, nF4, nC4, nEb4, nAb4
+	dc.b nC5, nAb4, nEb4, nBb3, nC4, nD4, nF4, nA4
+	dc.b nBb4, nC5, $60
+	sStop
+
+Outro_PSG2:
+	sModAMPS	$08, $01, $01, $03
+	saDetune	$FF
+	dc.b nRst, $07
+	sVolEnv		v08
+	sJump		Outro_Jump1
+
+Outro_PSG3:
+	sNoisePSG	$E7
+	sVolEnv		v02
+	saVol		$F0
+	dc.b nC3, $06
+	saVol		$10
+	dc.b nC3, nC3, nC3, nC3, nC3
+	sLoop		$00, $04, Outro_PSG3
+	sVolEnv		v01
+	dc.b nC3, $60
+	sStop
+
+Outro_DAC1:
+	dc.b dKick, $06, dKick, $0C, dSnare, dKick, $06
+	sLoop		$00, $03, Outro_DAC1
+	dc.b dHighTom, $06, dMidTom, dLowTom, dLowerTom, dLowTom, dLowerTom, dLowerTom
+	dc.b $60
+	sStop
+
+Outro_DAC2:
+	sStop

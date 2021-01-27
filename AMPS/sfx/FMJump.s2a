@@ -1,0 +1,13 @@
+	sHeaderInitSFX	; Z80 offset is $E5DA
+	sHeaderPrio	$78
+	sHeaderCh	$01
+	sHeaderSFX	(1<<cfbRun), ctFM5, sfxDD_FM5, $EB, $05
+
+SFXDD_FM5:
+	sVoice		pFMJump
+	saVol		$05
+	dc.b nF3, $05
+	saVol		$FB
+	sModAMPS	$02, $01, $34, $FF
+	dc.b nBb3, $15
+	sStop	
