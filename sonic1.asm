@@ -222,7 +222,7 @@ GameModeArray:
 ; ===========================================================================
 		bra.w	Level		; Normal Level ($0C)
 ; ===========================================================================
-		bra.w	BonusStage	; Bonus Stage	($10)
+		bra.w	BonusStage_Branch	; Bonus Stage	($10)
 ; ===========================================================================
 		bra.w	SpecialStage	; Special Stage ($14)
 ; ===========================================================================
@@ -240,6 +240,9 @@ GameModeArray:
 ; ===========================================================================
 		rts	
 ; ===========================================================================
+
+BonusStage_Branch
+		jsr		BonusStage
 
 loc_43A:
 		addq.w	#2,sp
@@ -465,7 +468,6 @@ locret_C42:
 ; ===========================================================================
 
 loc_C44:				; XREF: off_B6E
-		move.w	#$E0,(HIntCounter).w
 		bsr.w	sub_106E
 		jsr	sub_6886
 		bsr.w	sub_1642
@@ -474,6 +476,7 @@ loc_C44:				; XREF: off_B6E
 		subq.w	#1,($FFFFF614).w
 
 locret_C5C:
+        move.l	#TitlePal+(Pal_TitleGrad2-Pal_TitleGrad)+2,(HInt_Title_source).w
 		rts	
 ; ===========================================================================
 
@@ -487,6 +490,7 @@ loc_C64:				; XREF: off_B6E
 		beq.w	loc_DA6		; if yes, branch
 
 loc_C6E:				; XREF: off_B6E
+        move.l	#VScroll_End+2,(HInt_VScale_source).w
 		bsr.w	ReadJoypads
 		tst.b	($FFFFF64E).w
 		bne.s	VInt_8_UW
@@ -766,31 +770,38 @@ loc_119E:				; XREF: PalToCRAM
 ; ===========================================================================
 
 HInt_Title:
-		move.w d0,-(sp)
-		move.w (HIntCounter).w,d0
-		dbf  d0,.executeHblank
-		move.w (sp)+,d0
+        obj    HIntCode            ; pretend the code starts at v_hbla_jmp
+HInt_Title_source    = offset(*)+2
+        move.w    (TitlePal+(Pal_TitleGrad2-Pal_TitleGrad)+2).l,($C00000).l    ; move palette to CRAM
+        jmp    HInt_Title_RAMend            ; jump back to ROM (saves RAM)
+        objend    
+    ; -- End of HBlank in RAM -- ;
+HInt_Title_RAMend:
+        bpl.s    @noreset            ; if positive, branch
+        move.l    #TitlePal+(Pal_TitleGrad2-Pal_TitleGrad)+2,HInt_Title_source.w    ; reset palette address 
+        ; ^ this overwrites (Pal_Piracytriptoofend-2).l in the move.w command in RAM)
+
+    @noreset:
+        subq.l  #2,HInt_Title_source.w        ; subtract from palette address (moves upwards)
+        move.l    #$C0020000,($C00004).l    ; set VDP to CRAM write
+		tst.b	($FFFFF64F).w
+		bne.s	loc_119E
 		rte
+; ===========================================================================
 
-	.executeHblank:
-		movem.l	d1/a0-a1,-(sp)
-		move.w d0,(HIntCounter).w
-		move.l	usp,a1
-		add.w	d0,d0
-		lea	(Pal_TitleGrad).w,a0
-		move.w	(a0,d0.w),d1
-		add.b	($FFFFFE04).w,d0
-		andi.w	#6,d0
-		lea	(Pal_TitleGrad2).w,a0
-		sub.w	(a0,d0.w),d1
-		move.l	#$C0020000,4(a1) ; set VDP to CRAM write
-		move.w	d1,(a1)	; move pallet to CRAM
-		movem.l	(sp)+,d1/a0-a1
-		move.w (sp)+,d0
-	;	tst.b	($FFFFF64F).w
-	;	bne.s	loc_119E
-
-locret3_119C:
+HInt_VScale:
+        obj    HIntCode            ; pretend the code starts at v_hbla_jmp
+HInt_VScale_source    = offset(*)+2
+        move.w    (VScroll_End+2).l,($C00000).l
+        jmp    HInt_VScale_RAMend            ; jump back to ROM (saves RAM)
+        objend    
+    ; -- End of HBlank in RAM -- ;
+HInt_VScale_RAMend:
+        subq.l  #2,HInt_VScale_source.w
+        move.l    #$50000010,($C00004).l 
+        move.b	#1,($FFFFFFFF).w
+		tst.b	($FFFFF64F).w
+		bne.s	loc_119E
 		rte
 ; End of function PalToCRAM
 
@@ -2752,6 +2763,8 @@ Pal_GSilKnu:	incbin	pallet\gsilverknux.bin
 Pal_GSilSha:	incbin	pallet\gsilvershadow.bin
 Pal_TitleGrad:	incbin	pallet\titlegrad.bin
 Pal_TitleGrad2:	incbin	pallet\titlegrad2.bin
+VScroll:		incbin	misc\vscroll.bin
+VScroll_End:
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	delay the program by ($FFFFF62A) frames
@@ -2983,9 +2996,16 @@ Bcycle_size:=	.cycle_end-.cycle
 ; ---------------------------------------------------------------------------
 
 TitleScreen:				; XREF: GameModeArray
-		command	mus_Stop	; stop music
+		lea		(HInt_Title).w,a0
+		lea		(HIntCode).w,a1
+		move.w	#(HInt_Title_RAMend-HInt_Title)/4-1,d7
+
+	.looploadHBlank:
+		move.l	(a0)+,(a1)+
+		dbf	d7,.looploadHBlank
 		move.w	#$4EF9,(HIntJump).w
-		move.l	#HInt_Title,(HIntAddr).w
+		move.l	#HIntCode,(HIntAddr).w
+		command	mus_Stop	; stop music
 		bsr.w	ClearPLC
 		bsr.w	Pal_FadeFrom
 		command	mus_Reset	 ; fade reset music
@@ -3081,9 +3101,13 @@ Title_LoadText:
 		move.w	d0,($C00004).l
 		bsr.w	Pal_FadeTo
 
+		move.w	#$4EF9,(HIntJump).w
+		move.l	#HIntCode,(HIntAddr).w
+
 loc_317C:
 		move.b	#4,($FFFFF62A).w
 		bsr.w	DelayProgram
+		bsr.w	Title_PalSet
 		jsr	ObjectsLoad
 		bsr.w	DeformBgLayer
 		jsr	BuildSprites
@@ -3094,7 +3118,6 @@ loc_317C:
 		move.w	d0,($FFFFB008).w ; move	Sonic to the right
 		subi.w	#$A0,d0
 		move.w	d0,($FFFFF700).w ; move	Sonic to the right
-		addi.w	#$80,($FFFFFE04).w
 		cmpi.b	#$F,($FFFFB080).w
 		bne.s	loc_317C
 		andi.b	#$80,($FFFFF605).w ; check if Start is pressed
@@ -3118,6 +3141,24 @@ PlayLevel:				; XREF: ROM:00003246j ...
 		command	mus_FadeOut
 
 PlayLevel_Sonic:
+		rts
+
+Title_PalSet:
+        lea		(Pal_TitleGrad).l,a0
+		lea		(TitlePal).w,a1
+        lea		(Pal_TitleGrad2).l,a2
+		addi.w	#$80,($FFFFFE04).w
+		moveq	#0,d1
+		move.b	($FFFFFE04).w,d1
+		move.w	#(Pal_TitleGrad2-Pal_TitleGrad)/2-1,d7
+
+	@loopcolors:
+		addq.b	#2,d1
+		andi.b	#6,d1
+		move.w	(a0)+,d0
+		sub.w	(a2,d1.w),d0
+		move.w	d0,(a1)+
+		dbf	d7,@loopcolors	
 		rts
 
 Title_ChkOptions:
@@ -3900,16 +3941,6 @@ Level_ClrVars3:
 
 		move	#$2700,sr
 		bsr.w	ClearScreen
-		bra.s	Level_ClearWater
-
-Level_InitWater:
-		move.b	#1,(Water_flag).w
-		bra.s	Level_ClrVars3_Continue
-
-Level_ClearWater:
-		move.b	#0,(Water_flag).w
-
-Level_ClrVars3_Continue:
 		lea	($C00004).l,a6
 		move.w	#$8B03,(a6)
 		move.w	#$8230,(a6)
@@ -3923,54 +3954,11 @@ Level_ClrVars3_Continue:
 loc_4262:
 		move.w	#$8AFF,($FFFFF624).w
 		move.w	($FFFFF624).w,(a6)
+		move.b	#0,($FFFFF625).w ; enable water
 		clr.w	($FFFFDC00).w
 		move.l	#-$2400,($FFFFDCFC).w
-		cmpi.b	#1,($FFFFFE10).w
-		beq.s	Level_BBZPal
-		tst.b	(Water_flag).w	; does level have water
-		beq.s	Level_LoadPal	;if not, branch
-		move.w	#$8014,(a6)
-		moveq	#0,d0
-		move.w	($FFFFFE10).w,d0
-		ror.b	#2,d0
-		lsr.w	#6,d0
-		add.w	d0,d0
-		lea	(WaterHeight).l,a1 ; load water	height array
-		move.w	(a1,d0.w),d0
-		move.w	d0,($FFFFF646).w ; set water heights
-		move.w	d0,($FFFFF648).w
-		move.w	d0,($FFFFF64A).w
-		clr.b	($FFFFF64D).w	; clear	water routine counter
-		clr.b	($FFFFF64E).w	; clear	water movement
-		move.b	#1,($FFFFF64C).w ; enable water
-		bra.s	Level_LoadPal
-
-Level_BBZPal:
-		move.w	#$4EF9,(HIntJump).w
-		move.l	#HInt_S3Water,(HIntAddr).w
-		move.l	#WaterTransition_BBZ,($FFFFF610).w
-		move.w	#$8014,(a6)
-		move.w	#0,($FFFFF646).w ; set water heights
-		move.w	#0,($FFFFF648).w
-		move.w	#0,($FFFFF64A).w
-		clr.b	($FFFFF64D).w	; clear	water routine counter
-		clr.b	($FFFFF64E).w	; clear	water movement
-
-Level_LoadPal:
 		move.w	#$1E,($FFFFFE14).w
 		move	#$2300,sr
-		cmpi.b	#1,($FFFFFE10).w
-		beq.s	Level_WaterPal	; if so, branch
-		tst.b	(Water_flag).w	; does level have water?
-		beq.s	Level_LoadCol
-		moveq	#$B,d0		; pallet number	$B (EEZ)
-
-Level_WaterPal:
-		tst.b	($FFFFFE30).w
-		beq.s	Level_LoadCol
-		move.b	($FFFFFE53).w,($FFFFF64E).w
-
-Level_LoadCol:
 		bsr.s	LoadSolids
 		bra.w	Level_TtlCard
 
@@ -4094,14 +4082,9 @@ Level_LoadCharacter2:
 		bsr.w	PalLoad1
 		move.b	(a0)+,d0
 		bsr.w	PalLoad4_Water
-		cmpi.b	#1,($FFFFFE10).w
-		bne.s	loc_3946
-		move.b	#6,($FFFFB480).w ; sun object
-		move.b	#0,($FFFFB4A8).w ; sun object
-		move.b	#6,($FFFFB4C0).w ; sun object
-		move.b	#1,($FFFFB4E8).w ; sun object
 
 loc_3946:
+		bsr.w	LevelFlags
 		bsr.w	LevelSizeLoad
 		bsr.w	DeformBgLayer
 		bset	#2,($FFFFF754).w
@@ -4116,13 +4099,6 @@ loc_3946:
 		beq.s	Level_ChkDebug
 		cmpi.b	#$1C,($FFFFF600).w
 		move.b	#$21,($FFFFB040).w ; load HUD object
-		cmpi.b	#1,($FFFFFE10).w
-		bne.s	Level_ChkDebug
-		move.b	#$96,($FFFFF625).w
-		cmpi.b	#7,($FFFFFE10).w
-		bne.s	Level_ChkDebug
-		move.b	#1,($FFFFF7CA).w 
-		move.b	#$97,($FFFFB440).w
 
 Level_ChkDebug:
 		bset	#7,($FFFFB3A2).w
@@ -4138,12 +4114,6 @@ Level_ChkWater:
 		move.w	#0,($FFFFF604).w
 		move.w	#0,($FFFFF606).w
 		move.b	#0,($FFFFF74F).w
-		tst.b	(Water_flag).w	; does level have water?
-		beq.s	Level_LoadObj	; if not, branch
-		move.b	#$1B,($FFFFB780).w ; load water	surface	object
-		move.w	#$60,($FFFFB788).w
-		move.b	#$1B,($FFFFB7C0).w
-		move.w	#$120,($FFFFB7C8).w
 
 Level_LoadObj:
 		jsr	ObjPosLoad
@@ -4232,11 +4202,6 @@ Level_GetBgm:
 		bsr.w	LoadMusic
 
 Level_LoadScene:
-		cmpi.b	#1,($FFFFFE10).w
-		bne.s	Level_StartGame
-		move.b	#4,($FFFFB0C0).w ; load rain/snow object
-
-Level_StartGame:
 		move.b	#1,($FFFFF74F).w
 		move.b	#1,($FFFFFE1E).w ; update time counter
 		move.b	#$38,($FFFFB180).w ; load "shield" object
@@ -4331,6 +4296,98 @@ loc_3BC8:
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
+; Subroutine to	set level-dependent flags
+; ---------------------------------------------------------------------------
+
+LevelFlags:
+		moveq	#0,d0
+		move.b	($FFFFFE10).w,d0
+		add.w	d0,d0
+		move.w	LevelFlags_Index(pc,d0.w),d0
+		jmp	LevelFlags_Index(pc,d0.w)
+
+; ===========================================================================
+LevelFlags_Index:	dc.w LevelFlags_AAZ-LevelFlags_Index, LevelFlags_BBZ-LevelFlags_Index
+		dc.w LevelFlags_CCZ-LevelFlags_Index, LevelFlags_DDZ-LevelFlags_Index
+		dc.w LevelFlags_EEZ-LevelFlags_Index, LevelFlags_FFZ-LevelFlags_Index
+		dc.w LevelFlags_GGZ-LevelFlags_Index, LevelFlags_SSZ-LevelFlags_Index
+; ===========================================================================
+
+LevelFlags_AAZ:
+LevelFlags_DDZ:
+LevelFlags_EEZ:
+LevelFlags_FFZ:
+LevelFlags_GGZ:
+LevelFlags_SSZ:
+		lea		(HInt_VScale).w,a0
+		lea		(HIntCode).w,a1
+		move.w	#(HInt_VScale_RAMend-HInt_VScale)/4-1,d7
+
+	.looploadHBlank:
+		move.l	(a0)+,(a1)+
+		dbf	d7,.looploadHBlank
+		move.w	#$4EF9,(HIntJump).w
+		move.l	#HIntCode,(HIntAddr).w
+		clr.b		(Water_flag).w
+		rts
+
+LevelFlags_BBZ:
+		move.w	#$4EF9,(HIntJump).w
+		move.l	#HInt_S3Water,(HIntAddr).w
+		move.l	#WaterTransition_BBZ,($FFFFF610).w
+		lea	($C00004).l,a6
+		move.w	#$8014,(a6)
+		move.b	#$96,($FFFFF625).w ; enable water
+		move.w	#0,($FFFFF646).w ; set water heights
+		move.w	#0,($FFFFF648).w
+		move.w	#0,($FFFFF64A).w
+		clr.b	($FFFFF64D).w	; clear	water routine counter
+		clr.b	($FFFFF64E).w	; clear	water movement
+		tst.b	($FFFFFE30).w
+		beq.s	.skip
+		move.b	($FFFFFE53).w,($FFFFF64E).w
+
+	.skip:
+		move.b	#6,($FFFFB480).w ; sun object
+		move.b	#0,($FFFFB4A8).w ; sun object
+		move.b	#6,($FFFFB4C0).w ; sun object
+		move.b	#1,($FFFFB4E8).w ; sun object
+		move.b	#4,($FFFFB0C0).w ; load rain/snow object
+		rts
+
+LevelFlags_CCZ:
+		move.w	#$4EF9,(HIntJump).w
+		move.l	#HInt_S3Water,(HIntAddr).w
+		move.b	#1,(Water_flag).w
+		lea	($C00004).l,a6
+		move.w	#$8014,(a6)
+		moveq	#0,d0
+		move.w	($FFFFFE10).w,d0
+		ror.b	#2,d0
+		lsr.w	#6,d0
+		add.w	d0,d0
+		lea	(WaterHeight).l,a1 ; load water	height array
+		move.w	(a1,d0.w),d0
+		move.w	d0,($FFFFF646).w ; set water heights
+		move.w	d0,($FFFFF648).w
+		move.w	d0,($FFFFF64A).w
+		clr.b	($FFFFF64D).w	; clear	water routine counter
+		clr.b	($FFFFF64E).w	; clear	water movement
+		move.b	#1,($FFFFF64C).w ; enable water
+		moveq	#$B,d0		; pallet number	$B (EEZ)
+		tst.b	($FFFFFE30).w
+		beq.s	.skip
+		move.b	($FFFFFE53).w,($FFFFF64E).w
+
+	.skip:
+		move.b	#$1B,($FFFFB780).w ; load water	surface	object
+		move.w	#$60,($FFFFB788).w
+		move.b	#$1B,($FFFFB7C0).w
+		move.w	#$120,($FFFFB7C8).w
+		rts
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
 ; Subroutine to	change music with the time of day
 ; ---------------------------------------------------------------------------
 
@@ -4379,8 +4436,6 @@ LoadMusicDone:
 ; ---------------------------------------------------------------------------
 
 WaterEffects:				; XREF: Level
-		cmpi.b	#1,($FFFFFE10).w
-		beq.s	EEZBBZ
 		tst.b	(Water_flag).w
 		beq.s	locret_3C28
 		tst.b	($FFFFF744).w
@@ -4414,10 +4469,6 @@ loc_3C24:
 		move.b	d0,($FFFFF625).w
 
 locret_3C28:
-		rts	
-
-EEZBBZ:
-	;	move.b	#$97,($FFFFF625).w ; enable water
 		rts	
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -8772,7 +8823,7 @@ LoadZoneTiles:
 		move.w	d7,-(sp)		; Store d7 in the Stack
 		move.b	#$C,($FFFFF62A).w
 		bsr.w	DelayProgram
-		bsr.w	RunPLC_RAM
+		jsr	RunPLC_RAM
 		move.w	(sp)+,d7		; Restore d7 from the Stack
 		move.w	#$800,d3		; Force the DMA transfer length to be $1000/2 (the first cycle is dynamic because the art's DMA'd backwards)
 		dbf	d7,.loop		; Loop for each $1000 bytes the decompressed art is

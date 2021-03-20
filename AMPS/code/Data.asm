@@ -120,10 +120,10 @@ __samp =	$80
 SampleList:
 	sample $0000, Stop, Stop			; 80 - Stop sample (DO NOT EDIT)
 	sample $0100, Snare, Stop			; 81 - Snare
-	sample $0100, Tom, Stop, HighTom		; 82 - High Tom
-	sample $00CD, Tom, Stop, MidTom			; 83 - Mid Tom
-	sample $00AB, Tom, Stop, LowTom			; 84 - Low Tom
-	sample $0093, Tom, Stop, LowerTom		; 85 - Lower Tom
+	sample $0100, HighTom, Stop		; 82 - High Tom
+	sample $0100, MidTom, Stop			; 83 - Mid Tom
+	sample $0100, LowTom, Stop			; 84 - Low Tom
+	sample $00CD, LowTom, Stop, LowerTom		; 85 - Lower Tom
 
 	sample $0100, Kick, Stop			; 86 - Kick
 	sample $0100, KickSnare, Stop			; 87 - Kick Snare
@@ -408,7 +408,7 @@ SWF_Stop:	dcb.b $8000-(2*Z80E_Read*(MaxPitch/$100)),$80
 SWFR_Stop:	dcb.b Z80E_Read*(MaxPitch/$100),$00
 ; ---------------------------------------------------------------------------
 
-	incSWF	Snare, Tom, Kick, KickSnare, CrashCymbal, RideCymbal, MetalBlock, MutedWood, Wood
+	incSWF	Snare, HighTom, MidTom, LowTom, Kick, KickSnare, CrashCymbal, RideCymbal, MetalBlock, MutedWood, Wood
 	incSWF	CowBell, Clap, ElecTom, HeavyTom, Timpani, LooseSnare, VocalClick, VocalKick
 	incSWF	VocalSnare, JamHit, JamHitShort, GlassKick, GlassSmash, DanceSnare, DanceKick, Go
 	incSWF	ComeOn, HeavySnare, LowKick, LowKickShort, Whoo, SnareGo, PowerTom, LowerKick

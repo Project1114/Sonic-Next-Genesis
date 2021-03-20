@@ -14,6 +14,8 @@ HIntAddr:           equ     $FFFFFFC6
 VIntJump:           equ     $FFFFFFCA
 VIntAddr:           equ     $FFFFFFCC
 HIntCounter:        equ     $FFFFFFE8
+HIntCode:           equ     $FFFFE600
+TitlePal:           equ     $FFFFE680
 
 Z80_Space = $80C            ; The amount of space reserved for Z80 driver. The compressor tool may ask you to increase the size...
 z80_ram:    equ $A00000
@@ -310,24 +312,6 @@ copyTilemap:    macro source,loc,width,height
         moveq   #height,d2
         bsr.w   ShowVDPGraphics
         endm
-
-;watertransheader macro {INTLABEL}
-;__LABEL__ label *
-;    ; Number of entries in list minus one
-;    dc.w (((__LABEL___End - __LABEL__ - 2) / 2) - 1)
-;    endm
-
-; tells the Z80 to stop, and waits for it to finish stopping (acquire bus)
-stopZ80 macro
-    move.w  #$100,($A11100).l ; stop the Z80
-@loop:   btst    #0,($A11100).l
-    bne.s   @loop ; loop until it says it's stopped
-    endm
-
-; tells the Z80 to start again
-startZ80 macro
-    move.w  #0,($A11100).l    ; start the Z80
-    endm
 
 mainspr_mapframe    = $B
 mainspr_width        = $E

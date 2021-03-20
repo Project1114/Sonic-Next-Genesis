@@ -29,6 +29,7 @@ BossM_Header:
 	spSustainLv	$02, $01, $01, $0F
 	spDecayRt	$07, $01, $07, $01
 	spReleaseRt	$0F, $0F, $0F, $0F
+	spSSGEG		$00, $00, $00, $00
 	spTotalLv	$17, $14, $32, $00
 
 	; Patch $01
@@ -47,6 +48,7 @@ BossM_Header:
 	spSustainLv	$01, $01, $00, $00
 	spDecayRt	$04, $04, $00, $00
 	spReleaseRt	$0F, $0F, $0F, $0F
+	spSSGEG		$00, $00, $00, $00
 	spTotalLv	$1A, $16, $00, $00
 
 	; Patch $02

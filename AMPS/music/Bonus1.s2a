@@ -1312,7 +1312,7 @@ Bonus2_Loop3:
 
 Bonus2_Loop4:
 	dc.b nCs2, $02, nRst, nCs2, nRst, nCs2, nRst
-	sLoop		$03, $04, Bonus2_Loop4
+	sLoop		$00, $04, Bonus2_Loop4
 	dc.b nC2, $02, nRst, nC2, nRst, nC2, nRst, nC2
 	dc.b $02, nRst, nC2, nRst, nC2, nRst, nE2, $02
 	dc.b nRst, nE2, nRst, nE2, nRst, nE2, $02, nRst

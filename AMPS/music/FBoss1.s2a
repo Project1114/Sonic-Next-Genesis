@@ -9,9 +9,9 @@ FinalBoss1_Header:
 	sHeaderFM	FinalBoss1_FM3, $00, $24
 	sHeaderFM	FinalBoss1_FM4, $F4, $13
 	sHeaderFM	FinalBoss1_FM5, $EF, $13
-	sHeaderPSG	FinalBoss1_PSG1, $00, $10, $00, vNone
-	sHeaderPSG	FinalBoss1_PSG1, $00, $10, $00, vNone
-	sHeaderPSG	FinalBoss1_PSG2, $00, $18, $00, v08
+	sHeaderPSG	FinalBoss1_PSG1, $00, $10, $00, v26
+	sHeaderPSG	FinalBoss1_PSG1, $00, $10, $00, v26
+	sHeaderPSG	FinalBoss1_PSG2, $00, $18, $00, v26
 
 	; Patch $00
 	; $18
@@ -466,7 +466,7 @@ FinalBoss1_PSG2:
 FinalBoss1_Loop2:
 FinalBoss1_Jump1:
 	sCall		FinalBoss1_Call1
-	sVolEnv		v08
+	sVolEnv		v26
 	dc.b nAb5, $12, nAb5, nAb5, $0C
 	sLoop		$01, $06, FinalBoss1_Loop2
 	sCall		FinalBoss1_Call2
@@ -483,21 +483,21 @@ FinalBoss1_Loop5:
 	dc.b nRst, $06, nA5, $0C, nA5, nA5, nA5, $06
 	sGate		$00
 	sLoop		$01, $03, FinalBoss1_Loop5
-	sVolEnv		v08
+	sVolEnv		v26
 	dc.b nAb5, $0C
-	sVolEnv		v03
+	sVolEnv		v15
 	dc.b nA5, $18, nA5, nA5, $1E
-	sVolEnv		v08
+	sVolEnv		v26
 	dc.b nAb5
-	sVolEnv		v03
+	sVolEnv		v15
 	dc.b nA5, $18, nA5, nA5, nA5, nA5
-	sVolEnv		v08
+	sVolEnv		v26
 	dc.b nAb5, $30
 	sJump		FinalBoss1_Jump1
 
 FinalBoss1_Call1:
 	dc.b nAb5, $0C, nA5
-	sVolEnv		v03
+	sVolEnv		v15
 
 FinalBoss1_Loop1:
 	dc.b nRst, $0C, nA5
@@ -505,12 +505,12 @@ FinalBoss1_Loop1:
 	sRet	
 
 FinalBoss1_Call2:
-	sVolEnv		v03
+	sVolEnv		v15
 
 FinalBoss1_Loop3:
 	dc.b nA5, $0C
 	sLoop		$00, $18, FinalBoss1_Loop3
-	sVolEnv		v08
+	sVolEnv		v26
 	sRet	
 
 FinalBoss1_DAC1:
