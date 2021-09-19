@@ -1,4 +1,5 @@
 Song_Header:
+	sHeaderInit
 	sHeaderTempo	$01, $00
 	sHeaderCh	$05, $00
 	sHeaderDAC	Song_DAC1

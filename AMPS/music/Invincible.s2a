@@ -9,8 +9,8 @@ Invincible_Header:
 	sHeaderFM	Invincible_FM3, $00, $08
 	sHeaderFM	Invincible_FM4, $0C, $18
 	sHeaderFM	Invincible_FM5, $0C, $18
-	sHeaderPSG	Invincible_PSG1, $DC, $28, $00, vNone
-	sHeaderPSG	Invincible_PSG2, $DC, $28, $00, vNone
+	sHeaderPSG	Invincible_PSG1, $E8, $28, $00, vNone
+	sHeaderPSG	Invincible_PSG2, $E8, $28, $00, vNone
 	sHeaderPSG	Invincible_PSG3, $00, $10, $00, vNone
 
 	; Patch $00

@@ -777,9 +777,8 @@ HInt_Title_source    = offset(*)+2
         objend    
     ; -- End of HBlank in RAM -- ;
 HInt_Title_RAMend:
-        bpl.s    @noreset            ; if positive, branch
-        move.l    #TitlePal+(Pal_TitleGrad2-Pal_TitleGrad)+2,HInt_Title_source.w    ; reset palette address 
-        ; ^ this overwrites (Pal_Piracytriptoofend-2).l in the move.w command in RAM)
+   ;     bpl.s    @noreset            ; if positive, branch
+    ;    move.l    #TitlePal+(Pal_TitleGrad2-Pal_TitleGrad)+2,HInt_Title_source.w    ; reset palette address 
 
     @noreset:
         subq.l  #2,HInt_Title_source.w        ; subtract from palette address (moves upwards)
@@ -792,7 +791,7 @@ HInt_Title_RAMend:
 HInt_VScale:
         obj    HIntCode            ; pretend the code starts at v_hbla_jmp
 HInt_VScale_source    = offset(*)+2
-        move.w    (VScroll_End+2).l,($C00000).l
+        move.w    (TitlePal+(VScroll_End-VScroll)+2).l,($C00000)
         jmp    HInt_VScale_RAMend            ; jump back to ROM (saves RAM)
         objend    
     ; -- End of HBlank in RAM -- ;
@@ -3144,9 +3143,9 @@ PlayLevel_Sonic:
 		rts
 
 Title_PalSet:
-        lea		(Pal_TitleGrad).l,a0
+        	lea		(Pal_TitleGrad).l,a0
 		lea		(TitlePal).w,a1
-        lea		(Pal_TitleGrad2).l,a2
+        	lea		(Pal_TitleGrad2).l,a2
 		addi.w	#$80,($FFFFFE04).w
 		moveq	#0,d1
 		move.b	($FFFFFE04).w,d1
@@ -4328,6 +4327,8 @@ LevelFlags_SSZ:
 		dbf	d7,.looploadHBlank
 		move.w	#$4EF9,(HIntJump).w
 		move.l	#HIntCode,(HIntAddr).w
+		lea	($C00004).l,a6
+		move.w	#$8014,(a6)
 		clr.b		(Water_flag).w
 		rts
 
@@ -9080,6 +9081,7 @@ locret_6F62:
 ; ---------------------------------------------------------------------------
 
 Resize_AAZ:				; XREF: Resize_Index
+		bsr.w	Resize_ScaleSet
 		moveq	#0,d0
 		move.b	($FFFFFE11).w,d0
 		add.w	d0,d0
@@ -9106,6 +9108,21 @@ Resize_AAZ4:
 		move.w	#$720,($FFFFF726).w
 		move.w	#0,($FFFFF72C).w
 		rts
+
+Resize_ScaleSet:
+        	lea		(VScroll).l,a0
+		lea		(TitlePal).w,a1
+		moveq	#0,d1
+		move.b	($FFFFFE05).w,d1
+		move.w	#(VScroll_End-VScroll)/2-1,d7
+
+	.loopcolors:
+		addq.b	#2,d1
+		move.w	(a0,d1.w),d0
+		move.w	d0,(a1)+
+		dbf	d7,.loopcolors	
+		rts
+
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Scrap	Brain Zone dynamic screen resizing
@@ -13518,7 +13535,7 @@ Obj8F_PrsStart2:
 		addq.b	#4,$24(a0)
 		addq.b	#1,$1C(a0)
 		move.b	#$20,$30(a0)
-		sfx		sfx_LightTunnel
+	;	sfx		sfx_LightTunnel
 
 Obj8F_Delete:				; XREF: Obj8F_Index
 		subq.b	#1,$30(a0)
@@ -26046,8 +26063,6 @@ Obj0A_ChkWater:				; XREF: Obj0A_Index
 		bcs.s	Obj0A_Wobble	; if not, branch
 		move.b	#6,$24(a0)
 		addq.b	#7,$1C(a0)
-		cmpi.b	#$D,$1C(a0)
-		beq.s	Obj0A_Display
 		bra.s	Obj0A_Display
 ; ===========================================================================
 
