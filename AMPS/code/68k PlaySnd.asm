@@ -261,7 +261,7 @@ dPlaySnd_Music:
 		move.w	(a4)+,(a3)+		; back up data for every channel
 	endif
 
-		moveq	#$FFFFFFFF-(1<<cfbInt)|(1<<cfbVol),d3; each other bit except interrupted and volume update bits
+		moveq	#$FF-(1<<cfbInt)|(1<<cfbVol),d3; each other bit except interrupted and volume update bits
 
 .ch =		mBackDAC1			; start at backup DAC1
 		rept Mus_Ch			; do for all music channels
@@ -495,6 +495,7 @@ dPlaySnd_SFX:
 ; ---------------------------------------------------------------------------
 
 		lea	SoundIndex-(SFXoff*4)(pc),a1; get sfx pointer table with an offset to a1
+		move.b	d1,d6			; copy id to d6
 		add.w	d1,d1			; quadruple sfx ID
 		add.w	d1,d1			; since each entry is 4 bytes in size
 		move.l	(a1,d1.w),a2		; get SFX header pointer from the table

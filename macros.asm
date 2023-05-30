@@ -16,6 +16,8 @@ VIntAddr:           equ     $FFFFFFCC
 HIntCounter:        equ     $FFFFFFE8
 HIntCode:           equ     $FFFFE600
 TitlePal:           equ     $FFFFE680
+RainFrames:         equ     $FFFFE680
+
 
 Z80_Space = $80C            ; The amount of space reserved for Z80 driver. The compressor tool may ask you to increase the size...
 z80_ram:    equ $A00000
@@ -293,6 +295,14 @@ vram:  macro
         move.l #($40000000+((\1&$3FFF)<<16)+((\1&$C000)>>14)),($C00004).l
         else
         move.l #($40000000+((\1&$3FFF)<<16)+((\1&$C000)>>14)),\2
+        endc
+        endm
+
+vramread:  macro
+        if (narg=1)
+        move.l #(((\1&$3FFF)<<16)+((\1&$C000)>>14)),($C00004).l
+        else
+        move.l #(((\1&$3FFF)<<16)+((\1&$C000)>>14)),\2
         endc
         endm
 

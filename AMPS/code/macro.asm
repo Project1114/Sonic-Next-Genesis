@@ -76,7 +76,7 @@ cModCount	rs.b 1		; number of modulation steps until reversal
 
 	if FEATURE_PORTAMENTO
 cPortaSpeed	rs.b 1		; number of frames for portamento to complete. 0 means it is disabled
-		even
+		rs.w 0
 cPortaFreq	rs.w 1		; frequency offset for portamento
 cPortaDisp	rs.w 1		; frequency displacement per frame for portamento
 	endif
@@ -91,13 +91,13 @@ cModEnvSens	rs.b 1		; sensitivity of modulation envelope
 	endif
 
 	if FEATURE_SOUNDTEST
-		even
+		rs.w 0
 cChipFreq	rs.w 1		; frequency sent to the chip
 cChipVol	rs.b 1		; volume sent to the chip
 	endif
 
 cLoop		rs.b 3		; loop counter values
-		even
+		rs.w 0
 cSizeSFX =	__rs		; size of each SFX track (this also sneakily makes sure the memory is aligned to word always. Additional loop counter may be added if last byte is odd byte)
 cPrio =		__rs-1		; sound effect channel priority. SFX only
 ; ---------------------------------------------------------------------------
@@ -107,7 +107,7 @@ cGateMain	rs.b 1		; amount of frames for gate effect. Music only
 cStack		rs.b 1		; channel stack pointer. Music only
 		rs.b 1		; unused. Music only
 		rs.l 3		; channel stack data. Music only
-		even
+		rs.w 0
 cSize =		__rs		; size of each music track
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

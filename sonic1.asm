@@ -188,7 +188,7 @@ GameInit:
 		move.w	#$4EF9,(VIntJump).w	; machine code for jmp
 		move.l	#VInt,(VIntAddr).w
 		move.w	#$4EF9,(HIntJump).w
-		move.l	#HInt_S3Water,(HIntAddr).w
+		move.l	#HInt_S1Water,(HIntAddr).w
 		lea	($C00000).l,a6
 		move.l	a6,usp
 		lea	($FF0000).l,a6
@@ -417,6 +417,7 @@ loc_B88:				; XREF: loc_B10; off_B6E
 		bne.w	loc_B5E
 
 loc_B9A:
+		bsr.w	VInt_InitHInt
 		tst.b	(Water_flag).w
 		beq.w	loc_B5E ; if not, branch
 		move.w	($C00004).l,d0
@@ -490,7 +491,7 @@ loc_C64:				; XREF: off_B6E
 		beq.w	loc_DA6		; if yes, branch
 
 loc_C6E:				; XREF: off_B6E
-        move.l	#VScroll_End+2,(HInt_VScale_source).w
+        bsr.w	VInt_InitHInt
 		bsr.w	ReadJoypads
 		tst.b	($FFFFF64E).w
 		bne.s	VInt_8_UW
@@ -515,7 +516,7 @@ loc_D50:
 		movem.l	($FFFFF754).w,d0-d1
 		movem.l	d0-d1,($FFFFFF30).w
 		cmpi.b	#$60,($FFFFF625).w
-		bcc.s	Demo_Time
+		bra.s	Demo_Time
 		move.b	#1,($FFFFF64F).w
 		addq.l	#4,sp
 		bra.w	loc_B64
@@ -566,6 +567,7 @@ locret_E70:
 ; ===========================================================================
 
 loc_E72:				; XREF: off_B6E
+        bsr.w	VInt_InitHInt
 		bsr.w	ReadJoypads
 		tst.b	($FFFFF64E).w
 		bne.s	loc_EB4
@@ -652,6 +654,49 @@ loc_10D4:				; XREF: sub_106E
 		rts	
 ; End of function sub_106E
 
+VInt_InitHInt:
+		moveq	#0,d0
+		move.b	($FFFFFE10).w,d0
+		add.w	d0,d0
+		move.w	VInt_InitHInt_Index(pc,d0.w),d0
+		jmp	VInt_InitHInt_Index(pc,d0.w)
+
+; ===========================================================================
+VInt_InitHInt_Index:	dc.w VInt_InitHInt_AAZ-VInt_InitHInt_Index, VInt_InitHInt_BBZ-VInt_InitHInt_Index
+		dc.w VInt_InitHInt_CCZ-VInt_InitHInt_Index, VInt_InitHInt_DDZ-VInt_InitHInt_Index
+		dc.w VInt_InitHInt_EEZ-VInt_InitHInt_Index, VInt_InitHInt_FFZ-VInt_InitHInt_Index
+		dc.w VInt_InitHInt_GGZ-VInt_InitHInt_Index, VInt_InitHInt_SSZ-VInt_InitHInt_Index
+; ===========================================================================
+
+VInt_InitHInt_AAZ:
+VInt_InitHInt_DDZ:
+VInt_InitHInt_EEZ:
+VInt_InitHInt_FFZ:
+VInt_InitHInt_GGZ:
+VInt_InitHInt_SSZ:
+		rts
+
+VInt_InitHInt_BBZ:
+        move.l	#Pal_BBZHorizon,(HInt_BBZTop_source).w
+        move.l	#Pal_BBZWater,(HInt_BBZMid_source).w
+        move.w	#0,HInt_BBZMid_source2.w
+        move.w	#$C062,HInt_BBZMid_source3.w
+		move.l	#HInt_BBZ,(HIntAddr).w
+		rts
+
+VInt_InitHInt_CCZ:
+        move.w	(RainFrames).w,d0
+        move.w	d0,HInt_CCZ_source.w
+        subi.w	#8,d0
+        cmpi.w	#RainBottom-8,d0
+        bhi.s	.noreset
+        move.w	#RainTop,d0
+
+    .noreset:
+        move.w	d0,(RainFrames).w
+        move.w	#132,HInt_CCZ_source2.w
+		rts
+
 ; ---------------------------------------------------------------------------
 ; Subroutine to	move pallets from the RAM to CRAM
 ; ---------------------------------------------------------------------------
@@ -659,53 +704,117 @@ loc_10D4:				; XREF: sub_106E
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
 
-HInt_S3Water:
-		move	#$2700,sr
-		tst.w	($FFFFF644).w
-		beq.s	locret_119C
-		move.w	#0,($FFFFF644).w
-		movem.l	d0-d1/a0-a2,-(sp)
-
-		lea	($C00000).l,a1
-		move.w	#$8AFF,4(a1)		; Reset HInt timing
-		stopZ80
-		movea.l	($FFFFF610).w,a2
-		moveq	#$C,d0
-.HIntA:
-		dbf	d0,.HIntA	; waste a few cycles here
-
-		move.w	(a2)+,d1
-		move.b	($FFFFF625).w,d0
-		subi.b	#200,d0	; is H-int occuring below line 200?
-		bcs.s	.transferColors	; if it is, branch
-		sub.b	d0,d1
-		bcs.s	.skipTransfer
-
-.transferColors:
-		move.w	(a2)+,d0
-		lea	($FFFFFA80).w,a0
-		adda.w	d0,a0
-		addi.w	#$C000,d0
-		swap	d0
-		move.l	d0,4(a1)	; write to CRAM at appropriate address
-		move.l	(a0)+,(a1)	; transfer two colors
-		move.w	(a0)+,(a1)	; transfer the third color
-		nop
-		nop
-		moveq	#$24,d0
-
-.wasteSomeCycles:
-		dbf	d0,.wasteSomeCycles
-		dbf	d1,.transferColors	; repeat for number of colors
-
-.skipTransfer:
-		startz80
-		movem.l	(sp)+,d0-d1/a0-a2
-		tst.b	($FFFFF64F).w
-		bne.s	loc_119E
-
-locret_119C:
+HInt_BBZ:
+		move.w	#$8A00,($C00004).l
+		move.l	#HIntCode,(HIntAddr).w
+        move.l  #$C0600000,($C00004).l    ; set VDP to CRAM write
 		rte
+
+HInt_BBZTop:
+        obj    HIntCode            ; pretend the code starts at v_hbla_jmp
+
+HInt_BBZTop_source    = offset(*)+2
+        move.w    (Pal_BBZHorizon).l,($C00000).l    ; move palette to CRAM
+        jmp    HInt_BBZTop_RAMend            ; jump back to ROM (saves RAM)
+
+HIntCodeMid:
+HInt_BBZMid_source    = offset(*)+2
+        move.w    (Pal_BBZWater).l,($C00000).l    ; move palette to CRAM
+	   	move.l	#$40020010,($C00004).l ;write to VSRAM
+HInt_BBZMid_source2    = offset(*)+2
+	  	move.w	#0,($C00000).l
+HInt_BBZMid_source3    = offset(*)+2
+        move.l	#$C0620000,($C00004).l    ; set VDP to CRAM write
+        jmp   HInt_BBZMid_RAMend            ; jump back to ROM (saves RAM)
+        objend    
+    ; -- End of HBlank in RAM -- ;
+
+HInt_BBZTop_RAMend:
+        addq.l	#2,(HInt_BBZTop_source).w
+        cmpi.l	#Pal_BBZHorizon+106,(HInt_BBZTop_source).w
+        beq.s	HInt_BBZSwitch
+        move.l  #$C0600000,($C00004).l    ; set VDP to CRAM write
+		rte
+
+HInt_BBZSwitch:
+		move.w	#$8A00,($C00004).l
+        move.l  #$C0600000,($C00004).l    ; set VDP to CRAM write
+		move.l	#HIntCodeMid,(HIntAddr).w
+		rte		
+  
+    ; -- End of HBlank in RAM -- ;
+HInt_BBZMid_RAMend:
+        addq.w	#1,HInt_BBZMid_source2.w
+        cmpi.w	#7,(HInt_BBZMid_source2).w
+        blo.s	HInt_BBZCont
+        cmpi.w	#$20,(HInt_BBZMid_source2).w
+        beq.s	HInt_BBZEnd
+		rte
+
+HInt_BBZCont:
+        addq.l	#2,HInt_BBZMid_source.w
+        addq.w	#2,HInt_BBZMid_source3.w
+		rte
+
+HInt_BBZEnd:
+		move.w	#$8AFF,($C00004).l
+	;	tst.b	($FFFFF64F).w
+	;	bne.w	loc_119E
+		rte
+; ---------------------------------------------------------------------------
+; ===========================================================================
+
+RainBottom = $7820
+RainSprites = 24
+RainTop = RainBottom+(RainSprites-1)*8
+
+HInt_CCZ:
+        obj    HIntCode
+HInt_CCZ_source    = offset(*)+2 
+        vram	$F820
+HInt_CCZ_source2    = offset(*)+2
+        move.w	#0,($C00000).l
+        jmp	HInt_CCZ_RAMend 
+        objend   
+    ; -- End of HBlank in RAM -- ;
+HInt_CCZ_RAMend:
+        addq.w	#8,HInt_CCZ_source.w
+        addi.w	#3,HInt_CCZ_source2.w
+        cmpi.w	#RainTop+8,HInt_CCZ_source.w
+        blo.s	HInt_CCZ_Finish
+        move.w	#RainBottom,HInt_CCZ_source.w
+
+HInt_CCZ_Finish:
+		rte
+
+        ;vram	$F820
+        ;move.w  #$20,($C00000).l
+        ;vram	$F830
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F838
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F840
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F848
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F850
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F858
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F860
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F868
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F870
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F878
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F880
+        ;addi.w  #$10,($C00000).l
+        ;vram	$F888
+        ;addi.w  #$10,($C00000).l
+        rte
+
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 
@@ -777,10 +886,6 @@ HInt_Title_source    = offset(*)+2
         objend    
     ; -- End of HBlank in RAM -- ;
 HInt_Title_RAMend:
-   ;     bpl.s    @noreset            ; if positive, branch
-    ;    move.l    #TitlePal+(Pal_TitleGrad2-Pal_TitleGrad)+2,HInt_Title_source.w    ; reset palette address 
-
-    @noreset:
         subq.l  #2,HInt_Title_source.w        ; subtract from palette address (moves upwards)
         move.l    #$C0020000,($C00004).l    ; set VDP to CRAM write
 		tst.b	($FFFFF64F).w
@@ -2337,6 +2442,7 @@ FCO_NoRed:
 
 Pal_MakeWhite:				; XREF: SpecialStage
 		move.w	#$3F,($FFFFF626).w
+Pal_MakeWhite2:
 		moveq	#0,d0
 		lea	($FFFFFB00).w,a0
 		move.b	($FFFFF626).w,d0
@@ -2762,6 +2868,8 @@ Pal_GSilKnu:	incbin	pallet\gsilverknux.bin
 Pal_GSilSha:	incbin	pallet\gsilvershadow.bin
 Pal_TitleGrad:	incbin	pallet\titlegrad.bin
 Pal_TitleGrad2:	incbin	pallet\titlegrad2.bin
+Pal_BBZHorizon:	incbin	pallet\BBZhorizon.bin
+Pal_BBZWater:	incbin	pallet\BBZwater.bin
 VScroll:		incbin	misc\vscroll.bin
 VScroll_End:
 
@@ -3018,9 +3126,8 @@ TitleScreen:				; XREF: GameModeArray
 		move.w	#$8B03,(a6)
 		move.w	#$8720,(a6)
 		move.w	#$8C89,(a6)		; H res 40 cells, no interlace, S/H enabled
-		move.w	#$8AFF,($FFFFF624).w
+		move.w	#$8A00,($FFFFF624).w
 		move.w	($FFFFF624).w,(a6)
-		move.b	#0,($FFFFF625).w ; enable water
 		clr.b	($FFFFF64E).w
 	;	bsr.w	ClearScreen
 		lea	($FFFFB000).w,a1
@@ -3134,7 +3241,7 @@ PlayLevel:				; XREF: ROM:00003246j ...
 		move.l	d0,($FFFFFE58).w ; clear emeralds
 		move.l	d0,($FFFFFE5C).w ; clear emeralds
 		move.b	d0,($FFFFFE18).w ; clear continues
-		move.b	#1,($FFFFFE10).w
+		move.b	#2,($FFFFFE10).w
 		move.l	#$1000,(Universal_Timer).w
 		move.w	#$1000,(Day_Time).w
 		command	mus_FadeOut
@@ -3143,9 +3250,9 @@ PlayLevel_Sonic:
 		rts
 
 Title_PalSet:
-        	lea		(Pal_TitleGrad).l,a0
+        lea		(Pal_TitleGrad).l,a0
 		lea		(TitlePal).w,a1
-        	lea		(Pal_TitleGrad2).l,a2
+        lea		(Pal_TitleGrad2).l,a2
 		addi.w	#$80,($FFFFFE04).w
 		moveq	#0,d1
 		move.b	($FFFFFE04).w,d1
@@ -3951,12 +4058,11 @@ Level_ClrVars3:
 		move.w	#$8C89,(a6)		; H res 40 cells, no interlace, S/H enabled
 
 loc_4262:
-		move.w	#$8AFF,($FFFFF624).w
-		move.w	($FFFFF624).w,(a6)
-		move.b	#0,($FFFFF625).w ; enable water
 		clr.w	($FFFFDC00).w
 		move.l	#-$2400,($FFFFDCFC).w
 		move.w	#$1E,($FFFFFE14).w
+		bsr.w	LevelFlags
+		jsr	Hud_Base
 		move	#$2300,sr
 		bsr.s	LoadSolids
 		bra.w	Level_TtlCard
@@ -4020,7 +4126,6 @@ Level_TtlCard:
 		bne.s	Level_TtlCard	; if not, branch
 		tst.l	($FFFFF680).w	; are there any	items in the pattern load cue?
 		bne.s	Level_TtlCard	; if yes, branch
-		jsr	Hud_Base
 
 Level_LoadCharacter:
 		move.b	(Current_Character).w,d0
@@ -4083,7 +4188,6 @@ Level_LoadCharacter2:
 		bsr.w	PalLoad4_Water
 
 loc_3946:
-		bsr.w	LevelFlags
 		bsr.w	LevelSizeLoad
 		bsr.w	DeformBgLayer
 		bset	#2,($FFFFF754).w
@@ -4325,67 +4429,83 @@ LevelFlags_SSZ:
 	.looploadHBlank:
 		move.l	(a0)+,(a1)+
 		dbf	d7,.looploadHBlank
-		move.w	#$4EF9,(HIntJump).w
 		move.l	#HIntCode,(HIntAddr).w
 		lea	($C00004).l,a6
 		move.w	#$8014,(a6)
+		move.w	#$8AFF,($FFFFF624).w
+		move.w	($FFFFF624).w,(a6)
 		clr.b		(Water_flag).w
 		rts
 
 LevelFlags_BBZ:
-		move.w	#$4EF9,(HIntJump).w
-		move.l	#HInt_S3Water,(HIntAddr).w
-		move.l	#WaterTransition_BBZ,($FFFFF610).w
+		lea		(HInt_BBZTop).w,a0
+		lea		(HIntCode).w,a1
+		move.w	#(HInt_BBZTop_RAMend-HInt_BBZTop)/4-1,d0
+
+	.looploadHBlank:
+		move.l	(a0)+,(a1)+
+		dbf	d0,.looploadHBlank
+		move.l	#HInt_BBZ,(HIntAddr).w
+	;	move.l	#WaterTransition_BBZ,($FFFFF610).w
 		lea	($C00004).l,a6
 		move.w	#$8014,(a6)
-		move.b	#$96,($FFFFF625).w ; enable water
-		move.w	#0,($FFFFF646).w ; set water heights
-		move.w	#0,($FFFFF648).w
-		move.w	#0,($FFFFF64A).w
-		clr.b	($FFFFF64D).w	; clear	water routine counter
-		clr.b	($FFFFF64E).w	; clear	water movement
-		tst.b	($FFFFFE30).w
-		beq.s	.skip
-		move.b	($FFFFFE53).w,($FFFFF64E).w
-
-	.skip:
+		move.w	#$8A30,($FFFFF624).w
+		move.w	($FFFFF624).w,(a6)
 		move.b	#6,($FFFFB480).w ; sun object
 		move.b	#0,($FFFFB4A8).w ; sun object
 		move.b	#6,($FFFFB4C0).w ; sun object
 		move.b	#1,($FFFFB4E8).w ; sun object
-		move.b	#4,($FFFFB0C0).w ; load rain/snow object
+		clr.b	(Water_flag).w
 		rts
 
 LevelFlags_CCZ:
-		move.w	#$4EF9,(HIntJump).w
-		move.l	#HInt_S3Water,(HIntAddr).w
-		move.b	#1,(Water_flag).w
+		lea		(HInt_CCZ).w,a0
+		lea		(HIntCode).w,a1
+		move.w	#(HInt_CCZ_RAMend-HInt_CCZ)/4-1,d0
+
+	.looploadHBlank:
+		move.l	(a0)+,(a1)+
+		dbf	d0,.looploadHBlank
+		move.l	#HIntCode,(HIntAddr).w
+		move.b	#4,($FFFFB0C0).w ; load rain/snow object
 		lea	($C00004).l,a6
 		move.w	#$8014,(a6)
-		moveq	#0,d0
-		move.w	($FFFFFE10).w,d0
-		ror.b	#2,d0
-		lsr.w	#6,d0
-		add.w	d0,d0
-		lea	(WaterHeight).l,a1 ; load water	height array
-		move.w	(a1,d0.w),d0
-		move.w	d0,($FFFFF646).w ; set water heights
-		move.w	d0,($FFFFF648).w
-		move.w	d0,($FFFFF64A).w
-		clr.b	($FFFFF64D).w	; clear	water routine counter
-		clr.b	($FFFFF64E).w	; clear	water movement
-		move.b	#1,($FFFFF64C).w ; enable water
-		moveq	#$B,d0		; pallet number	$B (EEZ)
-		tst.b	($FFFFFE30).w
-		beq.s	.skip
-		move.b	($FFFFFE53).w,($FFFFF64E).w
-
-	.skip:
-		move.b	#$1B,($FFFFB780).w ; load water	surface	object
-		move.w	#$60,($FFFFB788).w
-		move.b	#$1B,($FFFFB7C0).w
-		move.w	#$120,($FFFFB7C8).w
+		move.w	#$8A02,($FFFFF624).w
+		move.w	($FFFFF624).w,(a6)
+		clr.b	(Water_flag).w
+		move.w	#(RainTop+RainBottom)/2,(RainFrames).w
 		rts
+
+;LevelFlags_CCZ:
+;		move.w	#$4EF9,(HIntJump).w
+;		move.l	#HInt_S3Water,(HIntAddr).w
+;		move.b	#1,(Water_flag).w
+;		lea	($C00004).l,a6
+;		move.w	#$8014,(a6)
+;		moveq	#0,d0
+;		move.w	($FFFFFE10).w,d0
+;		ror.b	#2,d0
+;		lsr.w	#6,d0
+;		add.w	d0,d0
+;		lea	(WaterHeight).l,a1 ; load water	height array
+;		move.w	(a1,d0.w),d0
+;		move.w	d0,($FFFFF646).w ; set water heights
+;		move.w	d0,($FFFFF648).w
+;		move.w	d0,($FFFFF64A).w
+;		clr.b	($FFFFF64D).w	; clear	water routine counter
+;		clr.b	($FFFFF64E).w	; clear	water movement
+;		move.b	#1,($FFFFF64C).w ; enable water
+;		moveq	#$B,d0		; pallet number	$B (EEZ)
+;		tst.b	($FFFFFE30).w
+;		beq.s	.skip
+;		move.b	($FFFFFE53).w,($FFFFF64E).w
+
+;	.skip:
+;		move.b	#$1B,($FFFFB780).w ; load water	surface	object
+;		move.w	#$60,($FFFFB788).w
+;		move.b	#$1B,($FFFFB7C0).w
+;		move.w	#$120,($FFFFB7C8).w
+;		rts
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -5447,7 +5567,10 @@ SS_locret:
 
 BonusStage:				; XREF: GameModeArray
 		sfx		sfx_EnterSS ; play special stage entry sound
-		bsr.w	Pal_MakeFlash
+		move.w	#$202F,($FFFFF626).w
+		moveq	#$07,d4					; MJ: set repeat times
+		moveq	#$00,d6					; MJ: clear d6
+		bsr.w	loc_1F86
 		move	#$2700,sr
 		lea	($C00004).l,a6
 		move.w	#$8B03,(a6)
@@ -5558,7 +5681,8 @@ BS_NoDebug:
 		move.w	($FFFFF60C).w,d0
 		ori.b	#$40,d0
 		move.w	d0,($C00004).l
-		bsr.w	Pal_MakeWhite
+		move.w	#$202F,($FFFFF626).w
+		bsr.w	Pal_MakeWhite2
 
 ; ---------------------------------------------------------------------------
 ; Main Special Stage loop
@@ -8772,6 +8896,7 @@ LoadTilesFromStart:
  
  
 LoadTilesFromStart2:
+		move	#$2700,sr
 		moveq	#-$10,d4
 		moveq	#$F,d6
  
@@ -8787,6 +8912,7 @@ loc_71FC:
 		movem.l	(sp)+,d4-d6
 		addi.w	#$10,d4
 		dbf	d6,loc_71FC
+		move	#$2300,sr
 		rts	
 ; End of function LoadTilesFromStart2
 
@@ -9110,7 +9236,7 @@ Resize_AAZ4:
 		rts
 
 Resize_ScaleSet:
-        	lea		(VScroll).l,a0
+        lea		(VScroll).l,a0
 		lea		(TitlePal).w,a1
 		moveq	#0,d1
 		move.b	($FFFFFE05).w,d1
@@ -14341,31 +14467,39 @@ Obj04_Init:
 		move.b	#2,mainspr_width(a1)			; Set main sprite width
 		move.b	#2,mainspr_height(a1)			; Set main sprite height
         move.b  #0,mainspr_mapframe(a1)            ; Set main sprite frame
-		move.b	#8,mainspr_childsprites(a1)		; Set number of child sprites
+		move.b	#RainSprites/3,mainspr_childsprites(a1)		; Set number of child sprites
+		move.w	#RainSprites,$38(a0)
         moveq    #0,d5
         move.b    mainspr_childsprites(a1),d5        ; Get number of sub sprites
         subq.b    #1,d5
         bmi.s    Obj04_Main                ; If there are none, branch
         lea    sub2_x_pos(a1),a2            ; Get sub sprite data
+        moveq	#0,d2
 
     .spawn:
 		jsr	RandomNumber
 		move.w	($FFFFF700).w,d1; get screen position
 		andi.w	#$1FF,d0
-		cmpi.w	#320,d0
-		bge.w	.spawn
 		add.w	d1,d0
 		move.w	d0,(a2)+
-		jsr	RandomNumber
-		move.w	($FFFFF704).w,d1; get screen position
-		andi.w	#$FF,d0
-		add.w	d1,d0
+		move.w	($FFFFF704).w,d0; get screen position
+		add.w	d2,d0
 		move.w	d0,(a2)+
 		move.w	#0,(a2)+
+		addq.w	#3,d2
 		dbf    d5,.spawn           ; Loop until every sub sprite is set
 		rts
 
 Obj04_Main:
+		move.w	($FFFFF700).w,d1
+		move.w	($FFFFF704).w,d3
+        move.w	$38(a0),d6
+        addq.w	#3,$38(a0)
+		cmpi.w	#RainSprites,$38(a0)
+		blt.s	.resets
+        sub.w	#RainSprites*3,$38(a0)
+
+    .resets:
         movea.w    $3A(a0),a1                ; Get child object
         bsr.s	.dostuff
         movea.w    $3C(a0),a1                ; Get child object
@@ -14373,37 +14507,45 @@ Obj04_Main:
         movea.w    $3E(a0),a1                ; Get child object
 
     .dostuff:
+        lea    sub2_x_pos(a1),a2            ; Get sub sprite data
 		move.w	($FFFFB008).w,8(a1)
 		move.w	($FFFFB00C).w,$C(a1)
         moveq    #0,d5
         move.b    mainspr_childsprites(a1),d5        ; Get number of sub sprites
         subq.b    #1,d5
         bmi.s    Obj04_Return                ; If there are none, branch
-		move.w	($FFFFF700).w,d1
-		move.w	($FFFFF704).w,d3
-        lea    sub2_x_pos(a1),a2            ; Get sub sprite data
+
 
     .adjust:
     	move.w	(a2),d0
-    	move.w	2(a2),d2
-    	move.w	d0,d4
-    	andi.w	#3,d4
-    	addi.w	#4,d4
 		sub.w	d1,d0
-		sub.w	d3,d2
-    	andi.w	#$1FF,d0
-    	addi.w	#$100,d0
-    	add.w	d4,d2
-    	andi.w	#$FF,d2
+    	addi.w	#$9C,d0
+		tst.w	d0
+		bpl.s	.rap
+		addi.w	#$140,d0
+
+    .rap:
+		cmpi.w	#$140,d0
+		bmi.s	.rap2
+		subi.w	#$140,d0
+
+    .rap2:
+    	addq.w	#3,d6
+		cmpi.w	#RainSprites,d6
+		blt.s	.rap3
+		sub.w	#RainSprites*3,d6
+
+    .rap3:
+		move.w	d6,d2
 		add.w	d3,d2
 		add.w	d1,d0
     	move.w	d0,(a2)
     	move.w	d2,2(a2)
-    	adda.w	#6,a2
-		dbf    d5,.adjust           ; Loop until every sub sprite is set
+    	adda.w	#6,a2 
+		dbf	d5,.adjust           ; Loop until every sub sprite is set
 
 Obj04_Return:
-		rts
+	rts
 
 ; ===========================================================================
 
@@ -23452,7 +23594,7 @@ loc_148CC:
 		addq.b	#8,d0
 		andi.b	#$F,d0
 		bne.s	locret_148F2
-		sfx		sfx_Flying
+		sfx		sfx_FlyTired
 
 locret_148F2:
 					; Tails_Set_Flying_Animation+3Cj
@@ -23467,7 +23609,7 @@ loc_148F4:
 		addq.b	#8,d0
 		andi.b	#$F,d0
 		bne.s	locret_14912
-		sfx		sfx_FlyTired
+		sfx		sfx_Flying
 
 locret_14912:
 					; Tails_Set_Flying_Animation+5Cj
@@ -31695,7 +31837,6 @@ loc_1C852:
 
 loc_1C858:
 		dbf	d2,loc_1C842
-
 		rts	
 ; ===========================================================================
 
@@ -32600,9 +32741,11 @@ PLC_BBZ2:	dc.w 2
 ; ---------------------------------------------------------------------------
 ; Pattern load cues - Marble
 ; ---------------------------------------------------------------------------
-PLC_CCZ:		dc.w 0
+PLC_CCZ:		dc.w 1
 		dc.l Nem_Spikes		; spikes
 		dc.w ArtTile_Spikes*$20
+		dc.l Nem_RainSnow
+		dc.w $6100
 
 PLC_CCZ2:	dc.w 2			; $200 bytes
 		dc.l Nem_DSpring	; diagonal spring
